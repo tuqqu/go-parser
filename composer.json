@@ -1,0 +1,28 @@
+{
+    "name": "tuqqu/go-parser",
+    "description": "'Golang parser written in PHP'",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "parser",
+        "go-parser",
+        "golang"
+    ],
+    "autoload": {
+        "psr-4": {
+            "GoParser\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "tuqqu",
+            "email": "artkurbidaev@gmail.com"
+        }
+    ],
+    "require": {
+      "php": "^8.1"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^6.0"
+    }
+}
