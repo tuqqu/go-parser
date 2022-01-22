@@ -29,6 +29,11 @@
     },
     "require-dev": {
         "symfony/var-dumper": "^6.0",
-        "phpunit/phpunit": "^9"
+        "phpunit/phpunit": "^9",
+        "friendsofphp/php-cs-fixer": "^3.5"
+    },
+    "scripts": {
+        "lint": "vendor/bin/php-cs-fixer fix --verbose --diff --using-cache=no --allow-risky=yes",
+        "test": "vendor/bin/phpunit"
     }
 }

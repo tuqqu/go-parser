@@ -260,7 +260,8 @@ final class Lexer
                                 break;
                         }
                 }
-            } catch (LexError) {}
+            } catch (LexError) {
+            }
         }
     }
 
@@ -302,7 +303,7 @@ final class Lexer
 
                     $comment .= $char;
                     if ($this->isAtEnd()) {
-                        $this->addError(new UnclosedComment());
+                        $this->error(new UnclosedComment());
                     }
                 }
                 $this->addLexeme(Token::MultilineComment, $comment);
@@ -352,7 +353,8 @@ final class Lexer
                     break 2;
                 case "\n":
                 case null:
-                    $this->addError(new UnterminatedString());
+                    $this->error(new UnterminatedString());
+                    // no break because addError returns never
                 default:
                     $literal .= $this->read();
             }
@@ -366,7 +368,7 @@ final class Lexer
         for ($i = 0; $i < 3; ++$i) {
             $dot = $this->read();
             if ($dot !== '.') {
-                $this->addError(new UnexpectedCharacter());
+                $this->error(new UnexpectedCharacter());
             }
         }
 
@@ -478,7 +480,7 @@ final class Lexer
 
         if (!$separatorPrefix && $this->peek() === '_') {
             // todo '\'_\' must separate successive digits'
-            $this->addError(new UnexpectedCharacter());
+            $this->error(new UnexpectedCharacter());
         }
 
         while (($char = $this->peek()) !== null) {
@@ -489,7 +491,7 @@ final class Lexer
                         $sep = true;
                     } else {
                         // todo two __
-                        $this->addError(new UnexpectedCharacter());
+                        $this->error(new UnexpectedCharacter());
                     }
                     break;
                 case self::isAlphanumeric($char):
@@ -499,7 +501,7 @@ final class Lexer
                     } else {
                         // todo integer notation error
                         dump('integer notation error');
-                        $this->addError(new UnexpectedCharacter());
+                        $this->error(new UnexpectedCharacter());
                     }
                     break;
                 default:
@@ -509,7 +511,7 @@ final class Lexer
 
         if ($sep) {
             // todo separator cant be last
-            $this->addError(new UnexpectedCharacter());
+            $this->error(new UnexpectedCharacter());
         }
 
         return $digits;
@@ -545,7 +547,7 @@ final class Lexer
             return false;
         }
 
-        return match($this->lexemes[$len - 1]->token) {
+        return match ($this->lexemes[$len - 1]->token) {
             Token::Ident,
             Token::Int,
             Token::Float,
@@ -597,7 +599,7 @@ final class Lexer
 
     private static function isBinary(string $char): bool
     {
-        return \in_array($char, ['0', '1']);
+        return \in_array($char, ['0', '1'], true);
     }
 
     // src manipulation
@@ -645,7 +647,7 @@ final class Lexer
 
     private function isAtEnd(): bool
     {
-         return $this->cur === $this->len;
+        return $this->cur === $this->len;
     }
 
     private function addLexeme(Token $token, ?string $literal = null): void
@@ -653,9 +655,9 @@ final class Lexer
         $this->lexemes[] = new Lexeme($token, $this->pos(), $literal);
     }
 
-    private function addError(LexError $err): never
+    private function error(LexError $err): never
     {
         $this->errs[] = $err;
-        throw new $err;
+        throw new $err();
     }
 }
