@@ -13,7 +13,12 @@
             "GoParser\\": "src/"
         }
     },
-    "authors": [
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\GoParser\\": "tests/"
+        }
+    },
+  "authors": [
         {
             "name": "tuqqu",
             "email": "artkurbidaev@gmail.com"
@@ -23,6 +28,7 @@
       "php": "^8.1"
     },
     "require-dev": {
-        "symfony/var-dumper": "^6.0"
+        "symfony/var-dumper": "^6.0",
+        "phpunit/phpunit": "^9"
     }
 }

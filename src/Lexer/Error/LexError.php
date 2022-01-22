@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GoParser\Lexer\Error;
 
-use GoParser\Lexer\Position;
+use GoParser\Error;
 
-abstract class LexError extends \Exception
+abstract class LexError extends \Exception implements Error
 {
 }

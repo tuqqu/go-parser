@@ -35,7 +35,7 @@ final class Lexer
 
     public function hasErrors(): bool
     {
-        return \count($this->errs) !== 0;
+        return !empty($this->errs);
     }
 
     public function getErrors(): array
@@ -48,218 +48,219 @@ final class Lexer
         while (true) {
             $this->skipWhitespace();
 
-            switch ($this->peek()) {
-                case "\n":
-                    $this->read();
-                    if ($this->isAutoSemicolon()) {
+            try {
+                switch ($this->peek()) {
+                    case "\n":
+                        $this->read();
+                        if ($this->isAutoSemicolon()) {
+                            $this->addLexeme(Token::Semicolon);
+                        }
+                        break;
+                    case '"':
+                        $this->string();
+                        break;
+                    case '\'':
+                        $this->rune();
+                        break;
+                    case '`':
+                        $this->rawString();
+                        break;
+                    case ',':
+                        $this->read();
+                        $this->addLexeme(Token::Comma);
+                        break;
+                    case '(':
+                        $this->read();
+                        $this->addLexeme(Token::LeftParen);
+                        break;
+                    case ')':
+                        $this->read();
+                        $this->addLexeme(Token::RightParen);
+                        break;
+                    case '[':
+                        $this->read();
+                        $this->addLexeme(Token::LeftBracket);
+                        break;
+                    case ']':
+                        $this->read();
+                        $this->addLexeme(Token::RightBracket);
+                        break;
+                    case '{':
+                        $this->read();
+                        $this->addLexeme(Token::LeftBrace);
+                        break;
+                    case '}':
+                        $this->read();
+                        $this->addLexeme(Token::RightBrace);
+                        break;
+                    case ';':
+                        $this->read();
                         $this->addLexeme(Token::Semicolon);
-                    }
-                    break;
-                case '"':
-                    $this->string();
-                    break;
-                case '\'':
-                    $this->rune();
-                    break;
-                case '`':
-                    $this->rawString();
-                    break;
-                case ',':
-                    $this->read();
-                    $this->addLexeme(Token::Comma);
-                    break;
-                case '(':
-                    $this->read();
-                    $this->addLexeme(Token::LeftParen);
-                    break;
-                case ')':
-                    $this->read();
-                    $this->addLexeme(Token::RightParen);
-                    break;
-                case '[':
-                    $this->read();
-                    $this->addLexeme(Token::LeftBracket);
-                    break;
-                case ']':
-                    $this->read();
-                    $this->addLexeme(Token::RightBracket);
-                    break;
-                case '{':
-                    $this->read();
-                    $this->addLexeme(Token::LeftBrace);
-                    break;
-                case '}':
-                    $this->read();
-                    $this->addLexeme(Token::RightBrace);
-                    break;
-                case ';':
-                    $this->read();
-                    $this->addLexeme(Token::Semicolon);
-                    break;
-                case ':':
-                    $this->ifEqElse(Token::ColonEq, Token::Colon);
-                    break;
-                case '.':
-                    $next = $this->peekNext();
-                    switch (true) {
-                        case self::isNumeric($next):
-                            $this->number();
-                            break;
-                        case $next === '.':
-                            $this->ellipsis();
-                            break;
-                        default:
-                            $this->read();
-                            $this->addLexeme(Token::Dot);
-                    }
-                    break;
-
-                case '+':
-                    $this->read();
-                    switch ($this->peek()) {
-                        case '=':
-                            $this->read();
-                            $this->addLexeme(Token::PlusEq);
-                            break;
-                        case '+':
-                            $this->read();
-                            $this->addLexeme(Token::Inc);
-                            break;
-                        default:
-                            $this->addLexeme(Token::Plus);
-                    }
-                    break;
-                case '-':
-                    $this->read();
-                    switch ($this->peek()) {
-                        case '=':
-                            $this->read();
-                            $this->addLexeme(Token::MinusEq);
-                            break;
-                        case '-':
-                            $this->addLexeme(Token::Dec);
-                            break;
-                        default:
-                            $this->addLexeme(Token::Minus);
-                    }
-                    break;
-                case '*':
-                    $this->ifEqElse(Token::MulEq, Token::Mul);
-                    break;
-                case '%':
-                    $this->ifEqElse(Token::ModEq, Token::Mod);
-                    break;
-                case '^':
-                    $this->ifEqElse(Token::BitXorEq, Token::BitXor);
-                    break;
-                case '=':
-                    $this->ifEqElse(Token::EqEq, Token::Eq);
-                    break;
-                case '!':
-                    $this->ifEqElse(Token::NotEq, Token::LogicNot);
-                    break;
-                case '&':
-                    $this->read();
-                    switch ($this->peek()) {
-                        case '&':
-                            $this->read();
-                            $this->addLexeme(Token::LogicAnd);
-                            break;
-                        case '=':
-                            $this->read();
-                            $this->addLexeme(Token::BitAndEq);
-                            break;
-                        case '^':
-                            $this->ifEqElse(Token::BitAndNotEq, Token::BitAndNot);
-                            break;
-                        default:
-                            $this->read();
-                            $this->addLexeme(Token::BitAnd);
-                    }
-                    break;
-                case '|':
-                    $this->read();
-                    switch ($this->peek()) {
-                        case '|':
-                            $this->read();
-                            $this->addLexeme(Token::LogicOr);
-                            break;
-                        case '=':
-                            $this->read();
-                            $this->addLexeme(Token::BitOrEq);
-                            break;
-                        default:
-                            $this->read();
-                            $this->addLexeme(Token::BitOr);
-                    }
-                    break;
-                case '>':
-                    $this->read();
-                    if ($this->peek() === '=') {
-                        $this->read();
-                        $this->addLexeme(Token::GreaterEq);
-                    } else {
-                        $this->read();
-                        if ($this->peek() === '>') {
-                            $this->ifEqElse(Token::RightShiftEq, Token::RightShift);
-                        } else {
-                            $this->addLexeme(Token::Greater);
+                        break;
+                    case ':':
+                        $this->ifEqElse(Token::ColonEq, Token::Colon);
+                        break;
+                    case '.':
+                        $next = $this->peekNext();
+                        switch (true) {
+                            case self::isNumeric($next):
+                                $this->number();
+                                break;
+                            case $next === '.':
+                                $this->ellipsis();
+                                break;
+                            default:
+                                $this->read();
+                                $this->addLexeme(Token::Dot);
                         }
-                    }
-                    break;
-                case '<':
-                    if ($this->peekNext() === '-') {
+                        break;
+
+                    case '+':
                         $this->read();
+                        switch ($this->peek()) {
+                            case '=':
+                                $this->read();
+                                $this->addLexeme(Token::PlusEq);
+                                break;
+                            case '+':
+                                $this->read();
+                                $this->addLexeme(Token::Inc);
+                                break;
+                            default:
+                                $this->addLexeme(Token::Plus);
+                        }
+                        break;
+                    case '-':
                         $this->read();
-                        $this->addLexeme(Token::Arrow);
-                    } else {
+                        switch ($this->peek()) {
+                            case '=':
+                                $this->read();
+                                $this->addLexeme(Token::MinusEq);
+                                break;
+                            case '-':
+                                $this->addLexeme(Token::Dec);
+                                break;
+                            default:
+                                $this->addLexeme(Token::Minus);
+                        }
+                        break;
+                    case '*':
+                        $this->ifEqElse(Token::MulEq, Token::Mul);
+                        break;
+                    case '%':
+                        $this->ifEqElse(Token::ModEq, Token::Mod);
+                        break;
+                    case '^':
+                        $this->ifEqElse(Token::BitXorEq, Token::BitXor);
+                        break;
+                    case '=':
+                        $this->ifEqElse(Token::EqEq, Token::Eq);
+                        break;
+                    case '!':
+                        $this->ifEqElse(Token::NotEq, Token::LogicNot);
+                        break;
+                    case '&':
+                        $this->read();
+                        switch ($this->peek()) {
+                            case '&':
+                                $this->read();
+                                $this->addLexeme(Token::LogicAnd);
+                                break;
+                            case '=':
+                                $this->read();
+                                $this->addLexeme(Token::BitAndEq);
+                                break;
+                            case '^':
+                                $this->ifEqElse(Token::BitAndNotEq, Token::BitAndNot);
+                                break;
+                            default:
+                                $this->read();
+                                $this->addLexeme(Token::BitAnd);
+                        }
+                        break;
+                    case '|':
+                        $this->read();
+                        switch ($this->peek()) {
+                            case '|':
+                                $this->read();
+                                $this->addLexeme(Token::LogicOr);
+                                break;
+                            case '=':
+                                $this->read();
+                                $this->addLexeme(Token::BitOrEq);
+                                break;
+                            default:
+                                $this->read();
+                                $this->addLexeme(Token::BitOr);
+                        }
+                        break;
+                    case '>':
                         $this->read();
                         if ($this->peek() === '=') {
                             $this->read();
-                            $this->addLexeme(Token::LessEq);
+                            $this->addLexeme(Token::GreaterEq);
                         } else {
                             $this->read();
-                            if ($this->peek() === '<') {
-                                $this->ifEqElse(Token::LeftShiftEq, Token::LeftShift);
+                            if ($this->peek() === '>') {
+                                $this->ifEqElse(Token::RightShiftEq, Token::RightShift);
                             } else {
-                                $this->addLexeme(Token::Less);
+                                $this->addLexeme(Token::Greater);
                             }
                         }
-                    }
-                    break;
-                case '/':
-                    $next = $this->peekNext();
-                    if ($next === '/' || $next === '*') {
-                        $this->comment();
-                    } else {
-                        $this->read();
-                        if ($this->peek() === '=') {
+                        break;
+                    case '<':
+                        if ($this->peekNext() === '-') {
                             $this->read();
-                            $this->addLexeme(Token::DivEq);
+                            $this->read();
+                            $this->addLexeme(Token::Arrow);
                         } else {
-                            $this->addLexeme(Token::Div);
-                        }
-                    }
-                    break;
-                default:
-                    $char = $this->peek();
-                    switch (true) {
-                        case $char === null:
-                            if ($this->isAutoSemicolon()) {
-                                // todo consider autosemicolon token
-                                $this->addLexeme(Token::Semicolon);
+                            $this->read();
+                            if ($this->peek() === '=') {
+                                $this->read();
+                                $this->addLexeme(Token::LessEq);
+                            } else {
+                                $this->read();
+                                if ($this->peek() === '<') {
+                                    $this->ifEqElse(Token::LeftShiftEq, Token::LeftShift);
+                                } else {
+                                    $this->addLexeme(Token::Less);
+                                }
                             }
-                            $this->addLexeme(Token::Eof);
-                            return;
-                        case self::isAlphabetic($char):
-                            $this->identifier();
-                            break;
-                        case self::isNumeric($char):
-                            $this->number();
-                            break;
-                    }
-
-            }
+                        }
+                        break;
+                    case '/':
+                        $next = $this->peekNext();
+                        if ($next === '/' || $next === '*') {
+                            $this->comment();
+                        } else {
+                            $this->read();
+                            if ($this->peek() === '=') {
+                                $this->read();
+                                $this->addLexeme(Token::DivEq);
+                            } else {
+                                $this->addLexeme(Token::Div);
+                            }
+                        }
+                        break;
+                    default:
+                        $char = $this->peek();
+                        switch (true) {
+                            case $char === null:
+                                if ($this->isAutoSemicolon()) {
+                                    // todo consider autosemicolon token
+                                    $this->addLexeme(Token::Semicolon);
+                                }
+                                $this->addLexeme(Token::Eof);
+                                return;
+                            case self::isAlphabetic($char):
+                                $this->identifier();
+                                break;
+                            case self::isNumeric($char):
+                                $this->number();
+                                break;
+                        }
+                }
+            } catch (LexError) {}
         }
     }
 
@@ -422,7 +423,7 @@ final class Lexer
         // imaginary
         if ($this->peek() === 'i') {
             $literal .= $this->read();
-            $token = Token::ComplexImag;
+            $token = Token::Imag;
         }
 
         $this->addLexeme($token, $literal);
@@ -548,7 +549,7 @@ final class Lexer
             Token::Ident,
             Token::Int,
             Token::Float,
-            Token::ComplexImag,
+            Token::Imag,
             Token::Rune,
             Token::String,
             Token::Break,

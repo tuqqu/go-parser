@@ -99,7 +99,7 @@ enum Token: string
     // literals
     case Int = 'integer';
     case Float = 'floating_point';
-    case ComplexImag = 'imaginary';
+    case Imag = 'imaginary';
     case Rune = 'char';
     case String = 'string';
     case RawString = 'raw_string';
@@ -170,7 +170,7 @@ enum Token: string
         return match ($this) {
             self::Int,
             self::Float,
-            self::ComplexImag,
+            self::Imag,
             self::Ident,
             self::RawString,
             self::String => true,

@@ -15,8 +15,8 @@ final class Position
     public function __toString(): string
     {
         return \sprintf(
-            '%s [%d, %d]',
-            $this->filename === null ? '' : \sprintf("(%s)", $this->filename),
+            '%s[%d, %d]',
+            $this->filename === null ? '' : \sprintf("(%s) ", $this->filename),
             $this->line,
             $this->offset
         );
