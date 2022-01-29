@@ -285,8 +285,8 @@ final class Lexer
 
         switch ($char) {
             case '/':
-                while (($char = $this->read()) !== "\n") {
-                    $comment .= $char;
+                while ($this->peek() !== "\n") {
+                    $comment .= $this->read();
                     if ($this->isAtEnd()) {
                         break;
                     }
@@ -529,7 +529,7 @@ final class Lexer
             }
         }
 
-        $token = Token::tryFrom($ident);
+        $token = Token::tryFromKeyword($ident);
 
         if ($token === null) {
             $this->addLexeme(Token::Ident, $ident);
@@ -539,15 +539,15 @@ final class Lexer
         $this->addLexeme($token);
     }
 
-    private function isAutoSemicolon(): bool
+    private function isAutoSemicolon(int $step = 1): bool
     {
         $len = \count($this->lexemes);
 
-        if ($len === 0) {
+        if ($len < $step) {
             return false;
         }
 
-        return match ($this->lexemes[$len - 1]->token) {
+        return match ($this->lexemes[$len - $step]->token) {
             Token::Ident,
             Token::Int,
             Token::Float,
@@ -563,6 +563,8 @@ final class Lexer
             Token::RightBrace,
             Token::RightBracket,
             Token::RightParen => true,
+            Token::Comment,
+            Token::MultilineComment => $this->isAutoSemicolon(++$step),
             default => false,
         };
     }

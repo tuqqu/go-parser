@@ -111,6 +111,13 @@ enum Token: string
     case Illegal = 'illegal';
     case Eof = 'eof';
 
+    public static function tryFromKeyword(string $from): ?self
+    {
+        $token = self::tryFrom($from);
+
+        return $token?->isKeyword() ? $token : null;
+    }
+
     public function isOperator(): bool
     {
         return match ($this) {
@@ -174,6 +181,38 @@ enum Token: string
             self::Ident,
             self::RawString,
             self::String => true,
+            default => false,
+        };
+    }
+
+    public function isKeyword(): bool
+    {
+        return match($this) {
+            self::Break,
+            self::Case,
+            self::Chan,
+            self::Const,
+            self::Continue,
+            self::Default,
+            self::Defer,
+            self::Else,
+            self::Fallthrough,
+            self::For,
+            self::Func,
+            self::Go,
+            self::Goto,
+            self::If,
+            self::Import,
+            self::Interface,
+            self::Map,
+            self::Package,
+            self::Range,
+            self::Return,
+            self::Select,
+            self::Struct,
+            self::Switch,
+            self::Type,
+            self::Var => true,
             default => false,
         };
     }
