@@ -174,7 +174,6 @@ final class Lexer
                                 $this->ifEqElse(Token::BitAndNotEq, Token::BitAndNot);
                                 break;
                             default:
-                                $this->read();
                                 $this->addLexeme(Token::BitAnd);
                         }
                         break;
