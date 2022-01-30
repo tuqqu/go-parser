@@ -10,8 +10,8 @@ use GoParser\Ast\StmtList;
 final class BlockStmt implements Stmt
 {
     public function __construct(
-        public readonly Punctuation $leftBrace,
+        public readonly Punctuation $lBrace,
         public readonly StmtList $stmtList,
-        public readonly Punctuation $rightBrace,
+        public readonly Punctuation $rBrace,
     ) {}
 }
