@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace GoParser\Lexer;
 
-use GoParser\Lexer\Error\{LexError, UnclosedComment, UnexpectedCharacter, UnterminatedString};
-
 final class Lexer
 {
     private readonly string $src;
@@ -257,9 +255,12 @@ final class Lexer
                             case self::isNumeric($char):
                                 $this->number();
                                 break;
+                            default:
+                                $this->error(\sprintf('Unknown character "%s"', $this->read()));
                         }
                 }
             } catch (LexError) {
+                // do nothing
             }
         }
     }
@@ -302,7 +303,7 @@ final class Lexer
 
                     $comment .= $char;
                     if ($this->isAtEnd()) {
-                        $this->error(new UnclosedComment());
+                        $this->error('Unclosed comment');
                     }
                 }
                 $this->addLexeme(Token::MultilineComment, $comment);
@@ -352,7 +353,7 @@ final class Lexer
                     break 2;
                 case "\n":
                 case null:
-                    $this->error(new UnterminatedString());
+                    $this->error('Untermminated string');
                     // no break because addError returns never
                 default:
                     $literal .= $this->read();
@@ -367,7 +368,7 @@ final class Lexer
         for ($i = 0; $i < 3; ++$i) {
             $dot = $this->read();
             if ($dot !== '.') {
-                $this->error(new UnexpectedCharacter());
+                $this->error(\sprintf('Unexpected character "%s", expected "."', $dot));
             }
         }
 
@@ -478,8 +479,7 @@ final class Lexer
         $sep = false;
 
         if (!$separatorPrefix && $this->peek() === '_') {
-            // todo '\'_\' must separate successive digits'
-            $this->error(new UnexpectedCharacter());
+            $this->error('"_" must separate successive digits');
         }
 
         while (($char = $this->peek()) !== null) {
@@ -489,8 +489,7 @@ final class Lexer
                         $digits .= $this->read();
                         $sep = true;
                     } else {
-                        // todo two __
-                        $this->error(new UnexpectedCharacter());
+                        $this->error('"_" must separate successive digits');
                     }
                     break;
                 case self::isAlphanumeric($char):
@@ -498,9 +497,7 @@ final class Lexer
                         $digits .= $this->read();
                         $sep = false;
                     } else {
-                        // todo integer notation error
-                        dump('integer notation error');
-                        $this->error(new UnexpectedCharacter());
+                        $this->error('Integer notation error');
                     }
                     break;
                 default:
@@ -509,8 +506,7 @@ final class Lexer
         }
 
         if ($sep) {
-            // todo separator cant be last
-            $this->error(new UnexpectedCharacter());
+            $this->error('"_" must separate successive digits');
         }
 
         return $digits;
@@ -656,9 +652,11 @@ final class Lexer
         $this->lexemes[] = new Lexeme($token, $this->pos(), $literal);
     }
 
-    private function error(LexError $err): never
+    private function error(string $msg): never
     {
-        $this->errs[] = $err;
-        throw new $err();
+        $error = new LexError($msg, $this->pos());
+        $this->errs[] = $error;
+
+        throw $error;
     }
 }
