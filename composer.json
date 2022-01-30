@@ -34,9 +34,10 @@
         "vimeo/psalm": "^4.19"
     },
     "scripts": {
+        "fix-cs": "vendor/bin/php-cs-fixer fix --diff",
         "lint": [
-            "vendor/bin/php-cs-fixer fix --verbose --diff --using-cache=no --allow-risky=yes",
-            "./vendor/bin/psalm"
+            "vendor/bin/php-cs-fixer fix --dry-run --verbose --diff --using-cache=no --allow-risky=yes",
+            "vendor/bin/psalm"
         ],
         "test": "vendor/bin/phpunit"
     }
