@@ -1160,7 +1160,7 @@ final class Parser
     }
 
     /**
-     * @ 
+     * @todo
      * @psalm-suppress UndefinedMethod
      */
     private function parseType(): ?Type

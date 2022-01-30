@@ -1,0 +1,115 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use GoParser\{Ast\AstNode, ParseMode, Parser, ToStdoutErrorHandler};
+
+require_autoload();
+main($argv);
+
+function require_autoload(): void
+{
+    foreach ([
+        __DIR__ . '/../vendor/autoload.php',
+        __DIR__ . '/../../../autoload.php'
+             ] as $path) {
+        if (file_exists($path)) {
+            require $path;
+            return;
+        }
+    }
+
+    exit_with_error('Install dependencies using Composer.');
+}
+
+
+function print_help(): void
+{
+    fwrite(STDOUT, <<<HELP
+    USAGE: 
+        go-parser [FLAGS] file1.go [file2.go ...]
+        go-parser [FLAGS]
+        
+    FLAGS:   
+        -d, --dump      Dump AST using var_dump() or dump() if it is available
+            --decl      Parse single declaration (no package clause)
+        -h, --hel       Print help message
+    
+    Example: 
+        Parse source file:
+            go-parser ./src/main.go
+        
+        Parse from stdin:
+            go-parser --decl
+
+    HELP);
+}
+
+function exit_with_error(string $msg): never
+{
+    fwrite(STDERR, sprintf("\x1b[0;31mError: %s\x1b[0m\n\n", $msg));
+    exit(1);
+}
+
+/**
+ * @return array{<array<string>, ParseMode, callable(AstNode): void}
+ */
+function parse_argv(array $argv): array
+{
+    unset($argv[0]);
+    $files = [];
+    $mode = ParseMode::File;
+    $dumper = function_exists('dump') ? dump(...) : var_dump(...);
+
+    foreach ($argv as $arg) {
+        switch ($arg) {
+            case '-h':
+            case '--help':
+                print_help();
+                exit(0);
+            case '--decl':
+                $mode = ParseMode::SingleDecl;
+                break;
+            case '-d':
+            case '-dump':
+                // for now it is always on
+                break;
+            default:
+                $files[] = $arg;
+        }
+    }
+
+    return [$files, $mode, $dumper];
+}
+
+function main(array $argv): never
+{
+    [$files, $mode, $dumper] = parse_argv($argv);
+    $onError = new ToStdoutErrorHandler();
+
+    if (empty($files)) {
+        $src = fgets(STDIN);
+        $parser = new Parser($src, mode: $mode, onError: $onError);
+        $ast = $parser->parse();
+        $dumper($ast);
+        exit($parser->hasErrors() ? 1 : 0);
+    }
+
+    $errs = false;
+    foreach ($files as $file) {
+        if (!file_exists($file)) {
+            exit_with_error(sprintf('File %s does not exist.', $file));
+        }
+
+        $src = file_get_contents($file);
+        $parser = new Parser($src, $file, $mode, $onError);
+        $ast = $parser->parse();
+        if ($parser->hasErrors()) {
+            $errs = true;
+        }
+        $dumper($ast);
+    }
+
+    exit($errs ? 1 : 0);
+}
