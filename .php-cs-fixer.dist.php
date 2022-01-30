@@ -13,11 +13,10 @@ const RULES = [
     'array_syntax' => ['syntax' => 'short'],
 ];
 
-$finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__ . '/src')
-    ->in(__DIR__ . '/tests');
-
 CONFIG->setRules(RULES);
-CONFIG->setFinder($finder);
+CONFIG->setFinder(PhpCsFixer\Finder::create()
+    ->in(__DIR__ . '/src')
+    ->in(__DIR__ . '/tests')
+);
 
 return CONFIG;
