@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GoParser\Ast\Stmt;
 
-interface Stmt
+use GoParser\Ast\AstNode;
+
+interface Stmt extends AstNode
 {
 }

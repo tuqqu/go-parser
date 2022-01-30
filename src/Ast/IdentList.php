@@ -7,7 +7,7 @@ namespace GoParser\Ast;
 use GoParser\Ast\Exception\InvalidArgument;
 use GoParser\Ast\Expr\Ident;
 
-final class IdentList
+final class IdentList implements AstNode
 {
     /**
      * @param Ident[] $identifiers

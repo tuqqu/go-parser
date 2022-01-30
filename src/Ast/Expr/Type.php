@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GoParser\Ast\Expr;
 
-interface Type
+use GoParser\Ast\AstNode;
+
+interface Type extends AstNode
 {
 }

@@ -7,6 +7,7 @@ namespace GoParser\Ast\Stmt;
 use GoParser\Ast\Exception\InvalidArgument;
 use GoParser\Ast\GroupSpec;
 use GoParser\Ast\Keyword;
+use GoParser\Ast\SpecType;
 use GoParser\Ast\VarSpec;
 
 final class VarDecl implements Decl

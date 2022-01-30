@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace GoParser\Ast\Stmt;
 
-use GoParser\Ast\Exception\InvalidArgument;
 use GoParser\Ast\Expr\Expr;
+use GoParser\Ast\ForClause;
 use GoParser\Ast\Keyword;
+use GoParser\Ast\RangeClause;
 
 /**
  * All for variations:

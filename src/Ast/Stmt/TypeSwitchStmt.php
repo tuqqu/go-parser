@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace GoParser\Ast\Stmt;
 
-use GoParser\Ast\AstNode;
-use GoParser\Ast\Expr\Expr;
 use GoParser\Ast\Keyword;
 use GoParser\Ast\Punctuation;
+use GoParser\Ast\TypeCaseClause;
+use GoParser\Ast\TypeSwitchGuard;
 
 final class TypeSwitchStmt implements SwitchStmt
 {

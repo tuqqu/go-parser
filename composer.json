@@ -30,10 +30,14 @@
     "require-dev": {
         "symfony/var-dumper": "^6.0",
         "phpunit/phpunit": "^9",
-        "friendsofphp/php-cs-fixer": "^3.5"
+        "friendsofphp/php-cs-fixer": "^3.5",
+        "vimeo/psalm": "^4.19"
     },
     "scripts": {
-        "lint": "vendor/bin/php-cs-fixer fix --verbose --diff --using-cache=no --allow-risky=yes",
+        "lint": [
+            "vendor/bin/php-cs-fixer fix --verbose --diff --using-cache=no --allow-risky=yes",
+            "./vendor/bin/psalm"
+        ],
         "test": "vendor/bin/phpunit"
     }
 }

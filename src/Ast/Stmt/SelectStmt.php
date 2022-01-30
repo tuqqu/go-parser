@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GoParser\Ast\Stmt;
 
+use GoParser\Ast\CommClause;
 use GoParser\Ast\Keyword;
 use GoParser\Ast\Punctuation;
 

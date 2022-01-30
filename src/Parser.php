@@ -406,7 +406,7 @@ final class Parser
     {
         switch (true) {
             case $this->checkAheadTill(Token::Colon, Token::Eq):
-                $list = $this->parseExprList(true);
+                $list = $this->parseExprList();
                 $this->consume(Token::Eq);
                 $expr = $this->parseExpr();
                 break;
@@ -455,12 +455,12 @@ final class Parser
                         break;
                     // for expr = range {}
                     default:
-                        $list = $this->parseExprList(true);
+                        $list = $this->parseExprList();
                         $this->consume(Token::Eq);
                 }
 
                 $range = $this->parseKeyword(Token::Range);
-                $expr = $this->parseExpr(true);
+                $expr = $this->parseExpr();
                 $iteration = new RangeClause($list, $range, $expr);
                 break;
             // for expr; [expr; expr;] {}
@@ -1065,13 +1065,9 @@ final class Parser
         );
     }
 
-    private function parseFuncLit(): FuncLit|FuncType
+    private function parseFuncLit(): FuncLit
     {
         $type = $this->parseFuncType();
-        if (!$this->match(Token::LeftBrace)) {
-            return $type;
-        }
-
         $body = $this->parseBlockStmt();
 
         return new FuncLit($type, $body);
@@ -1131,6 +1127,10 @@ final class Parser
             $this->parseType();
     }
 
+    /**
+     * @todo
+     * @psalm-suppress UndefinedMethod
+     */
     private function parseType(): ?Type
     {
         return match ($this->peek()->token) {
@@ -1147,11 +1147,16 @@ final class Parser
         };
     }
 
+    private function doParseType(): Type
+    {
+        return $this->parseType() ?? $this->error('Type expected');
+    }
+
     private function parseTypeList(): TypeList
     {
         $types = [];
         do {
-            $types[] = $this->parseType();
+            $types[] = $this->doParseType();
         } while ($this->consumeIf(Token::Comma) !== null);
 
         return new TypeList($types);
@@ -1332,13 +1337,11 @@ final class Parser
         return null;
     }
 
-    private function advance(): ?Lexeme
+    private function advance(): Lexeme
     {
-        if ($this->isAtEnd()) {
-            return null;
+        if (!$this->isAtEnd()) {
+            ++$this->cur;
         }
-
-        ++$this->cur;
 
         return $this->prev();
     }
@@ -1386,14 +1389,20 @@ final class Parser
     private function peekBy(int $by): Lexeme
     {
         do {
-            $lexeme = $this->lexemes[$this->cur + $by];
+            $lexeme = $this->lexemes[$this->cur + $by] ?? null;
+
+            if ($lexeme === null) {
+                break;
+            }
 
             if (!self::isToSkip($lexeme)) {
                 return $lexeme;
             }
 
             ++$this->cur;
-        } while (true);
+        } while (!$this->isAtEnd());
+
+        throw new \OutOfBoundsException('Cannot peek that far');
     }
 
     private function recover(bool $declMode): void

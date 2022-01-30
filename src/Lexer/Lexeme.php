@@ -16,7 +16,7 @@ final class Lexeme
     {
         $str = \sprintf('%s %s', $this->pos, $this->token->name);
         if ($this->token->isLiteral()) {
-            $str .= \sprintf(' "%s"', $this->literal);
+            $str .= \sprintf(' "%s"', $this->literal ?? '');
         } elseif ($this->token->isOperator()) {
             $str .= \sprintf(' %s', $this->token->value);
         }

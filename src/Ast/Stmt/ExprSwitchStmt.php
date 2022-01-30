@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GoParser\Ast\Stmt;
 
-use GoParser\Ast\AstNode;
 use GoParser\Ast\Expr\Expr;
+use GoParser\Ast\ExprCaseClause;
 use GoParser\Ast\Keyword;
 use GoParser\Ast\Punctuation;
 

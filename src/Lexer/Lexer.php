@@ -101,7 +101,7 @@ final class Lexer
                     case '.':
                         $next = $this->peekNext();
                         switch (true) {
-                            case self::isNumeric($next):
+                            case $next !== null && self::isNumeric($next):
                                 $this->number();
                                 break;
                             case $next === '.':
