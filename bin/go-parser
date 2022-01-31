@@ -36,7 +36,7 @@ function print_help(): void
             --decl      Parse single declaration (no package clause)
         -h, --hel       Print help message
     
-    Example: 
+    EXAMPLE: 
         Parse source file:
             go-parser ./src/main.go
         
