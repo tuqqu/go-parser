@@ -353,7 +353,7 @@ final class Lexer
                     break 2;
                 case "\n":
                 case null:
-                    $this->error('Untermminated string');
+                    $this->error('Unterminated string');
                     // no break because addError returns never
                 default:
                     $literal .= $this->read();

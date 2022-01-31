@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace GoParser;
 
+use GoParser\Ast\AliasDecl;
 use GoParser\Ast\AstNode;
-use GoParser\Ast\Expr\ChannelType;
-use GoParser\Ast\Expr\InterfaceType;
-use GoParser\Ast\Stmt\ConstDecl;
+use GoParser\Ast\CaseClause;
+use GoParser\Ast\CaseLabel;
+use GoParser\Ast\CommCase;
+use GoParser\Ast\CommClause;
 use GoParser\Ast\ConstSpec;
+use GoParser\Ast\DefaultCase;
+use GoParser\Ast\ElementList;
 use GoParser\Ast\Exception\InvalidArgument;
 use GoParser\Ast\Expr\ArrayType;
 use GoParser\Ast\Expr\BinaryExpr;
 use GoParser\Ast\Expr\CallExpr;
+use GoParser\Ast\Expr\ChannelType;
 use GoParser\Ast\Expr\CompositeLit;
-use GoParser\Ast\ElementList;
 use GoParser\Ast\Expr\Expr;
 use GoParser\Ast\Expr\FloatLit;
 use GoParser\Ast\Expr\FullSliceExpr;
@@ -24,79 +28,81 @@ use GoParser\Ast\Expr\GroupExpr;
 use GoParser\Ast\Expr\Ident;
 use GoParser\Ast\Expr\ImagLit;
 use GoParser\Ast\Expr\IndexExpr;
+use GoParser\Ast\Expr\InterfaceType;
 use GoParser\Ast\Expr\IntLit;
-use GoParser\Ast\KeyedElement;
 use GoParser\Ast\Expr\MapType;
 use GoParser\Ast\Expr\Operand;
-use GoParser\Ast\ParamDecl;
-use GoParser\Ast\Params;
 use GoParser\Ast\Expr\ParenType;
 use GoParser\Ast\Expr\PointerType;
 use GoParser\Ast\Expr\PrimaryExpr;
 use GoParser\Ast\Expr\RawStringLit;
 use GoParser\Ast\Expr\RuneLit;
 use GoParser\Ast\Expr\SelectorExpr;
-use GoParser\Ast\Signature;
 use GoParser\Ast\Expr\SimpleSliceExpr;
 use GoParser\Ast\Expr\SliceExpr;
 use GoParser\Ast\Expr\SliceType;
 use GoParser\Ast\Expr\StringLit;
+use GoParser\Ast\Expr\StructType;
 use GoParser\Ast\Expr\Type;
 use GoParser\Ast\Expr\TypeAssertionExpr;
 use GoParser\Ast\Expr\TypeName;
 use GoParser\Ast\Expr\UnaryExpr;
+use GoParser\Ast\ExprCaseClause;
 use GoParser\Ast\ExprList;
+use GoParser\Ast\ExprSwitchCase;
+use GoParser\Ast\FieldDecl;
 use GoParser\Ast\File;
-use GoParser\Ast\Stmt\FuncDecl;
+use GoParser\Ast\ForClause;
 use GoParser\Ast\GroupSpec;
 use GoParser\Ast\IdentList;
-use GoParser\Ast\Stmt\ImportDecl;
 use GoParser\Ast\ImportSpec;
+use GoParser\Ast\KeyedElement;
 use GoParser\Ast\Keyword;
-use GoParser\Ast\Stmt\MethodDecl;
 use GoParser\Ast\Operator;
 use GoParser\Ast\PackageClause;
+use GoParser\Ast\ParamDecl;
+use GoParser\Ast\Params;
 use GoParser\Ast\Punctuation;
-use GoParser\Ast\Stmt\ShortVarDecl;
+use GoParser\Ast\RangeClause;
+use GoParser\Ast\Signature;
 use GoParser\Ast\Spec;
 use GoParser\Ast\SpecType;
 use GoParser\Ast\Stmt\AssignmentStmt;
 use GoParser\Ast\Stmt\BlockStmt;
 use GoParser\Ast\Stmt\BreakStmt;
-use GoParser\Ast\CaseClause;
-use GoParser\Ast\CaseLabel;
-use GoParser\Ast\CommCase;
-use GoParser\Ast\CommClause;
+use GoParser\Ast\Stmt\ConstDecl;
 use GoParser\Ast\Stmt\ContinueStmt;
 use GoParser\Ast\Stmt\Decl;
-use GoParser\Ast\DefaultCase;
 use GoParser\Ast\Stmt\DeferStmt;
 use GoParser\Ast\Stmt\EmptyStmt;
-use GoParser\Ast\ExprCaseClause;
 use GoParser\Ast\Stmt\ExprStmt;
-use GoParser\Ast\ExprSwitchCase;
 use GoParser\Ast\Stmt\ExprSwitchStmt;
 use GoParser\Ast\Stmt\FallthroughStmt;
-use GoParser\Ast\ForClause;
 use GoParser\Ast\Stmt\ForStmt;
+use GoParser\Ast\Stmt\FuncDecl;
 use GoParser\Ast\Stmt\GoStmt;
 use GoParser\Ast\Stmt\GotoStmt;
 use GoParser\Ast\Stmt\IfStmt;
-use GoParser\Ast\RangeClause;
+use GoParser\Ast\Stmt\ImportDecl;
+use GoParser\Ast\Stmt\MethodDecl;
 use GoParser\Ast\Stmt\RecvStmt;
 use GoParser\Ast\Stmt\ReturnStmt;
 use GoParser\Ast\Stmt\SelectStmt;
 use GoParser\Ast\Stmt\SendStmt;
+use GoParser\Ast\Stmt\ShortVarDecl;
 use GoParser\Ast\Stmt\SimpleStmt;
 use GoParser\Ast\Stmt\Stmt;
-use GoParser\Ast\StmtList;
 use GoParser\Ast\Stmt\SwitchStmt;
-use GoParser\Ast\TypeCaseClause;
-use GoParser\Ast\TypeList;
-use GoParser\Ast\TypeSwitchCase;
-use GoParser\Ast\TypeSwitchGuard;
+use GoParser\Ast\Stmt\TypeDecl;
 use GoParser\Ast\Stmt\TypeSwitchStmt;
 use GoParser\Ast\Stmt\VarDecl;
+use GoParser\Ast\StmtList;
+use GoParser\Ast\TypeCaseClause;
+use GoParser\Ast\TypeDef;
+use GoParser\Ast\TypeList;
+use GoParser\Ast\TypeSpec;
+use GoParser\Ast\TypeSwitchCase;
+use GoParser\Ast\TypeSwitchGuard;
 use GoParser\Ast\VarSpec;
 use GoParser\Lexer\Lexeme;
 use GoParser\Lexer\Lexer;
@@ -154,7 +160,6 @@ final class Parser
     {
         $package = $this->parsePackageClause();
         $imports = $this->parseImports();
-
         $decls = $this->parseDecls();
 
         if ($this->hasErrors()) {
@@ -261,7 +266,7 @@ final class Parser
         return match ($this->peek()->token) {
             Token::Var => $this->parseVarDecl(),
             Token::Const => $this->parseConstDecl(),
-//                Token::Type => $this->parseVarDecl(),
+            Token::Type => $this->parseTypeDecl(),
             Token::Func => $this->parseFuncOrMethodDecl(),
             default => $this->error(\sprintf('Declaration expected, got "%s"', $this->peek()->token->name)),
         };
@@ -782,6 +787,17 @@ final class Parser
         return new ConstDecl($const, $spec);
     }
 
+    // todo inc dec anon param, anon fields, labels sendstmt
+
+    private function parseTypeDecl(): TypeDecl
+    {
+        $type = $this->parseKeyword(Token::Type);
+        $spec = $this->parseSpec(SpecType::Type);
+        $this->consume(Token::Semicolon);
+
+        return new TypeDecl($type, $spec);
+    }
+
     private function parseSpec(SpecType $type): Spec
     {
         /** @var callable(): Spec $parser */
@@ -789,6 +805,7 @@ final class Parser
             SpecType::Import => $this->parseImportSpec(...),
             SpecType::Var => $this->parseVarSpec(...),
             SpecType::Const => $this->parseConstSpec(...),
+            SpecType::Type => $this->parseTypeSpec(...),
         };
 
         if ($this->match(Token::LeftParen)) {
@@ -822,6 +839,19 @@ final class Parser
         $initList = $this->parseExprList();
 
         return new ConstSpec($identList, $type, $initList);
+    }
+
+    private function parseTypeSpec(): TypeSpec
+    {
+        $ident = $this->parseIdent();
+        $eq = $this->consumeIf(Token::Eq);
+        $type = $this->parseType();
+
+        $value = $eq !== null ?
+            new AliasDecl($ident, Operator::fromLexeme($eq), $type) :
+            new TypeDef($ident, $type);
+
+        return new TypeSpec($value);
     }
 
     private function parseExprList(): ExprList
@@ -1064,7 +1094,7 @@ final class Parser
                 $colons[0],
                 $indices[1] ?? $this->error('Wrong number of indices'),
                 $colons[1],
-                $indices[2]  ?? $this->error('Wrong number of indices'),
+                $indices[2] ?? $this->error('Wrong number of indices'),
                 $rBrack
             ),
         };
@@ -1125,25 +1155,32 @@ final class Parser
         $params = [];
 
         if (!$this->match(Token::RightParen)) {
-            while (true) {
-                $identList = $this->parseIdentList();
-                if ($variadic) {
-                    $ellipsis = $this->match(Token::Ellipsis) ?
-                        $this->parsePunctuation(Token::Ellipsis) :
-                        null;
-                } else {
-                    $ellipsis = null;
+            $identsOrTypes = $this->parseTypeList();
+            $type = $this->parseType();
+
+            if ($type === null) {
+                $params = \array_map(
+                    static fn (Type $type): ParamDecl => new ParamDecl(null, null, $type),
+                    $identsOrTypes->types,
+                );
+            } else {
+                $idents = IdentList::fromTypeList($identsOrTypes);
+                $ellipsis = $variadic ? $this->tryParsePunctuation(Token::Ellipsis) : null;
+                $params[] = new ParamDecl($idents, $ellipsis, $type);
+                $this->consumeIf(Token::Comma);
+
+                while (!$this->match(Token::RightParen)) {
+                    $idents = $this->parseIdentList();
+                    $ellipsis = $variadic ? $this->tryParsePunctuation(Token::Ellipsis) : null;
+                    $type = $this->parseType();
+                    $params[] = new ParamDecl($idents, $ellipsis, $type);
+
+                    if (!$this->match(Token::Comma)) {
+                        break;
+                    }
+
+                    $this->consume(Token::Comma);
                 }
-
-                $type = $this->parseType();
-
-                $params[] = new ParamDecl($identList, $ellipsis, $type);
-
-                if (!$this->match(Token::Comma)) {
-                    break;
-                }
-
-                $this->consume(Token::Comma);
             }
         }
 
@@ -1159,22 +1196,18 @@ final class Parser
             $this->parseType();
     }
 
-    /**
-     * @todo
-     * @psalm-suppress UndefinedMethod
-     */
     private function parseType(): ?Type
     {
         return match ($this->peek()->token) {
             Token::Ident => $this->parseTypeName(),
-            Token::LeftBracket => $this->parseArrayOrSliceType(),
-            Token::Struct => $this->parseStructType(), //todo
             Token::Mul => $this->parsePointerType(),
+            Token::LeftParen => $this->parseParenType(),
             Token::Func => $this->parseFuncType(),
-            Token::Interface => $this->parseInterfaceType(),
+            Token::LeftBracket => $this->parseArrayOrSliceType(),
             Token::Map => $this->parseMapType(),
             Token::Arrow, Token::Chan => $this->parseChannelType(),
-            Token::LeftParen => $this->parseParenType(),
+            Token::Struct => $this->parseStructType(),
+            Token::Interface => $this->parseInterfaceType(),
             default => null,
         };
     }
@@ -1264,13 +1297,32 @@ final class Parser
 
         $rBrace = $this->parsePunctuation(Token::RightBrace);
 
-        return new InterfaceType(
-            $keyword,
-            $lBrace,
-            $methods,
-            $rBrace,
-        );
+        return new InterfaceType($keyword, $lBrace, $methods, $rBrace);
     }
+
+    private function parseStructType(): StructType
+    {
+        $keyword = $this->parseKeyword(Token::Struct);
+        $lBrace = $this->parsePunctuation(Token::LeftBrace);
+        $fields = [];
+        while (!$this->match(Token::RightBrace)) {
+            //todo parse anon fields
+            $identList = $this->parseIdentList();
+            $type = $this->parseType();
+            $tag = match ($this->peek()->token) {
+                Token::String => $this->parseStringLit(),
+                Token::RawString => $this->parseRawStringLit(),
+                default => null,
+            };
+            $fields[] = new FieldDecl($identList, $type, $tag);
+            $this->consume(Token::Semicolon);
+        }
+
+        $rBrace = $this->parsePunctuation(Token::RightBrace);
+
+        return new StructType($keyword, $lBrace, $fields, $rBrace);
+    }
+
 
     private function parseIdentList(): IdentList
     {
@@ -1395,6 +1447,13 @@ final class Parser
     private function parsePunctuation(Token $token): Punctuation
     {
         return Punctuation::fromLexeme($this->consume($token));
+    }
+
+    private function tryParsePunctuation(Token $token): ?Punctuation
+    {
+        return $this->match($token) ?
+            Punctuation::fromLexeme($this->consume($token)) :
+            null;
     }
 
     private function consume(Token $token): Lexeme

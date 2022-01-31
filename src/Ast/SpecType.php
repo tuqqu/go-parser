@@ -9,4 +9,5 @@ enum SpecType
     case Import;
     case Var;
     case Const;
+    case Type;
 }
