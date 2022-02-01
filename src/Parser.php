@@ -84,6 +84,7 @@ use GoParser\Ast\Stmt\GoStmt;
 use GoParser\Ast\Stmt\GotoStmt;
 use GoParser\Ast\Stmt\IfStmt;
 use GoParser\Ast\Stmt\ImportDecl;
+use GoParser\Ast\Stmt\LabeledStmt;
 use GoParser\Ast\Stmt\MethodDecl;
 use GoParser\Ast\Stmt\RecvStmt;
 use GoParser\Ast\Stmt\ReturnStmt;
@@ -122,7 +123,8 @@ final class Parser
         private readonly ?string $filename = null,
         private readonly ParseMode $mode = ParseMode::File,
         private readonly ?ErrorHandler $onError = null,
-    ) {}
+    ) {
+    }
 
     public function parse(): ?AstNode
     {
@@ -321,7 +323,7 @@ final class Parser
             Token::Arrow,
             Token::LogicNot,
             Token::BitAnd,
-            Token::Semicolon => $this->parseSimpleStmt(),
+            Token::Semicolon => $this->parseSimpleOrLabeledStmt(),
 
             Token::Go => $this->parseGoStmt(),
             Token::Defer => $this->parseDeferStmt(),
@@ -546,7 +548,7 @@ final class Parser
         return new FallthroughStmt($keyword);
     }
 
-    private function parseSimpleStmt(bool $skipSemi = false): SimpleStmt
+    private function parseSimpleOrLabeledStmt(bool $skipSemi = false): SimpleStmt|LabeledStmt
     {
         // empty stmt
         if ($this->match(Token::Semicolon)) {
@@ -568,6 +570,7 @@ final class Parser
             Token::RightShiftEq,
             Token::BitAndNotEq => $this->parseAssignmentStmt($exprs),
             Token::ColonEq => $this->parseShortVarDecl($exprs),
+            Token::Colon => $this->parseLabeledStmt($exprs),
             default => $this->exprStmtFromExprList($exprs),
         };
 
@@ -576,6 +579,33 @@ final class Parser
         }
 
         return $simpleStmt;
+    }
+
+    private function parseSimpleStmt(bool $skipSemi = false): SimpleStmt
+    {
+        $stmt = $this->parseSimpleOrLabeledStmt($skipSemi);
+
+        if (!$stmt instanceof SimpleStmt) {
+            $this->error(\sprintf('Simple statement expected, got "%s"', $stmt::class));
+        }
+
+        return $stmt;
+    }
+
+    private function parseLabeledStmt(ExprList $list): LabeledStmt
+    {
+        if (\count($list->exprs) > 1 && !$list->exprs[0] instanceof Ident) {
+            $this->error(\sprintf(
+                'Label expected to be an identifier, got %s',
+                $list->exprs[0]::class
+            ));
+        }
+
+        return new LabeledStmt(
+            $list->exprs[0],
+            $this->parsePunctuation(Token::Colon),
+            $this->parseStmt(),
+        );
     }
 
     private function parseShortVarDecl(ExprList $list): ShortVarDecl
@@ -787,7 +817,7 @@ final class Parser
         return new ConstDecl($const, $spec);
     }
 
-    // todo inc dec anon param, anon fields, labels sendstmt
+    // todo inc dec anon fields, sendstmt, integer conversion
 
     private function parseTypeDecl(): TypeDecl
     {
