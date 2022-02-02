@@ -838,7 +838,7 @@ final class Parser
         return new ConstDecl($const, $spec);
     }
 
-    // todo anon fields,, integer conversion, iota, nested dots
+    // todo anon fields,, integer conversion, nested dots
     // ellipsis in func
 
     private function parseTypeDecl(): TypeDecl
@@ -852,21 +852,23 @@ final class Parser
 
     private function parseSpec(SpecType $type): Spec
     {
-        /** @var callable(): Spec $parser */
-        $parser = match ($type) {
+        if ($this->match(Token::LeftParen)) {
+            $spec = $this->parseGroupSpec($type);
+        } else {
+            $spec = $this->matchSpecParser($type)();
+        }
+
+        return $spec;
+    }
+
+    private function matchSpecParser(SpecType $type): callable
+    {
+        return match ($type) {
             SpecType::Import => $this->parseImportSpec(...),
             SpecType::Var => $this->parseVarSpec(...),
             SpecType::Const => $this->parseConstSpec(...),
             SpecType::Type => $this->parseTypeSpec(...),
         };
-
-        if ($this->match(Token::LeftParen)) {
-            $spec = $this->parseGroupSpec($parser);
-        } else {
-            $spec = $parser();
-        }
-
-        return $spec;
     }
 
     private function parseVarSpec(): VarSpec
@@ -883,12 +885,18 @@ final class Parser
         return new VarSpec($identList, $type, $initList);
     }
 
-    private function parseConstSpec(): ConstSpec
+    private function parseConstSpec(bool $firstInGroup = true): ConstSpec
     {
         $identList = $this->parseIdentList();
         $type = $this->parseType();
-        $this->consume(Token::Eq);
-        $initList = $this->parseExprList();
+        if ($firstInGroup) {
+            $this->consume(Token::Eq);
+            $initList = $this->parseExprList();
+        } elseif ($this->consumeIf(Token::Eq) !== null) {
+            $initList = $this->parseExprList();
+        } else {
+            $initList = null;
+        }
 
         return new ConstSpec($identList, $type, $initList);
     }
@@ -1386,21 +1394,21 @@ final class Parser
         return new IdentList($idents);
     }
 
-    /**
-     * @param callable(): Spec $parseSpec
-     */
-    private function parseGroupSpec(callable $parseSpec): GroupSpec
+    private function parseGroupSpec(SpecType $type): GroupSpec
     {
         $lParen = $this->parsePunctuation(Token::LeftParen);
         /** @var Spec[] $specs */
         $specs = [];
-        do {
-            $specs[] = $parseSpec();
+        $parser = $this->matchSpecParser($type);
+        $first = true;
+
+        while (!$this->match(Token::RightParen)) {
+            $specs[] = $type === SpecType::Const ? $parser($first) : $parser();
             $this->consume(Token::Semicolon);
-        } while (!$this->match(Token::RightParen));
+            $first = false;
+        }
 
         $rParen = $this->parsePunctuation(Token::RightParen);
-        $type = $specs[0]->type();
 
         return new GroupSpec($lParen, $specs, $rParen, $type);
     }

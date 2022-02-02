@@ -8,10 +8,15 @@ use GoParser\Ast\Expr\Type;
 
 final class ConstSpec implements Spec
 {
+    /**
+     * Within a parenthesized const declaration list
+     * the expression list may be omitted from any but the first ConstSpec.
+     * Therefore ExprList is allowed to be null.
+     */
     public function __construct(
         public readonly IdentList $identList,
         public readonly ?Type $type,
-        public readonly ExprList $initList,
+        public readonly ?ExprList $initList,
     ) {}
 
     public function isGroup(): bool
