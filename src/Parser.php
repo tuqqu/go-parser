@@ -84,6 +84,7 @@ use GoParser\Ast\Stmt\GoStmt;
 use GoParser\Ast\Stmt\GotoStmt;
 use GoParser\Ast\Stmt\IfStmt;
 use GoParser\Ast\Stmt\ImportDecl;
+use GoParser\Ast\Stmt\IncDecStmt;
 use GoParser\Ast\Stmt\LabeledStmt;
 use GoParser\Ast\Stmt\MethodDecl;
 use GoParser\Ast\Stmt\RecvStmt;
@@ -422,10 +423,10 @@ final class Parser
         );
     }
 
-    private function parseSendStmt(): SendStmt
+    private function parseSendStmt(Expr $expr): SendStmt
     {
         return new SendStmt(
-            $this->parseExpr(),
+            $expr,
             $this->parseOperator(Token::Arrow),
             $this->parseExpr(),
         );
@@ -449,11 +450,7 @@ final class Parser
                 $expr = $this->parseExpr();
                 if ($this->match(Token::Arrow)) {
                     // SendStmt
-                    return new SendStmt(
-                        $expr,
-                        $this->parseOperator(Token::Arrow),
-                        $this->parseExpr(),
-                    );
+                    return $this->parseSendStmt($expr);
                 }
         }
 
@@ -557,6 +554,7 @@ final class Parser
 
         $exprs = $this->parseExprList();
         $simpleStmt = match ($this->peek()->token) {
+            Token::ColonEq => $this->parseShortVarDecl($exprs),
             Token::Eq,
             Token::PlusEq,
             Token::MinusEq,
@@ -569,9 +567,11 @@ final class Parser
             Token::LeftShiftEq,
             Token::RightShiftEq,
             Token::BitAndNotEq => $this->parseAssignmentStmt($exprs),
-            Token::ColonEq => $this->parseShortVarDecl($exprs),
+            Token::Inc,
+            Token::Dec => $this->parseIncDecStmt($exprs),
             Token::Colon => $this->parseLabeledStmt($exprs),
-            default => $this->exprStmtFromExprList($exprs),
+            Token::Arrow => $this->parseSendStmt($this->exprFromExprList($exprs)),
+            default => self::exprStmtFromExprList($exprs),
         };
 
         if (!$skipSemi) {
@@ -617,6 +617,18 @@ final class Parser
         );
     }
 
+    private function parseIncDecStmt(ExprList $list): IncDecStmt
+    {
+        return new IncDecStmt(
+            $this->exprFromExprList($list),
+            match ($this->peek()->token) {
+                Token::Inc => $this->parseOperator(Token::Inc),
+                Token::Dec => $this->parseOperator(Token::Dec),
+                default => $this->error('Wrong operator in IncDecStmt'), // unreachable
+            },
+        );
+    }
+
     private function parseAssignmentStmt(ExprList $list): AssignmentStmt
     {
         return new AssignmentStmt(
@@ -626,7 +638,16 @@ final class Parser
         );
     }
 
-    private function exprStmtFromExprList(ExprList $list): ExprStmt
+    private function exprFromExprList(ExprList $list): Expr
+    {
+        if (\count($list->exprs) > 1) {
+            $this->error('Expected single expression instead of an Expression list', );
+        }
+
+        return $list->exprs[0];
+    }
+
+    private static function exprStmtFromExprList(ExprList $list): ExprStmt
     {
         return new ExprStmt($list->exprs[0]);
     }
@@ -817,7 +838,7 @@ final class Parser
         return new ConstDecl($const, $spec);
     }
 
-    // todo inc dec anon fields, sendstmt, integer conversion
+    // todo anon fields,, integer conversion, iota, nested dots
 
     private function parseTypeDecl(): TypeDecl
     {
