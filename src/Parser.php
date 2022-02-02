@@ -35,6 +35,7 @@ use GoParser\Ast\Expr\Operand;
 use GoParser\Ast\Expr\ParenType;
 use GoParser\Ast\Expr\PointerType;
 use GoParser\Ast\Expr\PrimaryExpr;
+use GoParser\Ast\Expr\QualifiedTypeName;
 use GoParser\Ast\Expr\RawStringLit;
 use GoParser\Ast\Expr\RuneLit;
 use GoParser\Ast\Expr\SelectorExpr;
@@ -1464,9 +1465,20 @@ final class Parser
             null;
     }
 
-    private function parseTypeName(): TypeName
+    private function parseTypeName(): TypeName|QualifiedTypeName
     {
-        return TypeName::fromLexeme($this->consume(Token::Ident));
+        $ident = $this->consume(Token::Ident);
+
+        if ($this->match(Token::Dot)) {
+            $this->consume(Token::Dot);
+
+            return new QualifiedTypeName(
+                Ident::fromLexeme($ident),
+                TypeName::fromLexeme($this->consume(Token::Ident))
+            );
+        }
+
+        return TypeName::fromLexeme($ident);
     }
 
     private function parseStringLit(): StringLit
