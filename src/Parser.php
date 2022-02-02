@@ -839,6 +839,7 @@ final class Parser
     }
 
     // todo anon fields,, integer conversion, iota, nested dots
+    // ellipsis in func
 
     private function parseTypeDecl(): TypeDecl
     {
@@ -1207,6 +1208,7 @@ final class Parser
 
         if (!$this->match(Token::RightParen)) {
             $identsOrTypes = $this->parseTypeList();
+            $ellipsis = $variadic ? $this->tryParsePunctuation(Token::Ellipsis) : null;
             $type = $this->parseType();
 
             if ($type === null) {
@@ -1216,7 +1218,6 @@ final class Parser
                 );
             } else {
                 $idents = IdentList::fromTypeList($identsOrTypes);
-                $ellipsis = $variadic ? $this->tryParsePunctuation(Token::Ellipsis) : null;
                 $params[] = new ParamDecl($idents, $ellipsis, $type);
                 $this->consumeIf(Token::Comma);
 
