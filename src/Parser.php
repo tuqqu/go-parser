@@ -984,21 +984,26 @@ final class Parser
         while (true) {
             switch ($this->peek()->token) {
                 case Token::LeftBracket:
-                    return $this->parseIndexOrSliceExpr($expr);
+                    $expr = $this->parseIndexOrSliceExpr($expr);
+                    break;
                 case Token::LeftParen:
-                    return $this->parseCallExpr($expr);
+                    $expr = $this->parseCallExpr($expr);
+                    break;
                 case Token::LeftBrace:
                     if (!$this->cfHeader && self::canBeType($expr)) {
-                        return $this->parseCompositeLit($expr);
+                        $expr = $this->parseCompositeLit($expr);
+                    } else {
+                        break 2;
                     }
-                    break 2;
+                    break;
                 case Token::Dot:
                     $this->advance();
-                    return match ($this->peek()->token) {
+                    $expr = match ($this->peek()->token) {
                         Token::LeftParen => $this->parseTypeAssertionExpr($expr),
                         Token::Ident => $this->parseSelectorExpr($expr),
                         default => $this->error(\sprintf('Unexpected token "%s"', $this->peek()->token->name)),
                     };
+                    break;
                 default:
                     break 2;
             }
