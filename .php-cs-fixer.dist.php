@@ -10,6 +10,7 @@ const RULES = [
     'braces' => false,
     'single_import_per_statement' => false,
     'ternary_operator_spaces' => false,
+    'no_break_comment' => false,
     'array_syntax' => ['syntax' => 'short'],
 ];
 
