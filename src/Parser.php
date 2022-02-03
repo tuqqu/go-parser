@@ -312,33 +312,37 @@ final class Parser
             Token::Rune,
             Token::String,
             Token::RawString,
-            Token::Func,
-            Token::LeftParen,
-            Token::LeftBracket,
-            Token::Struct,
-            Token::Map,
-            Token::Chan,
-            Token::Interface,
             Token::Plus,
             Token::Minus,
             Token::BitXor,
             Token::Arrow,
             Token::LogicNot,
             Token::BitAnd,
+            Token::Struct,
+            Token::Map,
+            Token::Chan,
+            Token::Interface,
+            Token::Func,
+            Token::LeftParen,
+            Token::LeftBracket,
             Token::Semicolon => $this->parseSimpleOrLabeledStmt(),
+
+            Token::If => $this->parseIfStmt(),
+            Token::For => $this->parseForStmt(),
+            Token::Switch => $this->parseSwitchStmt(),
+            Token::Select => $this->parseSelectStmt(),
+
+            Token::LeftBrace => $this->parseBlockStmt(),
 
             Token::Go => $this->parseGoStmt(),
             Token::Defer => $this->parseDeferStmt(),
+
             Token::Return => $this->parseReturnStmt(),
             Token::Goto => $this->parseGotoStmt(),
             Token::Fallthrough => $this->parseFallthroughStmt(),
             Token::Continue => $this->parseContinueStmt(),
             Token::Break => $this->parseBreakStmt(),
-            Token::LeftBrace => $this->parseBlockStmt(),
-            Token::If => $this->parseIfStmt(),
-            Token::For => $this->parseForStmt(),
-            Token::Switch => $this->parseSwitchStmt(),
-            Token::Select => $this->parseSelectStmt(),
+
             default => $this->error(\sprintf('Unrecognised statement "%s"', $this->peek()->token->name)),
         };
     }
@@ -554,6 +558,7 @@ final class Parser
         }
 
         $exprs = $this->parseExprList();
+
         $simpleStmt = match ($this->peek()->token) {
             Token::ColonEq => $this->parseShortVarDecl($exprs),
             Token::Eq,
@@ -839,7 +844,7 @@ final class Parser
         return new ConstDecl($const, $spec);
     }
 
-    // todo anon fields,, integer conversion, nested dots
+    // todo anon fields,, integer conversion
     // ellipsis in func
 
     private function parseTypeDecl(): TypeDecl
@@ -979,7 +984,7 @@ final class Parser
 
     private function parsePrimaryExpr(): PrimaryExpr
     {
-        $expr = $this->parseOperand();
+        $expr = $this->parseOperandOrType();
 
         while (true) {
             switch ($this->peek()->token) {
@@ -1009,6 +1014,10 @@ final class Parser
             }
         }
 
+        if (!$expr instanceof PrimaryExpr) {
+            $this->error(\sprintf('Expected primary expression, got "%s"', $expr::class));
+        }
+
         return $expr;
     }
 
@@ -1024,10 +1033,12 @@ final class Parser
 
     private static function canBeType(Expr $expr): bool
     {
-        return $expr instanceof Ident || $expr instanceof SelectorExpr;
+        return $expr instanceof Type ||
+            $expr instanceof Ident ||
+            $expr instanceof SelectorExpr;
     }
 
-    private function parseCompositeLit(Expr $expr): CompositeLit
+    private function parseCompositeLit(?Expr $type = null): CompositeLit
     {
         $lBrace = $this->parsePunctuation(Token::LeftBrace);
         $elemList = $this->match(Token::RightBrace) ?
@@ -1035,7 +1046,7 @@ final class Parser
             $this->parseElementList();
         $rBrace = $this->parsePunctuation(Token::RightBrace);
 
-        return new CompositeLit($expr, $lBrace, $elemList, $rBrace);
+        return new CompositeLit($type, $lBrace, $elemList, $rBrace);
     }
 
     private function parseElementList(): ElementList
@@ -1060,16 +1071,23 @@ final class Parser
 
     private function parseKeyedElement(): KeyedElement
     {
-        $expr = $this->parseExpr();
+        $expr = $this->parseElement();
 
         if (!$this->match(Token::Colon)) {
             return new KeyedElement(null, null, $expr);
         }
 
         $colon = $this->parsePunctuation(Token::Colon);
-        $element = $this->parseExpr();
+        $element = $this->parseElement();
 
         return new KeyedElement($expr, $colon, $element);
+    }
+
+    private function parseElement(): Expr
+    {
+        return $this->match(Token::LeftBrace) ?
+            $this->parseCompositeLit() :
+            $this->parseExpr();
     }
 
     private function parseCallExpr(Expr $expr): CallExpr
@@ -1166,7 +1184,7 @@ final class Parser
         };
     }
 
-    private function parseOperand(): Operand
+    private function parseOperandOrType(): Operand|Type
     {
         return match ($this->peek()->token) {
             Token::Int => $this->parseIntLit(),
@@ -1178,7 +1196,8 @@ final class Parser
             Token::Ident => $this->parseIdent(),
             Token::LeftParen => $this->parseGroupExpr(),
             Token::Func => $this->parseFuncLit(),
-            default => $this->error(\sprintf('Unknown token "%s" in operand expression', $this->peek()->token->name)),
+            default => $this->parseType() ??
+                $this->error(\sprintf('Unknown token "%s" in operand expression', $this->peek()->token->name)),
         };
     }
 
