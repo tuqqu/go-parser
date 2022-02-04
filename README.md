@@ -10,7 +10,7 @@ composer require tuqqu/go-parser
 
 ## Example
 ```php
-$parser = new \GoParser\Parser(<<<GO
+$parser = new \GoParser\Parser('
 package main
 
 import "fmt"
@@ -19,14 +19,13 @@ func main() {
     res := plus(1, 2)
     fmt.Println("1+2 =", res)
 }
-GO);
+');
 
 $ast = $parser->parse();
 $errs = $parser->getErrors();
 ```
 
-Parser can recover itself if it encounters errors, in this case it will continue parsing at the closest node it can recognise and also continue collecting errors. 
-You can also ask it with `hasErrors()` whether there were errors during parsing or not. 
+Parser can recover itself if it encounters errors, in this case it will continue parsing at the closest node it is able to recognise.
 
 ### Parsing single declarations
 Sometimes you want to parse only a single declaration (e.g. a single function), instead of a full program:

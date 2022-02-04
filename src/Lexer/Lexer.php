@@ -142,6 +142,7 @@ final class Lexer
                                 $this->addLexeme(Token::MinusEq);
                                 break;
                             case '-':
+                                $this->read();
                                 $this->addLexeme(Token::Dec);
                                 break;
                             default:
@@ -193,7 +194,6 @@ final class Lexer
                                 $this->addLexeme(Token::BitOrEq);
                                 break;
                             default:
-                                $this->read();
                                 $this->addLexeme(Token::BitOr);
                         }
                         break;
@@ -389,6 +389,7 @@ final class Lexer
             $token = Token::Float;
         } elseif ($char === '0') {
             $literal .= $this->read();
+
             switch ($char = $this->peek()) {
                 // hex
                 case 'x':
