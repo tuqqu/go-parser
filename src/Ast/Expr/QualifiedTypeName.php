@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace GoParser\Ast\Expr;
 
-final class QualifiedTypeName implements Type
+final class QualifiedTypeName implements TypeName
 {
     public function __construct(
         public readonly Ident $packageName,
-        public readonly TypeName $typeName,
+        public readonly SingleTypeName $typeName,
     ) {}
 }

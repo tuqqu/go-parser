@@ -8,7 +8,7 @@ use GoParser\Ast\Exception\InvalidArgument;
 use GoParser\Ast\Expr\Expr;
 use GoParser\Ast\Expr\Ident;
 use GoParser\Ast\Expr\Type;
-use GoParser\Ast\Expr\TypeName;
+use GoParser\Ast\Expr\SingleTypeName;
 
 final class IdentList implements AstNode
 {
@@ -32,7 +32,7 @@ final class IdentList implements AstNode
     public static function fromTypeList(TypeList $list): self
     {
         return new self(\array_map(
-            static fn (Type $type): Ident => $type instanceof TypeName ?
+            static fn (Type $type): Ident => $type instanceof SingleTypeName ?
                     new Ident($type->pos, $type->name) :
                     throw new InvalidArgument('Cannot create IdentList from an arbitrary type list'),
             $list->types

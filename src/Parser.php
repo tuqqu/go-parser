@@ -46,6 +46,7 @@ use GoParser\Ast\Expr\StringLit;
 use GoParser\Ast\Expr\StructType;
 use GoParser\Ast\Expr\Type;
 use GoParser\Ast\Expr\TypeAssertionExpr;
+use GoParser\Ast\Expr\SingleTypeName;
 use GoParser\Ast\Expr\TypeName;
 use GoParser\Ast\Expr\UnaryExpr;
 use GoParser\Ast\ExprCaseClause;
@@ -665,12 +666,21 @@ final class Parser
         );
     }
 
-    private function exprFromExprList(ExprList $list): Expr
+    /**
+     * @psalm-param class-string<Expr>|null $exprFqcn
+     */
+    private function exprFromExprList(ExprList $list, ?string $exprFqcn = null): Expr
     {
         $expr = $list->exprs[0] ?? null;
 
         if ($expr === null) {
             $this->error('Expected single expression instead of an Expression list', );
+        }
+
+        if ($exprFqcn !== null && !\is_a($expr, $exprFqcn)) {
+            $this->error(
+                \sprintf('Expected %s expression instead of an %s', $exprFqcn, $expr::class)
+            );
         }
 
         return $expr;
@@ -1404,11 +1414,19 @@ final class Parser
         $methods = [];
 
         while (!$this->match(Token::RightBrace)) {
-            $ident = $this->parseIdent();
+            $typeOrIdent = $this->parseTypeName();
             if ($this->match(Token::Semicolon)) {
-                $methods[] = $ident;
+                // interface name
+                $methods[] = $typeOrIdent;
             } else {
+                // method signature
+                if (!$typeOrIdent instanceof SingleTypeName) {
+                    $this->error(\sprintf('Expected method name, got %s', $typeOrIdent::class));
+                }
+
+                $ident = new Ident($typeOrIdent->pos, $typeOrIdent->name);
                 $sign = $this->parseSignature();
+
                 $methods[] = [$ident, $sign];
             }
 
@@ -1427,9 +1445,17 @@ final class Parser
         $fields = [];
 
         while (!$this->match(Token::RightBrace)) {
-            //todo fix anon fields
-            $identList = $this->parseIdentList();
-            $type = $this->parseType();
+            $exprList = $this->parseExprList();
+            $type = $this->tryParseType();
+
+            if ($type === null) {
+                $identList = null;
+                /** @var Type $type */
+                $type = $this->exprFromExprList($exprList, Type::class);
+            } else {
+                $identList = IdentList::fromExprList($exprList);
+            }
+
             $tag = match ($this->peek()->token) {
                 Token::String => $this->parseStringLit(),
                 Token::RawString => $this->parseRawStringLit(),
@@ -1524,7 +1550,7 @@ final class Parser
             null;
     }
 
-    private function parseTypeName(): TypeName|QualifiedTypeName
+    private function parseTypeName(): TypeName
     {
         $ident = $this->consume(Token::Ident);
 
@@ -1533,11 +1559,11 @@ final class Parser
 
             return new QualifiedTypeName(
                 Ident::fromLexeme($ident),
-                TypeName::fromLexeme($this->consume(Token::Ident))
+                SingleTypeName::fromLexeme($this->consume(Token::Ident))
             );
         }
 
-        return TypeName::fromLexeme($ident);
+        return SingleTypeName::fromLexeme($ident);
     }
 
     private function parseStringLit(): StringLit
@@ -1552,7 +1578,6 @@ final class Parser
 
     private function parseIntLit(): IntLit
     {
-        // todo int conversion error
         return IntLit::fromLexeme($this->consume(Token::Int));
     }
 

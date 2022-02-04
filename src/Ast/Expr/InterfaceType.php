@@ -11,12 +11,12 @@ use GoParser\Ast\Signature;
 final class InterfaceType implements TypeLit
 {
     /**
-     * @param array<array{Ident, Signature}|Ident> $methods
+     * @param array<array{Ident, Signature}|TypeName> $items
      */
     public function __construct(
         public readonly Keyword $keyword,
         public readonly Punctuation $lBrace,
-        public readonly array $methods,
+        public readonly array $items,
         public readonly Punctuation $rBrace,
     ) {}
 }
