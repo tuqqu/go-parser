@@ -611,9 +611,10 @@ final class Lexer
 
         if ($char === "\n") {
             $this->line++;
+            $this->offset = 0;
+        } else {
+            $this->offset++;
         }
-
-        $this->offset++;
 
         return $char;
     }
