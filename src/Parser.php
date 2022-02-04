@@ -696,78 +696,85 @@ final class Parser
             $this->parseSimpleStmt() :
             null;
 
+        // ExprSwitchStmt
+        // switch {}
         if ($this->match(Token::LeftBrace)) {
-            // ExprSwitchStmt
-            $cond = null;
-            $isTypeSwitch = false;
-        } elseif ($this->checkAheadTill(Token::LeftBrace, Token::ColonEq)) {
-            // TypeSwitchStmt with short decl
-            $isTypeSwitch = true;
+            $this->cfHeader = false;
+
+            return $this->finishExprSwitchStmt($keyword, $init, null);
+        }
+
+        // TypeSwitchStmt with short decl
+        // switch x := y.type {}
+        if ($this->checkAheadTill(Token::LeftBrace, Token::ColonEq)) {
             $ident = $this->parseIdent();
             $this->consume(Token::ColonEq);
             $expr = $this->parsePrimaryExpr();
-        } elseif ($this->checkAheadTill(Token::LeftBrace, Token::Dot, Token::LeftParen)) {
-            // TypeSwitchStmt
-            $ident = null;
-            $isTypeSwitch = true;
-            $this->consume(Token::ColonEq);
-            $expr = $this->parsePrimaryExpr();
-        } else {
-            // ExprSwitchStmt
-            $isTypeSwitch = false;
-            $cond = $this->parseExpr();
+            $this->cfHeader = false;
+
+            return $this->finishTypeSwitchStmt(
+                $keyword,
+                $init,
+                new TypeSwitchGuard($ident, $expr)
+            );
         }
 
-        $lBrace = $this->parsePunctuation(Token::LeftBrace);
+        // TypeSwitchStmt
+        // switch type {}
+        if ($this->checkAheadTill(Token::LeftBrace, Token::Dot, Token::LeftParen)) {
+            $expr = $this->parsePrimaryExpr();
+            $this->cfHeader = false;
+
+            return $this->finishTypeSwitchStmt(
+                $keyword,
+                $init,
+                new TypeSwitchGuard(null, $expr)
+            );
+        }
+
+        // ExprSwitchStmt
+        // switch expr {}
+        $cond = $this->parseExpr();
         $this->cfHeader = false;
 
-        $cases = $this->parseCaseClauses(
-            $isTypeSwitch ?
-                TypeCaseClause::class :
-                ExprCaseClause::class
-        );
-        $rBrace = $this->parsePunctuation(Token::RightBrace);
-
-        return $isTypeSwitch ?
-            new TypeSwitchStmt(
-                $keyword,
-                $init,
-                new TypeSwitchGuard($ident, $expr),
-                $lBrace,
-                $cases,
-                $rBrace,
-            ) :
-            new ExprSwitchStmt(
-                $keyword,
-                $init,
-                $cond,
-                $lBrace,
-                $cases,
-                $rBrace,
-            );
+        return $this->finishExprSwitchStmt($keyword, $init, $cond);
     }
 
-    private function parseIfStmt(bool $nested = false): IfStmt
+    private function finishTypeSwitchStmt(Keyword $keyword, ?SimpleStmt $init, TypeSwitchGuard $guard): TypeSwitchStmt
+    {
+        $lBrace = $this->parsePunctuation(Token::LeftBrace);
+        $cases = $this->parseCaseClauses(TypeCaseClause::class);
+        $rBrace = $this->parsePunctuation(Token::RightBrace);
+
+        return new TypeSwitchStmt($keyword, $init, $guard, $lBrace, $cases, $rBrace);
+    }
+
+    private function finishExprSwitchStmt(Keyword $keyword, ?SimpleStmt $init, ?Expr $cond): ExprSwitchStmt
+    {
+        $lBrace = $this->parsePunctuation(Token::LeftBrace);
+        $cases = $this->parseCaseClauses(ExprCaseClause::class);
+        $rBrace = $this->parsePunctuation(Token::RightBrace);
+
+        return new ExprSwitchStmt($keyword, $init, $cond, $lBrace, $cases, $rBrace);
+    }
+
+    private function parseIfStmt(): IfStmt
     {
         $if = $this->parseKeyword(Token::If);
         $this->cfHeader = true;
 
-        if ($nested) {
-            $init = null;
-            $cond = null;
-        } else {
-            $init = $this->checkAheadTill(Token::LeftBrace, Token::Semicolon) ?
-                $this->parseSimpleStmt() :
-                null;
-            $cond = $this->parseExpr();
-        }
+        $init = $this->checkAheadTill(Token::LeftBrace, Token::Semicolon) ?
+            $this->parseSimpleStmt() :
+            null;
+
+        $cond = $this->parseExpr();
         $this->cfHeader = false;
         $body = $this->parseBlockStmt();
 
         if ($this->match(Token::Else)) {
             $else = $this->parseKeyword(Token::Else);
             $elseBody = match ($this->peek()->token) {
-                Token::If => $this->parseIfStmt(true),
+                Token::If => $this->parseIfStmt(),
                 Token::LeftBrace => $this->parseBlockStmt(),
                 default => $this->error('Malformed else branch'),
             };
