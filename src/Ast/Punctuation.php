@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GoParser\Ast;
 
-use GoParser\Ast\Expr\StringLiteral;
 use GoParser\Lexer\Position;
 
 final class Punctuation implements AstNode

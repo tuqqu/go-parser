@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace GoParser\Ast\Stmt;
 
 use GoParser\Ast\ExprList;
-use GoParser\Ast\Keyword;
 use GoParser\Ast\Operator;
-use GoParser\Ast\Punctuation;
 
 final class AssignmentStmt implements SimpleStmt
 {

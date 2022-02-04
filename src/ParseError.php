@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GoParser;
 
-use GoParser\Ast\Exception\InvalidArgument;
 use GoParser\Lexer\Position;
 
 class ParseError extends \Exception implements Error

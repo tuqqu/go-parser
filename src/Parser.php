@@ -114,23 +114,24 @@ use GoParser\Lexer\Token;
 final class Parser
 {
     /** @var Lexeme[] */
-    private readonly array $lexemes;
-    private readonly ?AstNode $ast;
+    private array $lexemes = [];
+    /** @var Error[] */
     private array $errors = [];
+    private ?AstNode $ast = null;
     private int $cur = 0;
     private bool $cfHeader = false;
+    private bool $finished = false;
 
     public function __construct(
         private readonly string $src,
         private readonly ?string $filename = null,
         private readonly ParseMode $mode = ParseMode::File,
         private readonly ?ErrorHandler $onError = null,
-    ) {
-    }
+    ) {}
 
     public function parse(): ?AstNode
     {
-        if (isset($this->ast)) {
+        if ($this->finished) {
             return $this->ast;
         }
 
@@ -141,6 +142,8 @@ final class Parser
         if ($lexer->hasErrors()) {
             $this->errors = $lexer->getErrors();
             $this->handleErrors();
+            $this->finishParsing();
+
             return $this->ast = null;
         }
 
@@ -160,11 +163,12 @@ final class Parser
         return $this->errors;
     }
 
-    private function parseFile(): ?File
+    private function parseFile(): File
     {
         $package = $this->parsePackageClause();
         $imports = $this->parseImports();
         $decls = $this->parseDecls();
+        $this->finishParsing();
 
         if ($this->hasErrors()) {
             $this->handleErrors();
@@ -173,9 +177,10 @@ final class Parser
         return $this->ast = new File($package, $imports, $decls);
     }
 
-    private function parseSingleDecl(): ?Decl
+    private function parseSingleDecl(): Decl
     {
         $decl = $this->parseDecl();
+        $this->finishParsing();
 
         if ($this->hasErrors()) {
             $this->handleErrors();
@@ -184,8 +189,15 @@ final class Parser
         return $this->ast = $decl;
     }
 
+    private function finishParsing(): void
+    {
+        $this->finished = true;
+    }
+
     /**
-     * @param callable(): Stmt $parser
+     * @template T of Stmt
+     * @param callable(): T $parser
+     * @return T|null
      */
     private function tryParseWithRecover(callable $parser, bool $declMode = true): ?Stmt
     {
@@ -243,6 +255,7 @@ final class Parser
     private function parseImportDecl(): ImportDecl
     {
         $import = $this->parseKeyword(Token::Import);
+        /** @var ImportSpec|GroupSpec $spec */
         $spec = $this->parseSpec(SpecType::Import);
         $this->consume(Token::Semicolon);
 
@@ -358,6 +371,7 @@ final class Parser
     }
 
     /**
+     * @psalm-param class-string<CaseClause> $clauseFqcn
      * @return callable(): CaseLabel
      */
     private function labelParserMap(string $fqcn): callable
@@ -370,7 +384,9 @@ final class Parser
     }
 
     /**
-     * @param string $clauseFqcn
+     * @template T of CaseClause
+     * @psalm-param class-string<T> $clauseFqcn
+     * @psalm-return T[]
      * @return CaseClause[]
      */
     private function parseCaseClauses(string $clauseFqcn): array
@@ -577,7 +593,7 @@ final class Parser
             Token::Dec => $this->parseIncDecStmt($exprs),
             Token::Colon => $this->parseLabeledStmt($exprs),
             Token::Arrow => $this->parseSendStmt($this->exprFromExprList($exprs)),
-            default => self::exprStmtFromExprList($exprs),
+            default => $this->exprStmtFromExprList($exprs),
         };
 
         if (!$skipSemi) {
@@ -600,15 +616,20 @@ final class Parser
 
     private function parseLabeledStmt(ExprList $list): LabeledStmt
     {
-        if (\count($list->exprs) > 1 && !$list->exprs[0] instanceof Ident) {
-            $this->error(\sprintf(
-                'Label expected to be an identifier, got %s',
-                $list->exprs[0]::class
-            ));
+        $ident = $list->exprs[0] ?? null;
+
+        if ($ident === null) {
+            $this->error('Expected label');
+        }
+
+        if (!$ident instanceof Ident) {
+            $this->error(
+                \sprintf('Label expected to be an identifier, got %s', $ident::class)
+            );
         }
 
         return new LabeledStmt(
-            $list->exprs[0],
+            $ident,
             $this->parsePunctuation(Token::Colon),
             $this->parseStmt(),
         );
@@ -646,16 +667,18 @@ final class Parser
 
     private function exprFromExprList(ExprList $list): Expr
     {
-        if (\count($list->exprs) > 1) {
+        $expr = $list->exprs[0] ?? null;
+
+        if ($expr === null) {
             $this->error('Expected single expression instead of an Expression list', );
         }
 
-        return $list->exprs[0];
+        return $expr;
     }
 
-    private static function exprStmtFromExprList(ExprList $list): ExprStmt
+    private function exprStmtFromExprList(ExprList $list): ExprStmt
     {
-        return new ExprStmt($list->exprs[0]);
+        return new ExprStmt($this->exprFromExprList($list));
     }
 
     private function parseGoStmt(): GoStmt
@@ -836,6 +859,7 @@ final class Parser
     private function parseVarDecl(): VarDecl
     {
         $var = $this->parseKeyword(Token::Var);
+        /** @var VarSpec|GroupSpec $spec */
         $spec = $this->parseSpec(SpecType::Var);
         $this->consume(Token::Semicolon);
 
@@ -845,18 +869,17 @@ final class Parser
     private function parseConstDecl(): ConstDecl
     {
         $const = $this->parseKeyword(Token::Const);
+        /** @var ConstSpec|GroupSpec $spec */
         $spec = $this->parseSpec(SpecType::Const);
         $this->consume(Token::Semicolon);
 
         return new ConstDecl($const, $spec);
     }
 
-    // todo anon fields,, integer conversion
-    // ellipsis in func
-
     private function parseTypeDecl(): TypeDecl
     {
         $type = $this->parseKeyword(Token::Type);
+        /** @var TypeSpec|GroupSpec $spec */
         $spec = $this->parseSpec(SpecType::Type);
         $this->consume(Token::Semicolon);
 
@@ -868,12 +891,15 @@ final class Parser
         if ($this->match(Token::LeftParen)) {
             $spec = $this->parseGroupSpec($type);
         } else {
-            $spec = $this->matchSpecParser($type)();
+            $spec = $this->matchSpecParser($type)(true);
         }
 
         return $spec;
     }
 
+    /**
+     * @return callable(bool): Spec
+     */
     private function matchSpecParser(SpecType $type): callable
     {
         return match ($type) {
@@ -884,10 +910,10 @@ final class Parser
         };
     }
 
-    private function parseVarSpec(): VarSpec
+    private function parseVarSpec(bool $_): VarSpec
     {
         $identList = $this->parseIdentList();
-        $type = $this->parseType();
+        $type = $this->tryParseType();
 
         if ($this->consumeIf(Token::Eq) !== null) {
             $initList = $this->parseExprList();
@@ -898,10 +924,10 @@ final class Parser
         return new VarSpec($identList, $type, $initList);
     }
 
-    private function parseConstSpec(bool $firstInGroup = true): ConstSpec
+    private function parseConstSpec(bool $firstInGroup): ConstSpec
     {
         $identList = $this->parseIdentList();
-        $type = $this->parseType();
+        $type = $this->tryParseType();
         if ($firstInGroup) {
             $this->consume(Token::Eq);
             $initList = $this->parseExprList();
@@ -914,7 +940,7 @@ final class Parser
         return new ConstSpec($identList, $type, $initList);
     }
 
-    private function parseTypeSpec(): TypeSpec
+    private function parseTypeSpec(bool $_): TypeSpec
     {
         $ident = $this->parseIdent();
         $eq = $this->consumeIf(Token::Eq);
@@ -1203,7 +1229,7 @@ final class Parser
             Token::Ident => $this->parseIdent(),
             Token::LeftParen => $this->parseGroupExpr(),
             Token::Func => $this->parseFuncLit(),
-            default => $this->parseType() ??
+            default => $this->tryParseType() ??
                 $this->error(\sprintf('Unknown token "%s" in operand expression', $this->peek()->token->name)),
         };
     }
@@ -1246,10 +1272,11 @@ final class Parser
         $lParen = $this->parsePunctuation(Token::LeftParen);
         $params = [];
 
+        // todo weird ellipsis cases
         if (!$this->match(Token::RightParen)) {
             $identsOrTypes = $this->parseTypeList();
             $ellipsis = $variadic ? $this->tryParsePunctuation(Token::Ellipsis) : null;
-            $type = $this->parseType();
+            $type = $this->tryParseType();
 
             if ($type === null) {
                 $params = \array_map(
@@ -1285,10 +1312,10 @@ final class Parser
     {
         return $this->match(Token::LeftParen) ?
             $this->parseParams(false) :
-            $this->parseType();
+            $this->tryParseType();
     }
 
-    private function parseType(): ?Type
+    private function tryParseType(): ?Type
     {
         return match ($this->peek()->token) {
             Token::Ident => $this->parseTypeName(),
@@ -1304,16 +1331,16 @@ final class Parser
         };
     }
 
-    private function doParseType(): Type
+    private function parseType(): Type
     {
-        return $this->parseType() ?? $this->error('Type expected');
+        return $this->tryParseType() ?? $this->error('Type expected');
     }
 
     private function parseTypeList(): TypeList
     {
         $types = [];
         do {
-            $types[] = $this->doParseType();
+            $types[] = $this->parseType();
         } while ($this->consumeIf(Token::Comma) !== null);
 
         return new TypeList($types);
@@ -1323,7 +1350,7 @@ final class Parser
     {
         return new ParenType(
             $this->parsePunctuation(Token::LeftParen),
-            $this->parseType(),
+            $this->tryParseType() ?? $this->parseKeyword(Token::Type),
             $this->parsePunctuation(Token::RightParen)
         );
     }
@@ -1350,7 +1377,7 @@ final class Parser
     private function parseChannelType(): ChannelType
     {
         $chans = [];
-        do {
+        while (true) {
             $chan = match ($this->peek()->token) {
                 Token::Chan => $this->parseKeyword(Token::Chan),
                 Token::Arrow => $this->parseOperator(Token::Arrow),
@@ -1362,7 +1389,7 @@ final class Parser
             }
 
             $chans[] = $chan;
-        } while (true);
+        }
 
         return new ChannelType(
             $chans,
@@ -1375,6 +1402,7 @@ final class Parser
         $keyword = $this->parseKeyword(Token::Interface);
         $lBrace = $this->parsePunctuation(Token::LeftBrace);
         $methods = [];
+
         while (!$this->match(Token::RightBrace)) {
             $ident = $this->parseIdent();
             if ($this->match(Token::Semicolon)) {
@@ -1397,8 +1425,9 @@ final class Parser
         $keyword = $this->parseKeyword(Token::Struct);
         $lBrace = $this->parsePunctuation(Token::LeftBrace);
         $fields = [];
+
         while (!$this->match(Token::RightBrace)) {
-            //todo parse anon fields
+            //todo fix anon fields
             $identList = $this->parseIdentList();
             $type = $this->parseType();
             $tag = match ($this->peek()->token) {
@@ -1414,7 +1443,6 @@ final class Parser
 
         return new StructType($keyword, $lBrace, $fields, $rBrace);
     }
-
 
     private function parseIdentList(): IdentList
     {
@@ -1435,7 +1463,7 @@ final class Parser
         $first = true;
 
         while (!$this->match(Token::RightParen)) {
-            $specs[] = $type === SpecType::Const ? $parser($first) : $parser();
+            $specs[] = $parser($first);
             $this->consume(Token::Semicolon);
             $first = false;
         }
@@ -1445,7 +1473,7 @@ final class Parser
         return new GroupSpec($lParen, $specs, $rParen, $type);
     }
 
-    private function parseImportSpec(): ImportSpec
+    private function parseImportSpec(bool $_): ImportSpec
     {
         $name = match (true) {
             $this->match(Token::Ident) => $this->parseIdent(),
@@ -1524,6 +1552,7 @@ final class Parser
 
     private function parseIntLit(): IntLit
     {
+        // todo int conversion error
         return IntLit::fromLexeme($this->consume(Token::Int));
     }
 

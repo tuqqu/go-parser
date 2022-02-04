@@ -26,6 +26,9 @@ final class Lexer
         $this->filename = $filename;
     }
 
+    /**
+     * @return Lexeme[]
+     */
     public function getLexemes(): array
     {
         return $this->lexemes;
@@ -36,6 +39,9 @@ final class Lexer
         return !empty($this->errs);
     }
 
+    /**
+     * @return LexError[]
+     */
     public function getErrors(): array
     {
         return $this->errs;
@@ -241,23 +247,21 @@ final class Lexer
                         break;
                     default:
                         $char = $this->peek();
-                        switch (true) {
-                            case $char === null:
-                                if ($this->isAutoSemicolon()) {
-                                    // todo consider autosemicolon token
-                                    $this->addLexeme(Token::Semicolon);
-                                }
-                                $this->addLexeme(Token::Eof);
-                                return;
-                            case self::isAlphabetic($char):
-                                $this->identifier();
-                                break;
-                            case self::isNumeric($char):
-                                $this->number();
-                                break;
-                            default:
-                                $this->error(\sprintf('Unknown character "%s"', $this->read()));
+
+                        if ($char === null) {
+                            if ($this->isAutoSemicolon()) {
+                                // todo consider autosemicolon token
+                                $this->addLexeme(Token::Semicolon);
+                            }
+                            $this->addLexeme(Token::Eof);
+                            return;
                         }
+
+                        match (true) {
+                            self::isAlphabetic($char) => $this->identifier(),
+                            self::isNumeric($char) => $this->number(),
+                            default => $this->error(\sprintf('Unknown character "%s"', $this->read())),
+                        };
                 }
             } catch (LexError) {
                 // do nothing
@@ -407,9 +411,11 @@ final class Lexer
                     $literal .= $this->digits(self::isOctal(...));
                     $token = Token::Int;
                     break;
+                case null:
+                    $this->error('Integer notation error');
                 default:
                     // old octal notation
-                    if (self::isNumeric($this->peek())) {
+                    if (self::isNumeric($char)) {
                         $literal .= $this->digits(self::isOctal(...));
                         $token = Token::Int;
                     } else {
@@ -431,6 +437,9 @@ final class Lexer
         $this->addLexeme($token, $literal);
     }
 
+    /**
+     * @return array{string, Token}
+     */
     private function decimalFloat(): array
     {
         $literal = $this->digits(self::isNumeric(...));
@@ -559,7 +568,7 @@ final class Lexer
             Token::RightBracket,
             Token::RightParen => true,
             Token::Comment,
-            Token::MultilineComment => $this->isAutoSemicolon(++$step),
+            Token::MultilineComment => $this->isAutoSemicolon($step + 1),
             default => false,
         };
     }
@@ -586,7 +595,7 @@ final class Lexer
 
     private static function isOctal(string $char): bool
     {
-        return \decoct(\octdec($char)) === $char;
+        return \decoct((int) \octdec($char)) === $char;
     }
 
     private static function isHex(string $char): bool

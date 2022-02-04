@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <psalm
-    errorLevel="4"
+    errorLevel="1"
     resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
@@ -8,10 +8,10 @@
 >
     <issueHandlers>
         <ImplicitToStringCast errorLevel="suppress" />
-        <InaccessibleProperty errorLevel="suppress" />
     </issueHandlers>
 
     <projectFiles>
+        <directory name="bin" />
         <directory name="src" />
         <ignoreFiles>
             <directory name="vendor" />

@@ -16,7 +16,7 @@ final class Position
     {
         return \sprintf(
             '%s[%d, %d]',
-            $this->filename === null ? '' : \sprintf("(%s) ", $this->filename),
+            $this->filename === null ? '' : \sprintf('(%s) ', $this->filename),
             $this->line,
             $this->offset
         );

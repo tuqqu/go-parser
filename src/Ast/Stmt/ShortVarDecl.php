@@ -7,7 +7,6 @@ namespace GoParser\Ast\Stmt;
 use GoParser\Ast\ExprList;
 use GoParser\Ast\IdentList;
 use GoParser\Ast\Operator;
-use GoParser\Ast\Stmt\SimpleStmt;
 
 final class ShortVarDecl implements SimpleStmt
 {

@@ -187,7 +187,7 @@ enum Token: string
 
     public function isKeyword(): bool
     {
-        return match($this) {
+        return match ($this) {
             self::Break,
             self::Case,
             self::Chan,
