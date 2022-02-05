@@ -18,6 +18,9 @@
             "Tests\\GoParser\\": "tests/"
         }
     },
+    "bin": [
+      "bin/go-parser"
+    ],
     "authors": [
         {
             "name": "tuqqu",
