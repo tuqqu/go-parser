@@ -7,7 +7,7 @@ namespace GoParser\Ast;
 use GoParser\Ast\Exception\InvalidArgument;
 use GoParser\Ast\Expr\Expr;
 
-final class KeyedElement
+final class KeyedElement implements AstNode
 {
     public function __construct(
         public readonly ?Expr $key,

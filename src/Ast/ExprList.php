@@ -6,7 +6,7 @@ namespace GoParser\Ast;
 
 use GoParser\Ast\Expr\Expr;
 
-final class ExprList
+final class ExprList implements AstNode
 {
     /**
      * @param Expr[] $exprs

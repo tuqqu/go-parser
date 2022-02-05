@@ -23,9 +23,9 @@ final class ParserTest extends TestCase
     private static function dataFiles(): iterable
     {
         $files = [
-            __DIR__ . '/../data/file1.go',
-            __DIR__ . '/../data/file2.go',
-            __DIR__ . '/../data/file3.go',
+            __DIR__ . '/data/file1.go',
+            __DIR__ . '/data/file2.go',
+            __DIR__ . '/data/file3.go',
         ];
 
         foreach ($files as $file) {

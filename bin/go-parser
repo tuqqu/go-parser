@@ -3,7 +3,13 @@
 
 declare(strict_types=1);
 
-use GoParser\{Ast\AstNode, ParseMode, Parser, ToStdoutErrorHandler};
+use GoParser\{
+    Ast\AstNode,
+    NodeDumper,
+    ParseMode,
+    Parser,
+    ToStderrErrorHandler
+};
 
 require_autoload();
 main($argv);
@@ -32,9 +38,10 @@ function print_help(): void
         go-parser [FLAGS]
         
     FLAGS:   
-        -d, --dump      Dump AST using var_dump() or dump() if it is available
-            --decl      Parse single declaration (no package clause)
-        -h, --hel       Print help message
+        -d, --var-dump      Dump AST using var_dump() or dump() if it is available
+            --node-dumper   Dump AST using NodeDumper
+            --decl          Parse single declaration (no package clause)
+        -h, --help          Print help message
     
     EXAMPLE: 
         Parse source file:
@@ -60,7 +67,9 @@ function parse_argv(array $argv): array
     unset($argv[0]);
     $files = [];
     $mode = ParseMode::File;
-    $dumper = function_exists('dump') ? dump(...) : var_dump(...);
+    $dumper = static function (AstNode $node): void {
+        (new NodeDumper())->dump($node);
+    };
 
     foreach ($argv as $arg) {
         switch ($arg) {
@@ -71,9 +80,12 @@ function parse_argv(array $argv): array
             case '--decl':
                 $mode = ParseMode::SingleDecl;
                 break;
+            case '--node-dumper':
+                // default for now
+                break;
             case '-d':
-            case '-dump':
-                // for now it is always on
+            case '--var-dump':
+                $dumper = function_exists('dump') ? dump(...) : var_dump(...);
                 break;
             default:
                 $files[] = $arg;
@@ -86,7 +98,7 @@ function parse_argv(array $argv): array
 function main(array $argv): never
 {
     [$files, $mode, $dumper] = parse_argv($argv);
-    $onError = new ToStdoutErrorHandler();
+    $onError = new ToStderrErrorHandler();
 
     if (empty($files)) {
         $src = fgets(STDIN);

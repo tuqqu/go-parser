@@ -14,6 +14,7 @@
         <directory name="bin" />
         <directory name="src" />
         <ignoreFiles>
+            <file name="src/NodeDumper.php" />
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>

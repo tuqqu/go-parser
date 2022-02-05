@@ -7,7 +7,7 @@ namespace GoParser\Ast;
 use GoParser\Ast\Expr\Ident;
 use GoParser\Ast\Expr\Type;
 
-final class AliasDecl
+final class AliasDecl implements AstNode
 {
     public function __construct(
         public readonly Ident $ident,

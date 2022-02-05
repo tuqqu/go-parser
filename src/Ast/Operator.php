@@ -6,7 +6,7 @@ namespace GoParser\Ast;
 
 use GoParser\Lexer\Position;
 
-final class Operator
+final class Operator implements AstNode
 {
     use FromLexeme;
 

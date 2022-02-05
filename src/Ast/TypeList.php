@@ -6,7 +6,7 @@ namespace GoParser\Ast;
 
 use GoParser\Ast\Expr\Type;
 
-final class TypeList
+final class TypeList implements AstNode
 {
     /**
      * @param Type[] $types

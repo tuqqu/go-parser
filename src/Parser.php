@@ -175,7 +175,7 @@ final class Parser
             $this->handleErrors();
         }
 
-        return $this->ast = new File($package, $imports, $decls);
+        return $this->ast = new File($package, $imports, $decls, $this->filename);
     }
 
     private function parseSingleDecl(): Decl

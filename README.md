@@ -1,5 +1,5 @@
 # GoParser
-Dependency-free Golang parser written in PHP 8.1
+Golang parser written in PHP 8.1
 
 ## Installation
 To install this package, run:
@@ -25,10 +25,11 @@ $ast = $parser->parse();
 $errs = $parser->getErrors();
 ```
 
-Parser can recover itself if it encounters errors, in this case it will continue parsing at the closest node it is able to recognise.
+Parser is able to recover itself if a parse error occurs, in this case it will continue parsing at the closest node it is able to recognise.
+The resulting AST will be as full as possible, and you have to check `getErrors()` to see errors.
 
 ### Parsing single declarations
-Sometimes you want to parse only a single declaration (e.g. a single function), instead of a full program:
+If you want, you may parse only a single declaration (e.g. a single function), instead of a fully defined Go program:
 ```php
 $parser = new \GoParser\Parser(
     'func main() { var x int }', 
@@ -42,15 +43,17 @@ $ast = $parser->parse();
 Parsing results in an Abstract Syntax Tree result.
 
 Mostly the AST nodes structure follows closely the official Golang [specification][1], but for the sake of simplicity there are few exceptions.
-Some Nodes are also have a bit different name due to brevity and consistency with others (e.g. `ExpressionList` vs `ExprList`), but for the most part the names are either the same or easily recognisable.
+Some Nodes may also have a bit different name for the sake of brevity and consistency with others (e.g. `ExpressionList` vs `ExprList`), but for the most part the names are either the same or easily recognisable.
 
 ## CLI
-Package comes with a CLI command, so you may try things out like this:
+Package comes with a CLI command:
 
 ```
-./vendor/bin/go-parser main.go
+./vendor/bin/go-parser main.go [--flags]
 ```
 
-Use `--help` to see full usage description.
+By default, it uses a simple `NodeDumper` to print AST.
+
+Use `--help` to see other options.
 
 [1]: https://go.dev/ref/spec

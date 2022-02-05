@@ -6,7 +6,7 @@ namespace GoParser\Ast;
 
 use GoParser\Ast\Stmt\Stmt;
 
-final class StmtList
+final class StmtList implements AstNode
 {
     /**
      * @param Stmt[] $stmts
