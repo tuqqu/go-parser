@@ -10,8 +10,8 @@ use GoParser\Ast\Stmt\ImportDecl;
 final class File implements AstNode
 {
     /**
-     * @param ImportDecl[]|GroupSpec[] $imports
-     * @param Decl[]|GroupSpec[] $decls
+     * @param ImportDecl[] $imports
+     * @param Decl[] $decls
      */
     public function __construct(
         public readonly PackageClause $package,

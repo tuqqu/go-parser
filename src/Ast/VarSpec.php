@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GoParser\Ast;
 
-use GoParser\Ast\Exception\InvalidArgument;
+use GoParser\Exception\InvalidArgument;
 use GoParser\Ast\Expr\Type;
 
 final class VarSpec implements Spec

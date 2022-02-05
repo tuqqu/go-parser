@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GoParser\Ast\Exception;
+namespace GoParser\Exception;
 
 final class InvalidArgument extends \InvalidArgumentException
 {

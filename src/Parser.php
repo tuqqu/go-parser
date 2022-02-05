@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace GoParser;
 
 use GoParser\Ast\AliasDecl;
-use GoParser\Ast\AstNode;
 use GoParser\Ast\CaseClause;
 use GoParser\Ast\CaseLabel;
 use GoParser\Ast\CommCase;
@@ -13,7 +12,6 @@ use GoParser\Ast\CommClause;
 use GoParser\Ast\ConstSpec;
 use GoParser\Ast\DefaultCase;
 use GoParser\Ast\ElementList;
-use GoParser\Ast\Exception\InvalidArgument;
 use GoParser\Ast\Expr\ArrayType;
 use GoParser\Ast\Expr\BinaryExpr;
 use GoParser\Ast\Expr\CallExpr;
@@ -40,13 +38,13 @@ use GoParser\Ast\Expr\RawStringLit;
 use GoParser\Ast\Expr\RuneLit;
 use GoParser\Ast\Expr\SelectorExpr;
 use GoParser\Ast\Expr\SimpleSliceExpr;
+use GoParser\Ast\Expr\SingleTypeName;
 use GoParser\Ast\Expr\SliceExpr;
 use GoParser\Ast\Expr\SliceType;
 use GoParser\Ast\Expr\StringLit;
 use GoParser\Ast\Expr\StructType;
 use GoParser\Ast\Expr\Type;
 use GoParser\Ast\Expr\TypeAssertionExpr;
-use GoParser\Ast\Expr\SingleTypeName;
 use GoParser\Ast\Expr\TypeName;
 use GoParser\Ast\Expr\UnaryExpr;
 use GoParser\Ast\ExprCaseClause;
@@ -108,6 +106,8 @@ use GoParser\Ast\TypeSpec;
 use GoParser\Ast\TypeSwitchCase;
 use GoParser\Ast\TypeSwitchGuard;
 use GoParser\Ast\VarSpec;
+use GoParser\Exception\InvalidArgument;
+use GoParser\Exception\ParseModeError;
 use GoParser\Lexer\Lexeme;
 use GoParser\Lexer\Lexer;
 use GoParser\Lexer\Token;
@@ -118,7 +118,8 @@ final class Parser
     private array $lexemes = [];
     /** @var Error[] */
     private array $errors = [];
-    private ?AstNode $ast = null;
+    private ?File $ast = null;
+    private ?Decl $decl = null;
     private int $cur = 0;
     private bool $cfHeader = false;
     private bool $finished = false;
@@ -130,8 +131,13 @@ final class Parser
         private readonly ?ErrorHandler $onError = null,
     ) {}
 
-    public function parse(): ?AstNode
+    /**
+     * Parse a source file, that starts with a package clause.
+     */
+    public function parse(): ?File
     {
+        $this->expectMode(ParseMode::File);
+
         if ($this->finished) {
             return $this->ast;
         }
@@ -148,10 +154,41 @@ final class Parser
             return $this->ast = null;
         }
 
-        return match ($this->mode) {
-            ParseMode::File => $this->parseFile(),
-            ParseMode::SingleDecl => $this->parseSingleDecl(),
-        };
+        return $this->parseFile();
+    }
+
+    /**
+     * Parse a single declaration:
+     * One of these: Function, variable, constant, import, type.
+     */
+    public function parseSingleDecl(): ?Decl
+    {
+        $this->expectMode(ParseMode::SingleDecl);
+
+        if ($this->finished) {
+            return $this->decl;
+        }
+
+        $lexer = new Lexer($this->src, $this->filename);
+        $lexer->lex();
+        $this->lexemes = $lexer->getLexemes();
+
+        if ($lexer->hasErrors()) {
+            $this->errors = $lexer->getErrors();
+            $this->handleErrors();
+            $this->finishParsing();
+
+            return $this->decl = null;
+        }
+
+        $decl = $this->parseDecl();
+        $this->finishParsing();
+
+        if ($this->hasErrors()) {
+            $this->handleErrors();
+        }
+
+        return $this->decl = $decl;
     }
 
     public function hasErrors(): bool
@@ -178,21 +215,16 @@ final class Parser
         return $this->ast = new File($package, $imports, $decls, $this->filename);
     }
 
-    private function parseSingleDecl(): Decl
-    {
-        $decl = $this->parseDecl();
-        $this->finishParsing();
-
-        if ($this->hasErrors()) {
-            $this->handleErrors();
-        }
-
-        return $this->ast = $decl;
-    }
-
     private function finishParsing(): void
     {
         $this->finished = true;
+    }
+
+    private function expectMode(ParseMode $mode): void
+    {
+        if ($this->mode !== $mode) {
+            throw new ParseModeError($mode, $this->mode);
+        }
     }
 
     /**
@@ -232,7 +264,7 @@ final class Parser
     {
         $package = $this->parseKeyword(Token::Package);
         $ident = $this->parseIdent();
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return new PackageClause($package, $ident);
     }
@@ -258,7 +290,7 @@ final class Parser
         $import = $this->parseKeyword(Token::Import);
         /** @var ImportSpec|GroupSpec $spec */
         $spec = $this->parseSpec(SpecType::Import);
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return new ImportDecl($import, $spec);
     }
@@ -305,7 +337,7 @@ final class Parser
         $body = $this->match(Token::LeftBrace) ?
             $this->parseBlockStmt() :
             null;
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return $receiver === null ?
             new FuncDecl($keyword, $name, $sign, $body) :
@@ -482,7 +514,7 @@ final class Parser
     private function parseForStmt(): ForStmt
     {
         $keyword = $this->parseKeyword(Token::For);
-        $this->cfHeader = true;
+        $this->inCfHeader();
 
         switch (true) {
             // for {}
@@ -526,7 +558,7 @@ final class Parser
                 $iteration = $this->parseExpr();
         }
 
-        $this->cfHeader = false;
+        $this->outCfHeader();
         $body = $this->parseBlockStmt();
 
         return new ForStmt($keyword, $iteration, $body);
@@ -536,7 +568,7 @@ final class Parser
     {
         $keyword = $this->parseKeyword(Token::Goto);
         $label = $this->parseIdent();
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return new GotoStmt($keyword, $label);
     }
@@ -545,7 +577,7 @@ final class Parser
     {
         $keyword = $this->parseKeyword(Token::Break);
         $label = $this->tryParseIdent();
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return new BreakStmt($keyword, $label);
     }
@@ -554,7 +586,7 @@ final class Parser
     {
         $keyword = $this->parseKeyword(Token::Continue);
         $label = $this->tryParseIdent();
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return new ContinueStmt($keyword, $label);
     }
@@ -562,7 +594,7 @@ final class Parser
     private function parseFallthroughStmt(): FallthroughStmt
     {
         $keyword = $this->parseKeyword(Token::Fallthrough);
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return new FallthroughStmt($keyword);
     }
@@ -598,7 +630,7 @@ final class Parser
         };
 
         if (!$skipSemi) {
-            $this->consume(Token::Semicolon);
+            $this->parseSemicolon();
         }
 
         return $simpleStmt;
@@ -666,21 +698,12 @@ final class Parser
         );
     }
 
-    /**
-     * @psalm-param class-string<Expr>|null $exprFqcn
-     */
-    private function exprFromExprList(ExprList $list, ?string $exprFqcn = null): Expr
+    private function exprFromExprList(ExprList $list): Expr
     {
         $expr = $list->exprs[0] ?? null;
 
         if ($expr === null) {
             $this->error('Expected single expression instead of an Expression list', );
-        }
-
-        if ($exprFqcn !== null && !\is_a($expr, $exprFqcn)) {
-            $this->error(
-                \sprintf('Expected %s expression instead of an %s', $exprFqcn, $expr::class)
-            );
         }
 
         return $expr;
@@ -695,7 +718,7 @@ final class Parser
     {
         $keyword = $this->parseKeyword(Token::Go);
         $call = $this->doParseCallExpr();
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return new GoStmt($keyword, $call);
     }
@@ -723,7 +746,7 @@ final class Parser
     private function parseSwitchStmt(): SwitchStmt
     {
         $keyword = $this->parseKeyword(Token::Switch);
-        $this->cfHeader = true;
+        $this->inCfHeader();
 
         $init = $this->checkAheadTill(Token::LeftBrace, Token::Semicolon) ?
             $this->parseSimpleStmt() :
@@ -732,7 +755,7 @@ final class Parser
         // ExprSwitchStmt
         // switch {}
         if ($this->match(Token::LeftBrace)) {
-            $this->cfHeader = false;
+            $this->outCfHeader();
 
             return $this->finishExprSwitchStmt($keyword, $init, null);
         }
@@ -743,7 +766,7 @@ final class Parser
             $ident = $this->parseIdent();
             $this->consume(Token::ColonEq);
             $expr = $this->parsePrimaryExpr();
-            $this->cfHeader = false;
+            $this->outCfHeader();
 
             return $this->finishTypeSwitchStmt(
                 $keyword,
@@ -756,7 +779,7 @@ final class Parser
         // switch type {}
         if ($this->checkAheadTill(Token::LeftBrace, Token::Dot, Token::LeftParen)) {
             $expr = $this->parsePrimaryExpr();
-            $this->cfHeader = false;
+            $this->outCfHeader();
 
             return $this->finishTypeSwitchStmt(
                 $keyword,
@@ -768,7 +791,7 @@ final class Parser
         // ExprSwitchStmt
         // switch expr {}
         $cond = $this->parseExpr();
-        $this->cfHeader = false;
+        $this->outCfHeader();
 
         return $this->finishExprSwitchStmt($keyword, $init, $cond);
     }
@@ -794,14 +817,14 @@ final class Parser
     private function parseIfStmt(): IfStmt
     {
         $if = $this->parseKeyword(Token::If);
-        $this->cfHeader = true;
+        $this->inCfHeader();
 
         $init = $this->checkAheadTill(Token::LeftBrace, Token::Semicolon) ?
             $this->parseSimpleStmt() :
             null;
 
         $cond = $this->parseExpr();
-        $this->cfHeader = false;
+        $this->outCfHeader();
         $body = $this->parseBlockStmt();
 
         if ($this->match(Token::Else)) {
@@ -849,7 +872,7 @@ final class Parser
     {
         $keyword = $this->parseKeyword(Token::Defer);
         $call = $this->doParseCallExpr();
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return new DeferStmt($keyword, $call);
     }
@@ -861,7 +884,7 @@ final class Parser
             null :
             $this->parseExprList();
 
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return new ReturnStmt($keyword, $exprs);
     }
@@ -871,7 +894,7 @@ final class Parser
         $var = $this->parseKeyword(Token::Var);
         /** @var VarSpec|GroupSpec $spec */
         $spec = $this->parseSpec(SpecType::Var);
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return new VarDecl($var, $spec);
     }
@@ -881,7 +904,7 @@ final class Parser
         $const = $this->parseKeyword(Token::Const);
         /** @var ConstSpec|GroupSpec $spec */
         $spec = $this->parseSpec(SpecType::Const);
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return new ConstDecl($const, $spec);
     }
@@ -891,7 +914,7 @@ final class Parser
         $type = $this->parseKeyword(Token::Type);
         /** @var TypeSpec|GroupSpec $spec */
         $spec = $this->parseSpec(SpecType::Type);
-        $this->consume(Token::Semicolon);
+        $this->parseSemicolon();
 
         return new TypeDecl($type, $spec);
     }
@@ -1049,6 +1072,7 @@ final class Parser
                     $expr = match ($this->peek()->token) {
                         Token::LeftParen => $this->parseTypeAssertionExpr($expr),
                         Token::Ident => $this->parseSelectorExpr($expr),
+                        // no break
                         default => $this->error(\sprintf('Unexpected token "%s"', $this->peek()->token->name)),
                     };
                     break;
@@ -1430,7 +1454,7 @@ final class Parser
                 $methods[] = [$ident, $sign];
             }
 
-            $this->consume(Token::Semicolon);
+            $this->parseSemicolon();
         }
 
         $rBrace = $this->parsePunctuation(Token::RightBrace);
@@ -1445,16 +1469,8 @@ final class Parser
         $fields = [];
 
         while (!$this->match(Token::RightBrace)) {
-            $exprList = $this->parseExprList();
+            $identList = $this->parseIdentList();
             $type = $this->tryParseType();
-
-            if ($type === null) {
-                $identList = null;
-                /** @var Type $type */
-                $type = $this->exprFromExprList($exprList, Type::class);
-            } else {
-                $identList = IdentList::fromExprList($exprList);
-            }
 
             $tag = match ($this->peek()->token) {
                 Token::String => $this->parseStringLit(),
@@ -1462,7 +1478,7 @@ final class Parser
                 default => null,
             };
             $fields[] = new FieldDecl($identList, $type, $tag);
-            $this->consume(Token::Semicolon);
+            $this->parseSemicolon();
         }
 
         $rBrace = $this->parsePunctuation(Token::RightBrace);
@@ -1490,7 +1506,7 @@ final class Parser
 
         while (!$this->match(Token::RightParen)) {
             $specs[] = $parser($first);
-            $this->consume(Token::Semicolon);
+            $this->parseSemicolon();
             $first = false;
         }
 
@@ -1611,6 +1627,23 @@ final class Parser
         return $this->match($token) ?
             Punctuation::fromLexeme($this->consume($token)) :
             null;
+    }
+
+    private function inCfHeader(): void
+    {
+        $this->cfHeader = true;
+    }
+
+    private function outCfHeader(): void
+    {
+        $this->cfHeader = false;
+    }
+
+    private function parseSemicolon(): void
+    {
+        if (!$this->match(Token::RightBrace, Token::RightBracket)) {
+            $this->consume(Token::Semicolon);
+        }
     }
 
     private function consume(Token $token): Lexeme
