@@ -26,7 +26,7 @@ $errs = $parser->getErrors();
 ```
 
 ### Parsing single declarations
-You may parse only a single declaration (e.g. a single function), instead of a fully defined Go program:
+If you want, you can parse only a single declaration (e.g. a single function), instead of a fully defined Go program:
 ```php
 $parser = new \GoParser\Parser(
     'func add(x, y int) { return x + y }', 
