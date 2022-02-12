@@ -10,7 +10,7 @@ final class ForClause implements AstNode
 {
     public function __construct(
         public readonly ?SimpleStmt $init,
-        public readonly ?SimpleStmt $cond,
+        public readonly ?SimpleStmt $condition,
         public readonly ?SimpleStmt $post,
     ) {}
 }

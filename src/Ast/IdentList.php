@@ -13,10 +13,10 @@ use GoParser\Ast\Expr\SingleTypeName;
 final class IdentList implements AstNode
 {
     /**
-     * @param Ident[] $identifiers
+     * @param Ident[] $idents
      */
     public function __construct(
-        public readonly array $identifiers,
+        public readonly array $idents,
     ) {}
 
     public static function fromExprList(ExprList $list): self

@@ -13,7 +13,7 @@ final class FuncDecl implements Decl
     public function __construct(
         public readonly Keyword $keyword,
         public readonly Ident $name,
-        public readonly Signature $sign,
+        public readonly Signature $signature,
         public readonly ?BlockStmt $body,
     ) {}
 }

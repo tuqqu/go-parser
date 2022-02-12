@@ -19,7 +19,7 @@
         }
     },
     "bin": [
-      "bin/go-parser"
+        "bin/go-parser"
     ],
     "authors": [
         {
@@ -28,7 +28,7 @@
         }
     ],
     "require": {
-      "php": "^8.1"
+        "php": "^8.1"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.0",

@@ -118,7 +118,6 @@ final class Lexer
                                 $this->addLexeme(Token::Dot);
                         }
                         break;
-
                     case '+':
                         $this->read();
                         switch ($this->peek()) {
@@ -247,7 +246,6 @@ final class Lexer
                         break;
                     default:
                         $char = $this->peek();
-
                         if ($char === null) {
                             if ($this->isAutoSemicolon()) {
                                 // todo consider autosemicolon token
@@ -256,7 +254,6 @@ final class Lexer
                             $this->addLexeme(Token::Eof);
                             return;
                         }
-
                         match (true) {
                             self::isAlphabetic($char) => $this->identifier(),
                             self::isNumeric($char) => $this->number(),

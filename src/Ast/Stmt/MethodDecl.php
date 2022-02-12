@@ -15,7 +15,7 @@ final class MethodDecl implements Decl
         public readonly Keyword $keyword,
         public readonly Params $receiver,
         public readonly Ident $name,
-        public readonly Signature $sign,
+        public readonly Signature $signature,
         public readonly ?BlockStmt $body,
     ) {}
 }

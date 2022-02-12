@@ -60,7 +60,7 @@ function exit_with_error(string $msg): never
 }
 
 /**
- * @return array{<array<string>, ParseMode, callable(AstNode): void}
+ * @return array{array<string>, ParseMode, callable(AstNode): void}
  */
 function parse_argv(array $argv): array
 {
@@ -98,14 +98,18 @@ function parse_argv(array $argv): array
 function main(array $argv): never
 {
     [$files, $mode, $dumper] = parse_argv($argv);
+    $parse = fn (Parser $parser): AstNode => $mode === ParseMode::File ?
+        $parser->parse() :
+        $parser->parseSingleDecl();
+
     $onError = new ToStderrErrorHandler();
 
     if (empty($files)) {
         $src = fgets(STDIN);
         $parser = new Parser($src, mode: $mode, onError: $onError);
-        $ast = $parser->parse();
+        $ast = $parse($parser);
         $dumper($ast);
-        exit($parser->hasErrors() ? 1 : 0);
+        exit((int) $parser->hasErrors());
     }
 
     $errs = false;
@@ -116,12 +120,11 @@ function main(array $argv): never
 
         $src = file_get_contents($file);
         $parser = new Parser($src, $file, $mode, $onError);
-        $ast = $parser->parse();
+        $ast = $parse($parser);
+        $dumper($ast);
         if ($parser->hasErrors()) {
             $errs = true;
         }
-        $dumper($ast);
     }
-
-    exit($errs ? 1 : 0);
+    exit((int) $errs);
 }

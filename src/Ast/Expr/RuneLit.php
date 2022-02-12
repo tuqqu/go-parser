@@ -14,7 +14,5 @@ final class RuneLit implements Literal
     public function __construct(
         public readonly Position $pos,
         public readonly string $rune,
-    )
-    {
-    }
+    ) {}
 }

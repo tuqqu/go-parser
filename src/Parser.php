@@ -232,14 +232,13 @@ final class Parser
      * @param callable(): T $parser
      * @return T|null
      */
-    private function tryParseWithRecover(callable $parser, bool $declMode = true): ?Stmt
-    {
+    private function tryParseWithRecover(callable $parser, ParseMode $mode): ?Stmt {
         try {
             return $parser();
         } catch (InvalidArgument $e) {
             $this->error($e->getMessage());
         } catch (ParseError) {
-            $this->recover($declMode);
+            $this->recover($mode);
         }
 
         return null;
@@ -276,7 +275,10 @@ final class Parser
     {
         $imports = [];
         while ($this->match(Token::Import)) {
-            $import = $this->tryParseWithRecover($this->parseImportDecl(...));
+            $import = $this->tryParseWithRecover(
+                $this->parseImportDecl(...),
+                $this->mode,
+            );
             if ($import !== null) {
                 $imports[] = $import;
             }
@@ -302,7 +304,10 @@ final class Parser
     {
         $decls = [];
         while (!$this->match(Token::Eof)) {
-            $decl = $this->tryParseWithRecover($this->parseDecl(...));
+            $decl = $this->tryParseWithRecover(
+                $this->parseDecl(...),
+                $this->mode,
+            );
             if ($decl !== null) {
                 $decls[] = $decl;
             }
@@ -855,7 +860,10 @@ final class Parser
     {
         $stmts = [];
         while (!$this->match(Token::Case, Token::Default, Token::RightBrace)) {
-            $stmt = $this->tryParseWithRecover($this->parseStmt(...), false);
+            $stmt = $this->tryParseWithRecover(
+                $this->parseStmt(...),
+                ParseMode::SingleDecl
+            );
             if ($stmt !== null) {
                 $stmts[] = $stmt;
             }
@@ -880,7 +888,7 @@ final class Parser
     private function parseReturnStmt(): ReturnStmt
     {
         $keyword = $this->parseKeyword(Token::Return);
-        $exprs = $this->peek()->token === Token::Semicolon ?
+        $exprs = $this->match(Token::Semicolon) ?
             null :
             $this->parseExprList();
 
@@ -1124,7 +1132,7 @@ final class Parser
 
             $comma = $this->consumeIf(Token::Comma);
 
-            if ($this->peek()->token === Token::RightBrace) {
+            if ($this->match(Token::RightBrace)) {
                 break;
             }
 
@@ -1164,7 +1172,7 @@ final class Parser
         $ellipsis = null;
         $firstArg = true;
 
-        while ($this->peek()->token !== Token::RightParen && $ellipsis === null) {
+        while (!$this->match(Token::RightParen) && $ellipsis === null) {
             if ($firstArg && $expr instanceof Ident && $expr->name === 'make') {
                 $exprs[] = $this->parseType();
                 $this->consume(Token::Comma);
@@ -1174,13 +1182,13 @@ final class Parser
 
             $exprs[] = $this->parseExpr();
 
-            if ($this->peek()->token === Token::Ellipsis) {
+            if ($this->match(Token::Ellipsis)) {
                 $ellipsis = $this->parsePunctuation(Token::Ellipsis);
             }
 
             $comma = $this->consumeIf(Token::Comma);
 
-            if ($this->peek()->token === Token::RightParen) {
+            if ($this->match(Token::RightParen)) {
                 break;
             }
 
@@ -1205,7 +1213,7 @@ final class Parser
         $lBrack = $this->parsePunctuation(Token::LeftBracket);
         $indices = [];
 
-        if ($this->peek()->token !== Token::Colon) {
+        if (!$this->match(Token::Colon)) {
             $indices[] = $this->parseExpr();
         }
 
@@ -1213,7 +1221,7 @@ final class Parser
         $maxColons = 2;
         $i = 0;
 
-        while (\count($colons) < $maxColons && $this->peek()->token === Token::Colon) {
+        while (\count($colons) < $maxColons && $this->match(Token::Colon)) {
             $colons[$i] = $this->parsePunctuation(Token::Colon);
 
             if (!$this->match(Token::Colon, Token::RightBracket)) {
@@ -1736,10 +1744,19 @@ final class Parser
         throw new \OutOfBoundsException('Cannot peek that far');
     }
 
-    private function recover(bool $declMode): void
+    private function recover(ParseMode $mode): void
     {
         while ($this->peek()->token !== Token::Eof) {
-            if (!$declMode && $this->prev()->token === Token::Semicolon) {
+            if ($mode === ParseMode::SingleDecl && $this->match(
+                Token::Semicolon,
+                Token::If,
+                Token::For,
+                Token::Return,
+                Token::Switch,
+                Token::Select,
+                Token::Go,
+                Token::Defer,
+            )) {
                 return;
             }
 
@@ -1749,18 +1766,6 @@ final class Parser
                 Token::Var,
                 Token::Const,
                 Token::Type,
-            )) {
-                return;
-            }
-
-            if (!$declMode && $this->match(
-                Token::If,
-                Token::For,
-                Token::Return,
-                Token::Switch,
-                Token::Select,
-                Token::Go,
-                Token::Defer,
             )) {
                 return;
             }
