@@ -10,14 +10,13 @@ use GoParser\Ast\Keyword;
 
 /**
  * Both standalone If statement and nested If inside the "else if" clause.
- * In the latter case the $condition is null.
  */
 final class IfStmt implements Stmt
 {
     public function __construct(
         public readonly Keyword $if,
         public readonly ?SimpleStmt $init,
-        public readonly ?Expr $condition,
+        public readonly Expr $condition,
         public readonly BlockStmt $ifBody,
         public readonly ?Keyword $else,
         public readonly BlockStmt|self|null $elseBody,
