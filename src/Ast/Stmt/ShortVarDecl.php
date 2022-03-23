@@ -11,8 +11,8 @@ use GoParser\Ast\Operator;
 final class ShortVarDecl implements SimpleStmt
 {
     public function __construct(
-        public readonly IdentList $idents,
+        public readonly IdentList $identList,
         public readonly Operator $op,
-        public readonly ExprList $exprs,
+        public readonly ExprList $exprList,
     ) {}
 }

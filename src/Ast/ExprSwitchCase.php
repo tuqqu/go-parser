@@ -8,7 +8,7 @@ final class ExprSwitchCase implements CaseLabel
 {
     public function __construct(
         public readonly Keyword $keyword,
-        public readonly ExprList $exprs,
+        public readonly ExprList $exprList,
         public readonly Punctuation $colon,
     ) {}
 }

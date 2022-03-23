@@ -25,7 +25,7 @@ final class IdentList implements AstNode
             static fn (Expr $expr): Ident => $expr instanceof Ident ?
                 $expr :
                 throw new InvalidArgument('Cannot create IdentList from an arbitrary expression list'),
-            $list->exprs
+            $list->exprs,
         ));
     }
 
@@ -33,9 +33,9 @@ final class IdentList implements AstNode
     {
         return new self(\array_map(
             static fn (Type $type): Ident => $type instanceof SingleTypeName ?
-                    new Ident($type->pos, $type->name) :
-                    throw new InvalidArgument('Cannot create IdentList from an arbitrary type list'),
-            $list->types
+                new Ident($type->pos, $type->name) :
+                throw new InvalidArgument('Cannot create IdentList from an arbitrary type list'),
+            $list->types,
         ));
     }
 }

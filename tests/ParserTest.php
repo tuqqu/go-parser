@@ -20,11 +20,13 @@ final class ParserTest extends TestCase
     {
         $parser = new Parser('
         package main
+        
         import "fmt"
+        
         func main() {}
-        const FOO = "bar"
-        var i int = 5
-        type integer int
+            const FOO = "bar"
+            var i int = 5
+            type integer int
         ');
         $file = $parser->parse();
         self::assertIdent("main", $file->package->identifier);
