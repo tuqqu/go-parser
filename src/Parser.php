@@ -45,8 +45,11 @@ use GoParser\Ast\Expr\StringLit;
 use GoParser\Ast\Expr\StructType;
 use GoParser\Ast\Expr\Type;
 use GoParser\Ast\Expr\TypeAssertionExpr;
+use GoParser\Ast\Expr\TypeElem;
 use GoParser\Ast\Expr\TypeName;
+use GoParser\Ast\Expr\TypeTerm;
 use GoParser\Ast\Expr\UnaryExpr;
+use GoParser\Ast\Expr\UnderlyingType;
 use GoParser\Ast\ExprCaseClause;
 use GoParser\Ast\ExprList;
 use GoParser\Ast\ExprSwitchCase;
@@ -102,6 +105,8 @@ use GoParser\Ast\StmtList;
 use GoParser\Ast\TypeCaseClause;
 use GoParser\Ast\TypeDef;
 use GoParser\Ast\TypeList;
+use GoParser\Ast\TypeParamDecl;
+use GoParser\Ast\TypeParams;
 use GoParser\Ast\TypeSpec;
 use GoParser\Ast\TypeSwitchCase;
 use GoParser\Ast\TypeSwitchGuard;
@@ -335,18 +340,27 @@ final class Parser
     private function parseFuncOrMethodDecl(): FuncDecl|MethodDecl
     {
         $keyword = $this->parseKeyword(Token::Func);
+
         $receiver = $this->match(Token::LeftParen) ?
             $this->parseParams(false) :
             null;
+
         $name = $this->parseIdent();
+
+        $typeParams = $receiver === null && $this->match(Token::LeftBracket) ?
+            $this->parseTypeParams() :
+            null;
+
         $sign = $this->parseSignature();
+
         $body = $this->match(Token::LeftBrace) ?
             $this->parseBlockStmt() :
             null;
+
         $this->parseSemicolon();
 
         return $receiver === null ?
-            new FuncDecl($keyword, $name, $sign, $body) :
+            new FuncDecl($keyword, $name, $typeParams, $sign, $body) :
             new MethodDecl($keyword, $receiver, $name, $sign, $body);
     }
 
@@ -397,6 +411,57 @@ final class Parser
 
             default => $this->error(\sprintf('Unrecognised statement "%s"', $this->peek()->token->name)),
         };
+    }
+
+    private function parseTypeParams(): TypeParams
+    {
+        $lParen = $this->parsePunctuation(Token::LeftBracket);
+        $params = [];
+
+        while (!$this->match(Token::RightBracket)) {
+            $params[] = $this->parseTypeParamDecl();
+
+            if (!$this->match(Token::Comma)) {
+                break;
+            }
+
+            $this->consume(Token::Comma);
+        }
+
+
+        $rParen = $this->parsePunctuation(Token::RightBracket);
+
+        return new TypeParams($lParen, $params, $rParen);
+    }
+
+    private function parseTypeParamDecl(): TypeParamDecl
+    {
+        $identList = $this->parseIdentList();
+        $typeConstraint = $this->parseTypeElem();
+
+        return new TypeParamDecl($identList, $typeConstraint);
+    }
+
+    private function parseTypeElem(): TypeElem
+    {
+        $terms = [];
+        $terms[] = $this->parseTypeTerm();
+
+        while ($this->consumeIf(Token::BitOr) !== null) {
+            $terms[] = $this->parseTypeTerm();
+        }
+
+        return new TypeElem($terms);
+    }
+
+    private function parseTypeTerm(): TypeTerm
+    {
+        $tilda = $this->tryParseOperator(Token::Tilda);
+        $type = $this->parseType();
+
+        return $tilda !== null ?
+            new UnderlyingType($tilda, $type) :
+            $type;
     }
 
     private function parseSelectStmt(): SelectStmt
@@ -1564,6 +1629,13 @@ final class Parser
     private function parseOperator(Token $token): Operator
     {
         return Operator::fromLexeme($this->consume($token));
+    }
+
+    private function tryParseOperator(Token $token): ?Operator
+    {
+        return $this->match($token) ?
+            Operator::fromLexeme($this->consume($token)) :
+            null;
     }
 
     private function parseIdent(): Ident
