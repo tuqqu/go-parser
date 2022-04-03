@@ -55,6 +55,9 @@ enum Token: string
     case Inc = '++';
     case Dec = '--';
 
+    // type operators
+    case Tilda = '~';
+
     // misc operators
     case Arrow = '<-';
     case Ellipsis = '...';
@@ -156,6 +159,7 @@ enum Token: string
             self::ColonEq,
             self::Inc,
             self::Dec,
+            self::Tilda,
             self::Arrow,
             self::Ellipsis,
             self::LeftParen,

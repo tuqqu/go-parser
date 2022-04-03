@@ -73,6 +73,10 @@ final class Lexer
                         $this->read();
                         $this->addLexeme(Token::Comma);
                         break;
+                    case '~':
+                        $this->read();
+                        $this->addLexeme(Token::Tilda);
+                        break;
                     case '(':
                         $this->read();
                         $this->addLexeme(Token::LeftParen);
@@ -237,6 +241,7 @@ final class Lexer
                         } else {
                             $this->read();
                             if ($this->peek() === '=') {
+                                $this->read();
                                 $this->read();
                                 $this->addLexeme(Token::DivEq);
                             } else {

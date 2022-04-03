@@ -11,7 +11,7 @@ use GoParser\Ast\Signature;
 final class InterfaceType implements TypeLit
 {
     /**
-     * @param array<array{Ident, Signature}|TypeName> $items
+     * @param array<array{Ident, Signature}|TypeTerm> $items
      */
     public function __construct(
         public readonly Keyword $keyword,

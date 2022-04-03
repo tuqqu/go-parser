@@ -53,7 +53,7 @@ final class ParserTest extends TestCase
         $file = $parser->parse();
 
         self::assertEmpty($parser->getErrors());
-        self::assertSame($serialized, \serialize($file));
+        self::assertEquals(\unserialize($serialized), $file);
     }
 
     private static function dataFiles(): iterable
@@ -71,7 +71,7 @@ final class ParserTest extends TestCase
         foreach ($files as $srcFile => $serialized) {
             yield [
                 \file_get_contents($path . $srcFile),
-                \file_get_contents($path . $serialized)
+                \file_get_contents($path . $serialized),
             ];
         }
     }
