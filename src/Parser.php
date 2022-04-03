@@ -232,7 +232,8 @@ final class Parser
      * @param callable(): T $parser
      * @return T|null
      */
-    private function tryParseWithRecover(callable $parser, ParseMode $mode): ?Stmt {
+    private function tryParseWithRecover(callable $parser, ParseMode $mode): ?Stmt
+    {
         try {
             return $parser();
         } catch (InvalidArgument $e) {
@@ -1108,9 +1109,9 @@ final class Parser
 
     private static function canBeType(Expr $expr): bool
     {
-        return $expr instanceof Type ||
-            $expr instanceof Ident ||
-            $expr instanceof SelectorExpr;
+        return $expr instanceof Type
+            || $expr instanceof Ident
+            || $expr instanceof SelectorExpr;
     }
 
     private function parseCompositeLit(?Expr $type = null): CompositeLit
@@ -1173,17 +1174,14 @@ final class Parser
         $firstArg = true;
 
         while (!$this->match(Token::RightParen) && $ellipsis === null) {
-            if ($firstArg && $expr instanceof Ident && $expr->name === 'make') {
+            if ($firstArg && self::firstArgIsType($expr)) {
                 $exprs[] = $this->parseType();
-                $this->consume(Token::Comma);
                 $firstArg = false;
-                continue;
-            }
-
-            $exprs[] = $this->parseExpr();
-
-            if ($this->match(Token::Ellipsis)) {
-                $ellipsis = $this->parsePunctuation(Token::Ellipsis);
+            } else {
+                $exprs[] = $this->parseExpr();
+                if ($this->match(Token::Ellipsis)) {
+                    $ellipsis = $this->parsePunctuation(Token::Ellipsis);
+                }
             }
 
             $comma = $this->consumeIf(Token::Comma);
@@ -1206,6 +1204,12 @@ final class Parser
             $ellipsis,
             $rParen,
         );
+    }
+
+    private static function firstArgIsType(Expr $expr): bool
+    {
+        return $expr instanceof Ident
+            && ($expr->name === 'make' || $expr->name === 'new');
     }
 
     private function parseIndexOrSliceExpr(Expr $expr): IndexExpr|SliceExpr
@@ -1776,6 +1780,7 @@ final class Parser
 
     private static function isToSkip(Lexeme $lexeme): bool
     {
-        return $lexeme->token === Token::Comment || $lexeme->token === Token::MultilineComment;
+        return $lexeme->token === Token::Comment
+            || $lexeme->token === Token::MultilineComment;
     }
 }
