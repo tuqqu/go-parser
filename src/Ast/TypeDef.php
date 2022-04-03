@@ -11,6 +11,7 @@ final class TypeDef implements AstNode
 {
     public function __construct(
         public readonly Ident $ident,
+        public readonly ?TypeParams $typeParams,
         public readonly Type $type,
     ) {}
 }

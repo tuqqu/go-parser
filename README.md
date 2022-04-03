@@ -1,6 +1,8 @@
 # GoParser
 Golang parser written in PHP 8.1
 
+Supports Go 1.18 (generics).
+
 ## Installation
 To install this package, run:
 
@@ -16,7 +18,7 @@ package main
 import "fmt"
 
 func main() {
-    res := plus(1, 2)
+    res := add(1, 2)
     fmt.Println("1+2 =", res)
 }
 ');
@@ -29,7 +31,7 @@ $errs = $parser->getErrors();
 If you want, you can parse only a single declaration (e.g. a single function), instead of a fully defined Go program:
 ```php
 $parser = new \GoParser\Parser(
-    'func add(x, y int) { return x + y }', 
+    'func add(x, y int) int { return x + y }', 
     mode: \GoParser\ParseMode::SingleDecl
 );
 $decl = $parser->parseSingleDecl();
