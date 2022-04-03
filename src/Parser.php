@@ -1190,6 +1190,11 @@ final class Parser
 
     private function parseCompositeLit(?Expr $type = null): CompositeLit
     {
+        $type = self::tryTypeFromExpr($type);
+        if ($type !== null && !$type instanceof Type) {
+            $this->error(\sprintf('Composite types expects type expr, got "%s"', $type::class));
+        }
+
         $lBrace = $this->parsePunctuation(Token::LeftBrace);
         $elemList = $this->match(Token::RightBrace) ?
             null :
@@ -1197,6 +1202,18 @@ final class Parser
         $rBrace = $this->parsePunctuation(Token::RightBrace);
 
         return new CompositeLit($type, $lBrace, $elemList, $rBrace);
+    }
+
+    private static function tryTypeFromExpr(?Expr $expr): ?Type
+    {
+        return match (true) {
+            $expr instanceof Type => $expr,
+            $expr instanceof Ident => new SingleTypeName($expr, null),
+            $expr instanceof SelectorExpr => $expr->expr instanceof Ident ?
+                new QualifiedTypeName($expr->expr, new SingleTypeName($expr->selector, null)) :
+                null,
+            default => null,
+        };
     }
 
     private function parseElementList(): ElementList

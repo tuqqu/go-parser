@@ -1,7 +1,5 @@
 # GoParser
-Golang parser written in PHP 8.1
-
-Supports Go 1.18 (generics).
+Golang (1.18) parser written in PHP 8.1
 
 ## Installation
 To install this package, run:
@@ -26,6 +24,7 @@ func main() {
 $ast = $parser->parse();
 $errs = $parser->getErrors();
 ```
+Supported language level: Go 1.18 (generics).
 
 ### Parsing single declarations
 If you want, you can parse only a single declaration (e.g. a single function), instead of a fully defined Go program:
