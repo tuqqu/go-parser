@@ -61,6 +61,7 @@ use GoParser\Ast\IdentList;
 use GoParser\Ast\ImportSpec;
 use GoParser\Ast\KeyedElement;
 use GoParser\Ast\Keyword;
+use GoParser\Ast\MethodElem;
 use GoParser\Ast\Operator;
 use GoParser\Ast\PackageClause;
 use GoParser\Ast\ParamDecl;
@@ -1051,11 +1052,19 @@ final class Parser
     {
         $ident = $this->parseIdent();
         $eq = $this->consumeIf(Token::Eq);
-        $type = $this->parseType();
 
-        $value = $eq !== null ?
-            new AliasDecl($ident, Operator::fromLexeme($eq), $type) :
-            new TypeDef($ident, $type);
+        if ($eq === null) {
+            //typedef
+            $typeParams = $this->match(Token::LeftBracket) ?
+                $this->parseTypeParams() :
+                null;
+            $type = $this->parseType();
+            $value = new TypeDef($ident, $typeParams, $type);
+        } else {
+            // type alias
+            $type = $this->parseType();
+            $value = new AliasDecl($ident, Operator::fromLexeme($eq), $type);
+        }
 
         return new TypeSpec($value);
     }
@@ -1512,23 +1521,23 @@ final class Parser
     {
         $keyword = $this->parseKeyword(Token::Interface);
         $lBrace = $this->parsePunctuation(Token::LeftBrace);
-        $methods = [];
+        $elems = [];
 
         while (!$this->match(Token::RightBrace)) {
-            $typeOrIdent = $this->parseTypeName();
-            if ($this->match(Token::Semicolon)) {
-                // interface name
-                $methods[] = $typeOrIdent;
-            } else {
-                // method signature
-                if (!$typeOrIdent instanceof SingleTypeName) {
-                    $this->error(\sprintf('Expected method name, got %s', $typeOrIdent::class));
+            $typeOrIdent = $this->tryParseType();
+            if ($typeOrIdent instanceof SingleTypeName && $this->match(Token::LeftParen)) {
+                // method elem
+                $ident = new Ident($typeOrIdent->name->pos, $typeOrIdent->name->name);
+                $elems[] = $this->parseMethodElem($ident);
+            } elseif (!$this->match(Token::Semicolon)) {
+                $elem = $this->parseTypeElem();
+                if ($typeOrIdent !== null) {
+                    $elems[] = new TypeElem([$typeOrIdent, ...$elem->typeTerms]);
+                } else {
+                    $elems[] = new TypeElem($elem->typeTerms);
                 }
-
-                $ident = new Ident($typeOrIdent->pos, $typeOrIdent->name);
-                $sign = $this->parseSignature();
-
-                $methods[] = [$ident, $sign];
+            } elseif ($typeOrIdent !== null) {
+                $elems[] = new TypeElem([$typeOrIdent]);
             }
 
             $this->parseSemicolon();
@@ -1536,7 +1545,14 @@ final class Parser
 
         $rBrace = $this->parsePunctuation(Token::RightBrace);
 
-        return new InterfaceType($keyword, $lBrace, $methods, $rBrace);
+        return new InterfaceType($keyword, $lBrace, $elems, $rBrace);
+    }
+
+    private function parseMethodElem(Ident $ident): MethodElem
+    {
+        $sign = $this->parseSignature();
+
+        return new MethodElem($ident, $sign);
     }
 
     private function parseStructType(): StructType
@@ -1652,18 +1668,45 @@ final class Parser
 
     private function parseTypeName(): TypeName
     {
-        $ident = $this->consume(Token::Ident);
+        $ident = Ident::fromLexeme($this->consume(Token::Ident));
 
-        if ($this->match(Token::Dot)) {
-            $this->consume(Token::Dot);
+        $typeName = $this->consumeIf(Token::Dot) !== null ?
+            Ident::fromLexeme($this->consume(Token::Ident)) :
+            null;
 
-            return new QualifiedTypeName(
-                Ident::fromLexeme($ident),
-                SingleTypeName::fromLexeme($this->consume(Token::Ident))
+        $typeArgs = $this->match(Token::LeftBracket) ?
+            $this->parseTypeArgs() :
+            null;
+
+        return $typeName === null ?
+            new SingleTypeName($ident, $typeArgs) :
+            new QualifiedTypeName(
+                $ident,
+                new SingleTypeName($ident, $typeArgs),
             );
+    }
+
+    /**
+     * @return TypeList[]
+     */
+    private function parseTypeArgs(): array
+    {
+        $this->consume(Token::LeftBracket);
+        $args = [];
+
+        while (!$this->match(Token::RightBracket)) {
+            $args[] = $this->parseTypeList();
+
+            if (!$this->match(Token::Comma)) {
+                break;
+            }
+
+            $this->consume(Token::Comma);
         }
 
-        return SingleTypeName::fromLexeme($ident);
+        $this->consume(Token::RightBracket);
+
+        return $args;
     }
 
     private function parseStringLit(): StringLit

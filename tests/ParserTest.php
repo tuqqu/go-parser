@@ -24,11 +24,13 @@ final class ParserTest extends TestCase
         import "fmt"
         
         func main() {}
-            const FOO = "bar"
-            var i int = 5
-            type integer int
+        const FOO = "bar"
+        var i int = 5
+        type integer int
         ');
         $file = $parser->parse();
+
+        self::assertFalse($parser->hasErrors());
         self::assertIdent("main", $file->package->identifier);
 
         self::assertCount(1, $file->imports);
@@ -45,7 +47,8 @@ final class ParserTest extends TestCase
     }
 
     /**
-     * @dataProvider dataFiles
+     * @dataProvider syntaxFiles
+     * @dataProvider exampleFiles
      */
     public function testDataFiles(string $src, string $serialized): void
     {
@@ -56,16 +59,31 @@ final class ParserTest extends TestCase
         self::assertEquals(\unserialize($serialized), $file);
     }
 
-    private static function dataFiles(): iterable
+    private static function syntaxFiles(): iterable
     {
         $path  = __DIR__ . '/data/';
         $files = [
-            'src/file1.go' => 'serialized/file1.txt',
-            'src/file2.go' => 'serialized/file2.txt',
-            'src/file3.go' => 'serialized/file3.txt',
-            'src/file4.go' => 'serialized/file4.txt',
-            'src/file5.go' => 'serialized/file5.txt',
-            'src/file6.go' => 'serialized/file6.txt',
+            'src/syntax/generic_function.go' => 'serialized/syntax/generic_function.txt',
+        ];
+
+        foreach ($files as $srcFile => $serialized) {
+            yield [
+                \file_get_contents($path . $srcFile),
+                \file_get_contents($path . $serialized),
+            ];
+        }
+    }
+
+    private static function exampleFiles(): iterable
+    {
+        $path  = __DIR__ . '/data/';
+        $files = [
+            'src/example/file1.go' => 'serialized/example/file1.txt',
+            'src/example/file2.go' => 'serialized/example/file2.txt',
+            'src/example/file3.go' => 'serialized/example/file3.txt',
+            'src/example/file4.go' => 'serialized/example/file4.txt',
+            'src/example/file5.go' => 'serialized/example/file5.txt',
+            'src/example/file6.go' => 'serialized/example/file6.txt',
         ];
 
         foreach ($files as $srcFile => $serialized) {

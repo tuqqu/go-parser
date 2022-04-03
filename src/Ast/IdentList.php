@@ -33,7 +33,7 @@ final class IdentList implements AstNode
     {
         return new self(\array_map(
             static fn (Type $type): Ident => $type instanceof SingleTypeName ?
-                new Ident($type->pos, $type->name) :
+                $type->name :
                 throw new InvalidArgument('Cannot create IdentList from an arbitrary type list'),
             $list->types,
         ));

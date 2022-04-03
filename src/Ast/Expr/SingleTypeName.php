@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace GoParser\Ast\Expr;
 
-use GoParser\Ast\FromLexeme;
-use GoParser\Lexer\Position;
+use GoParser\Ast\TypeList;
 
 final class SingleTypeName implements TypeName
 {
-    use FromLexeme;
-
+    /**
+     * @param TypeList[] $typeArgs
+     */
     public function __construct(
-        public readonly Position $pos,
-        public readonly string $name,
+        public readonly Ident $name,
+        public readonly ?array $typeArgs,
     ) {}
 }
