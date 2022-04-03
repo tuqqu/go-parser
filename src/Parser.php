@@ -304,7 +304,7 @@ final class Parser
     private function parseDecls(): array
     {
         $decls = [];
-        while (!$this->match(Token::Eof)) {
+        while (!$this->isAtEnd()) {
             $decl = $this->tryParseWithRecover(
                 $this->parseDecl(...),
                 $this->mode,
@@ -1731,7 +1731,7 @@ final class Parser
 
     private function peekBy(int $by): Lexeme
     {
-        do {
+        while (true) {
             $lexeme = $this->lexemes[$this->cur + $by] ?? null;
 
             if ($lexeme === null) {
@@ -1743,7 +1743,7 @@ final class Parser
             }
 
             ++$this->cur;
-        } while (!$this->isAtEnd());
+        }
 
         throw new \OutOfBoundsException('Cannot peek that far');
     }
