@@ -26,7 +26,7 @@ function require_autoload(): void
         }
     }
 
-    exit_with_error('Install dependencies using Composer.');
+    exit_with_error('install dependencies using Composer.');
 }
 
 
@@ -55,7 +55,7 @@ function print_help(): void
 
 function exit_with_error(string $msg): never
 {
-    fwrite(STDERR, sprintf("\x1b[0;31mError: %s\x1b[0m\n\n", $msg));
+    fwrite(STDERR, sprintf("\x1b[0;31mError: %s\x1b[0m\n", $msg));
     exit(1);
 }
 
@@ -88,6 +88,9 @@ function parse_argv(array $argv): array
                 $dumper = function_exists('dump') ? dump(...) : var_dump(...);
                 break;
             default:
+                if (str_starts_with($arg, '-')) {
+                    exit_with_error(sprintf('unrecognised option "%s"', $arg));
+                }
                 $files[] = $arg;
         }
     }
@@ -115,7 +118,7 @@ function main(array $argv): never
     $errs = false;
     foreach ($files as $file) {
         if (!file_exists($file)) {
-            exit_with_error(sprintf('File %s does not exist.', $file));
+            exit_with_error(sprintf('file %s does not exist.', $file));
         }
 
         $src = file_get_contents($file);

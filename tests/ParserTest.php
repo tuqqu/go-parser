@@ -64,6 +64,8 @@ final class ParserTest extends TestCase
         $path  = __DIR__ . '/data/';
         $files = [
             'src/syntax/generic_function.go' => 'serialized/syntax/generic_function.txt',
+            'src/syntax/generic_typedef.go' => 'serialized/syntax/generic_typedef.txt',
+            'src/syntax/interface.go' => 'serialized/syntax/interface.txt',
         ];
 
         foreach ($files as $srcFile => $serialized) {
