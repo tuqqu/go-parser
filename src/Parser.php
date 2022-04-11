@@ -680,7 +680,7 @@ final class Parser
 
         $exprs = $this->parseExprList();
 
-        $simpleStmt = match ($this->peek()->token) {
+        $simpleOrLabeledStmt = match ($this->peek()->token) {
             Token::ColonEq => $this->parseShortVarDecl($exprs),
             Token::Eq,
             Token::PlusEq,
@@ -701,11 +701,11 @@ final class Parser
             default => $this->exprStmtFromExprList($exprs),
         };
 
-        if (!$skipSemi) {
+        if (!$skipSemi && $simpleOrLabeledStmt instanceof SimpleStmt) {
             $this->parseSemicolon();
         }
 
-        return $simpleStmt;
+        return $simpleOrLabeledStmt;
     }
 
     private function parseSimpleStmt(bool $skipSemi = false): SimpleStmt
