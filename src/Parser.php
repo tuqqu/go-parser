@@ -599,21 +599,22 @@ final class Parser
                     // for range
                     case $this->match(Token::Range):
                         $list = null;
+                        $op = null;
                         break;
                     // for ident :=
                     case $this->checkAheadTill(Token::Range, Token::ColonEq):
                         $list = $this->parseIdentList();
-                        $this->consume(Token::ColonEq);
+                        $op = $this->parseOperator(Token::ColonEq);
                         break;
                     // for expr = range {}
                     default:
                         $list = $this->parseExprList();
-                        $this->consume(Token::Eq);
+                        $op = $this->parseOperator(Token::Eq);
                 }
 
                 $range = $this->parseKeyword(Token::Range);
                 $expr = $this->parseExpr();
-                $iteration = new RangeClause($list, $range, $expr);
+                $iteration = new RangeClause($list, $op, $range, $expr);
                 break;
             // for expr; [expr; expr;] {}
             case $this->checkAheadTill(Token::LeftBrace, Token::Semicolon):
