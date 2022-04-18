@@ -1145,7 +1145,10 @@ final class Parser
                     $expr = $this->parseCallExpr($expr);
                     break;
                 case Token::LeftBrace:
-                    if (!$this->cfHeader && self::canBeType($expr)) {
+                    if (
+                        $expr instanceof Type
+                        || (!$this->cfHeader && self::canBeType($expr))
+                    ) {
                         $expr = $this->parseCompositeLit($expr);
                     } else {
                         break 2;
@@ -1184,8 +1187,7 @@ final class Parser
 
     private static function canBeType(Expr $expr): bool
     {
-        return $expr instanceof Type
-            || $expr instanceof Ident
+        return $expr instanceof Ident
             || $expr instanceof SelectorExpr;
     }
 
