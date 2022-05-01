@@ -33,6 +33,7 @@ enum OpPrecedence: int
             Token::BitXor => self::Term,
             Token::Mul,
             Token::Div,
+            Token::Mod,
             Token::LeftShift,
             Token::RightShift,
             Token::BitAnd,
