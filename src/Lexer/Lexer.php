@@ -253,7 +253,6 @@ final class Lexer
                         $char = $this->peek();
                         if ($char === null) {
                             if ($this->isAutoSemicolon()) {
-                                // todo consider autosemicolon token
                                 $this->addLexeme(Token::Semicolon);
                             }
                             $this->addLexeme(Token::Eof);
@@ -528,7 +527,7 @@ final class Lexer
     {
         $ident = '';
 
-        while ($char = $this->peek()) {
+        while (($char = $this->peek()) !== null) {
             if (self::isAlphanumeric($char)) {
                 $ident .= $this->read();
             } else {
