@@ -383,6 +383,7 @@ final class Parser
             Token::Minus,
             Token::BitXor,
             Token::Arrow,
+            Token::Mul,
             Token::LogicNot,
             Token::BitAnd,
             Token::Struct,
