@@ -1415,18 +1415,25 @@ final class Parser
 
         // todo weird ellipsis cases
         if (!$this->match(Token::RightParen)) {
-            $identsOrTypes = $this->parseTypeList();
+            $identsOrTypes = $this->parseTypeOrIdentList();
             $ellipsis = $variadic ? $this->tryParsePunctuation(Token::Ellipsis) : null;
             $type = $this->tryParseType();
 
             if ($type === null) {
+                if (!$identsOrTypes instanceof TypeList) {
+                   $this->error('Type list expected');
+                }
+
                 $params = \array_map(
                     static fn (Type $type): ParamDecl => new ParamDecl(null, null, $type),
                     $identsOrTypes->types,
                 );
             } else {
-                $idents = IdentList::fromTypeList($identsOrTypes);
-                $params[] = new ParamDecl($idents, $ellipsis, $type);
+                if ($identsOrTypes instanceof TypeList) {
+                    $identsOrTypes = IdentList::fromTypeList($identsOrTypes);
+                }
+
+                $params[] = new ParamDecl($identsOrTypes, $ellipsis, $type);
                 $this->consumeIf(Token::Comma);
 
                 while (!$this->match(Token::RightParen)) {
@@ -1485,6 +1492,39 @@ final class Parser
         } while ($this->consumeIf(Token::Comma) !== null);
 
         return new TypeList($types);
+    }
+
+    private function parseTypeOrIdentList(): TypeList|IdentList
+    {
+        /** @var Type[] $typeOrIdents */
+        $typeOrIdents = [];
+        do {
+            $typeOrIdent = $this->parseTypeOrIdent();
+
+            if ($typeOrIdent instanceof Ident) {
+                $idents = [$typeOrIdent];
+                foreach ($typeOrIdents as $type) {
+                    $idents[] = $type instanceof SingleTypeName ?
+                        $type->name :
+                        $this->error(\sprintf('Ident expected, got "%s"', $type::class));
+                }
+
+                return new IdentList($idents);
+            }
+
+            $typeOrIdents[] = $typeOrIdent;
+        } while ($this->consumeIf(Token::Comma) !== null);
+
+        return new TypeList($typeOrIdents);
+    }
+
+    private function parseTypeOrIdent(): Type|Ident
+    {
+        if ($this->match(Token::Ident)) {
+            return $this->parseTypeNameOrIdent();
+        }
+
+        return $this->parseType();
     }
 
     private function parseParenType(): ParenType
@@ -1699,11 +1739,41 @@ final class Parser
             $this->parseTypeArgs() :
             null;
 
+        if ($typeArgs !== null && empty($typeArgs)) {
+            $this->error('Type arguments cannot be empty');
+        }
+
         return $typeName === null ?
             new SingleTypeName($ident, $typeArgs) :
             new QualifiedTypeName(
                 $ident,
-                new SingleTypeName($ident, $typeArgs),
+                new SingleTypeName($typeName, $typeArgs),
+            );
+    }
+
+    private function parseTypeNameOrIdent(): TypeName|Ident
+    {
+        $ident = Ident::fromLexeme($this->consume(Token::Ident));
+
+        $typeName = $this->consumeIf(Token::Dot) !== null ?
+            Ident::fromLexeme($this->consume(Token::Ident)) :
+            null;
+
+        if ($this->match(Token::LeftBracket)) {
+            if (!$this->checkAheadAfter(Token::RightBracket, Token::Comma, Token::RightBrace)) {
+                return $ident;
+            }
+
+            $typeArgs = $this->parseTypeArgs();
+        } else {
+            $typeArgs = null;
+        }
+
+        return $typeName === null ?
+            new SingleTypeName($ident, $typeArgs) :
+            new QualifiedTypeName(
+                $ident,
+                new SingleTypeName($typeName, $typeArgs),
             );
     }
 
@@ -1863,6 +1933,14 @@ final class Parser
         }
 
         return false;
+    }
+
+    private function checkAheadAfter(Token $after, Token ...$needles): bool
+    {
+        $i = 0;
+        while ($this->peekBy($i++)->token !== $after);
+
+        return \in_array($this->peekBy($i)->token, $needles, true);
     }
 
     private function peekBy(int $by): Lexeme
