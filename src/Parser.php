@@ -1979,7 +1979,6 @@ final class Parser
             }
 
             if ($this->match(
-                Token::Struct,
                 Token::Func,
                 Token::Var,
                 Token::Const,
