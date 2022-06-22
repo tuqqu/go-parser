@@ -126,7 +126,8 @@ final class Parser
     private array $errors = [];
     private ?File $ast = null;
     private ?Decl $decl = null;
-    private int $cur = 0;
+    private int $fallbackPos = 0;
+    private int $pos = 0;
     private bool $cfHeader = false;
     private bool $finished = false;
 
@@ -264,6 +265,11 @@ final class Parser
         $this->errors[] = $err;
 
         throw $err;
+    }
+
+    private function popLastError(): void
+    {
+        \array_pop($this->errors);
     }
 
     private function parsePackageClause(): PackageClause
@@ -430,10 +436,30 @@ final class Parser
             $this->consume(Token::Comma);
         }
 
+        if (empty($params)) {
+            $this->error('Empty type parameter list');
+        }
 
         $rParen = $this->parsePunctuation(Token::RightBracket);
 
         return new TypeParams($lParen, $params, $rParen);
+    }
+
+    public function parseTypeParamsOrType(): TypeParams|Type
+    {
+        $this->fallbackPos = $this->pos;
+
+        try {
+            return $this->parseTypeParams();
+        } catch (ParseError) {
+            $this->popLastError();
+            $this->pos = $this->fallbackPos;
+            $this->fallbackPos = 0;
+
+            return $this->parseType();
+        } finally {
+            $this->fallbackPos = 0;
+        }
     }
 
     private function parseTypeParamDecl(): TypeParamDecl
@@ -1057,10 +1083,21 @@ final class Parser
 
         if ($eq === null) {
             //typedef
-            $typeParams = $this->match(Token::LeftBracket) ?
-                $this->parseTypeParams() :
-                null;
-            $type = $this->parseType();
+            if ($this->match(Token::LeftBracket)) {
+                $typeParamsOrType = $this->parseTypeParamsOrType();
+
+                if ($typeParamsOrType instanceof Type) {
+                    $typeParams = null;
+                    $type = $typeParamsOrType;
+                } else {
+                    $typeParams = $typeParamsOrType;
+                    $type = $this->parseType();
+                }
+            } else {
+                $typeParams = null;
+                $type = $this->parseType();
+            }
+
             $value = new TypeDef($ident, $typeParams, $type);
         } else {
             // type alias
@@ -1586,7 +1623,11 @@ final class Parser
 
         while (!$this->match(Token::RightBrace)) {
             $typeOrIdent = $this->tryParseType();
-            if ($typeOrIdent instanceof SingleTypeName && $this->match(Token::LeftParen)) {
+
+            if (
+                $typeOrIdent instanceof SingleTypeName
+                && $this->match(Token::LeftParen)
+            ) {
                 // method elem
                 $ident = new Ident($typeOrIdent->name->pos, $typeOrIdent->name->name);
                 $elems[] = $this->parseMethodElem($ident);
@@ -1889,7 +1930,7 @@ final class Parser
     private function advance(): Lexeme
     {
         if (!$this->isAtEnd()) {
-            ++$this->cur;
+            ++$this->pos;
         }
 
         return $this->prev();
@@ -1946,7 +1987,7 @@ final class Parser
     private function peekBy(int $by): Lexeme
     {
         while (true) {
-            $lexeme = $this->lexemes[$this->cur + $by] ?? null;
+            $lexeme = $this->lexemes[$this->pos + $by] ?? null;
 
             if ($lexeme === null) {
                 break;
@@ -1956,7 +1997,7 @@ final class Parser
                 return $lexeme;
             }
 
-            ++$this->cur;
+            ++$this->pos;
         }
 
         throw new \OutOfBoundsException('Cannot peek that far');

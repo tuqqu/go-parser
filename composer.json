@@ -42,6 +42,10 @@
             "vendor/bin/php-cs-fixer fix --dry-run --verbose --diff --using-cache=no --allow-risky=yes",
             "vendor/bin/psalm"
         ],
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "all-checks": [
+            "@lint",
+            "@test"
+        ]
     }
 }

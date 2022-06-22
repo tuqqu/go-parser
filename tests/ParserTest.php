@@ -67,6 +67,7 @@ final class ParserTest extends TestCase
             'src/syntax/generic_typedef.go' => 'serialized/syntax/generic_typedef.txt',
             'src/syntax/interface.go' => 'serialized/syntax/interface.txt',
             'src/syntax/params.go' => 'serialized/syntax/params.txt',
+            'src/syntax/declarations.go' => 'serialized/syntax/declarations.txt',
         ];
 
         foreach ($files as $srcFile => $serialized) {
