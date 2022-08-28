@@ -19,6 +19,6 @@ final class LexError extends \Exception implements Error
 
     public function __toString(): string
     {
-        return \sprintf('%s LexError: %s', $this->pos, $this->message);
+        return \sprintf('%s: %s', $this->pos, $this->message);
     }
 }

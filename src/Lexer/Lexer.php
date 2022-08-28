@@ -6,7 +6,8 @@ namespace GoParser\Lexer;
 
 final class Lexer
 {
-    private readonly string $src;
+    /** @var string[] */
+    private readonly array $src;
     private readonly int $len;
     private readonly ?string $filename;
 
@@ -21,7 +22,7 @@ final class Lexer
 
     public function __construct(string $src, ?string $filename = null)
     {
-        $this->src = $src;
+        $this->src = \mb_str_split($src);
         $this->len = \strlen($src);
         $this->filename = $filename;
     }
@@ -205,33 +206,24 @@ final class Lexer
                         if ($this->peek() === '=') {
                             $this->read();
                             $this->addLexeme(Token::GreaterEq);
+                        } elseif ($this->peek() === '>') {
+                            $this->ifEqElse(Token::RightShiftEq, Token::RightShift);
                         } else {
-                            $this->read();
-                            if ($this->peek() === '>') {
-                                $this->ifEqElse(Token::RightShiftEq, Token::RightShift);
-                            } else {
-                                $this->addLexeme(Token::Greater);
-                            }
+                            $this->addLexeme(Token::Greater);
                         }
                         break;
                     case '<':
-                        if ($this->peekNext() === '-') {
-                            $this->read();
+                        $this->read();
+                        if ($this->peek() === '-') {
                             $this->read();
                             $this->addLexeme(Token::Arrow);
-                        } else {
+                        } elseif ($this->peek() === '=') {
                             $this->read();
-                            if ($this->peek() === '=') {
-                                $this->read();
-                                $this->addLexeme(Token::LessEq);
-                            } else {
-                                $this->read();
-                                if ($this->peek() === '<') {
-                                    $this->ifEqElse(Token::LeftShiftEq, Token::LeftShift);
-                                } else {
-                                    $this->addLexeme(Token::Less);
-                                }
-                            }
+                            $this->addLexeme(Token::LessEq);
+                        } elseif ($this->peek() === '<') {
+                            $this->ifEqElse(Token::LeftShiftEq, Token::LeftShift);
+                        } else {
+                            $this->addLexeme(Token::Less);
                         }
                         break;
                     case '/':
@@ -241,7 +233,6 @@ final class Lexer
                         } else {
                             $this->read();
                             if ($this->peek() === '=') {
-                                $this->read();
                                 $this->read();
                                 $this->addLexeme(Token::DivEq);
                             } else {
@@ -261,7 +252,13 @@ final class Lexer
                         match (true) {
                             self::isAlphabetic($char) => $this->identifier(),
                             self::isNumeric($char) => $this->number(),
-                            default => $this->error(\sprintf('Unknown character "%s"', $this->read())),
+                            default => $this->error(
+                                \sprintf(
+                                    'invalid character U+%X \'%s\' in identifier',
+                                    \mb_ord($char = $this->read()),
+                                    $char,
+                                ),
+                            ),
                         };
                 }
             } catch (LexError) {
@@ -308,7 +305,7 @@ final class Lexer
 
                     $comment .= $char;
                     if ($this->isAtEnd()) {
-                        $this->error('Unclosed comment');
+                        $this->error('comment not terminated');
                     }
                 }
                 $this->addLexeme(Token::MultilineComment, $comment);
@@ -358,8 +355,8 @@ final class Lexer
                     break 2;
                 case "\n":
                 case null:
-                    $this->error('Unterminated string');
-                    // no break because addError returns never
+                    $this->error('string not terminated');
+                // no break because addError returns never
                 default:
                     $literal .= $this->read();
             }
@@ -373,7 +370,7 @@ final class Lexer
         for ($i = 0; $i < 3; ++$i) {
             $dot = $this->read();
             if ($dot !== '.') {
-                $this->error(\sprintf('Unexpected character "%s", expected "."', $dot));
+                $this->error('unexpected ., expecting name');
             }
         }
 
@@ -414,7 +411,7 @@ final class Lexer
                     $token = Token::Int;
                     break;
                 case null:
-                    $this->error('Integer notation error');
+                    $this->error('unexpected literal at the end of the statement');
                 default:
                     // old octal notation
                     if (self::isNumeric($char)) {
@@ -490,7 +487,7 @@ final class Lexer
         $sep = false;
 
         if (!$separatorPrefix && $this->peek() === '_') {
-            $this->error('"_" must separate successive digits');
+            $this->error('\'_\' must separate successive digits');
         }
 
         while (($char = $this->peek()) !== null) {
@@ -500,7 +497,7 @@ final class Lexer
                         $digits .= $this->read();
                         $sep = true;
                     } else {
-                        $this->error('"_" must separate successive digits');
+                        $this->error('\'_\' must separate successive digits');
                     }
                     break;
                 case self::isAlphanumeric($char):
@@ -508,7 +505,7 @@ final class Lexer
                         $digits .= $this->read();
                         $sep = false;
                     } else {
-                        $this->error('Integer notation error');
+                        $this->error(\sprintf('unexpected literal %s at the end of the statement', $char));
                     }
                     break;
                 default:
@@ -517,7 +514,7 @@ final class Lexer
         }
 
         if ($sep) {
-            $this->error('"_" must separate successive digits');
+            $this->error('\'_\' must separate successive digits');
         }
 
         return $digits;

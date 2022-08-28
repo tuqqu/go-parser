@@ -245,7 +245,7 @@ final class Parser
             return $parser();
         } catch (InvalidArgument $e) {
             $this->error($e->getMessage());
-        } catch (ParseError) {
+        } catch (SyntaxError) {
             $this->recover($mode);
         }
 
@@ -261,7 +261,7 @@ final class Parser
 
     private function error(string $msg): never
     {
-        $err = new ParseError($msg, $this->peek()->pos);
+        $err = new SyntaxError($msg, $this->peek()->pos);
         $this->errors[] = $err;
 
         throw $err;
@@ -336,7 +336,7 @@ final class Parser
             Token::Const => $this->parseConstDecl(),
             Token::Type => $this->parseTypeDecl(),
             Token::Func => $this->parseFuncOrMethodDecl(),
-            default => $this->error(\sprintf('Declaration expected, got "%s"', $this->peek()->token->name)),
+            default => $this->error('non-declaration statement outside function body'),
         };
     }
 
@@ -417,7 +417,7 @@ final class Parser
             Token::Continue => $this->parseContinueStmt(),
             Token::Break => $this->parseBreakStmt(),
 
-            default => $this->error(\sprintf('Unrecognised statement "%s"', $this->peek()->token->name)),
+            default => $this->error(\sprintf('unrecognised statement "%s"', $this->peek()->token->name)),
         };
     }
 
@@ -437,7 +437,7 @@ final class Parser
         }
 
         if (empty($params)) {
-            $this->error('Empty type parameter list');
+            $this->error('empty type parameter list');
         }
 
         $rParen = $this->parsePunctuation(Token::RightBracket);
@@ -451,7 +451,7 @@ final class Parser
 
         try {
             return $this->parseTypeParams();
-        } catch (ParseError) {
+        } catch (SyntaxError) {
             $this->popLastError();
             $this->pos = $this->fallbackPos;
             $this->fallbackPos = 0;
@@ -530,8 +530,12 @@ final class Parser
             $case = match ($this->peek()->token) {
                 Token::Case => $labelParser(),
                 Token::Default => $this->parseDefaultCase(),
-                // unreachable
-                default => $this->error(\sprintf('Case expected, got "%s"', $this->peek()->token->name)),
+                default => $this->error(
+                    \sprintf(
+                        'unexpected literal %s, expecting case or default or }',
+                        $this->peek()->literal ?? '',
+                    ),
+                ),
             };
             $stmts = $this->parseStmtList();
 
@@ -741,7 +745,7 @@ final class Parser
         $stmt = $this->parseSimpleOrLabeledStmt($skipSemi);
 
         if (!$stmt instanceof SimpleStmt) {
-            $this->error(\sprintf('Simple statement expected, got "%s"', $stmt::class));
+            $this->error('simple statement expected');
         }
 
         return $stmt;
@@ -752,13 +756,11 @@ final class Parser
         $ident = $list->exprs[0] ?? null;
 
         if ($ident === null) {
-            $this->error('Expected label');
+            $this->error('expected label');
         }
 
         if (!$ident instanceof Ident) {
-            $this->error(
-                \sprintf('Label expected to be an identifier, got %s', $ident::class)
-            );
+            $this->error('unexpected literal, expecting name');
         }
 
         return new LabeledStmt(
@@ -784,7 +786,7 @@ final class Parser
             match ($this->peek()->token) {
                 Token::Inc => $this->parseOperator(Token::Inc),
                 Token::Dec => $this->parseOperator(Token::Dec),
-                default => $this->error('Wrong operator in IncDecStmt'), // unreachable
+                default => $this->error('unexpected operator'), // unreachable
             },
         );
     }
@@ -803,7 +805,7 @@ final class Parser
         $expr = $list->exprs[0] ?? null;
 
         if ($expr === null) {
-            $this->error('Expected single expression instead of an Expression list', );
+            $this->error('unexpected expression list, expecting a single expression');
         }
 
         return $expr;
@@ -828,7 +830,7 @@ final class Parser
         $expr = $this->parseExpr();
 
         if (!$expr instanceof CallExpr) {
-            $this->error(\sprintf('Call expression expected, got "%s"', $expr::class));
+            $this->error('unexpected expression, expecting call expression');
         }
 
         return $expr;
@@ -932,7 +934,7 @@ final class Parser
             $elseBody = match ($this->peek()->token) {
                 Token::If => $this->parseIfStmt(),
                 Token::LeftBrace => $this->parseBlockStmt(),
-                default => $this->error('Malformed else branch'),
+                default => $this->error('malformed else branch'),
             };
         } else {
             $else = null;
@@ -1198,7 +1200,7 @@ final class Parser
                         Token::LeftParen => $this->parseTypeAssertionExpr($expr),
                         Token::Ident => $this->parseSelectorExpr($expr),
                         // no break
-                        default => $this->error(\sprintf('Unexpected token "%s"', $this->peek()->token->name)),
+                        default => $this->error(\sprintf('unexpected token "%s"', $this->peek()->token->name)),
                     };
                     break;
                 default:
@@ -1207,7 +1209,7 @@ final class Parser
         }
 
         if (!$expr instanceof PrimaryExpr) {
-            $this->error(\sprintf('Expected primary expression, got "%s"', $expr::class));
+            $this->error('unexpected expression, expecting primary expression');
         }
 
         return $expr;
@@ -1233,7 +1235,7 @@ final class Parser
     {
         $type = self::tryTypeFromExpr($type);
         if ($type !== null && !$type instanceof Type) {
-            $this->error(\sprintf('Composite types expects type expr, got "%s"', $type::class));
+            $this->error('expecting type expression');
         }
 
         $lBrace = $this->parsePunctuation(Token::LeftBrace);
@@ -1270,7 +1272,7 @@ final class Parser
             }
 
             if (!$comma) {
-                $this->error('Comma expected in element list');
+                $this->error('expecting comma or }');
             }
         }
 
@@ -1323,7 +1325,7 @@ final class Parser
             }
 
             if (!$comma) {
-                $this->error('Comma expected in call expression');
+                $this->error('expecting comma or )');
             }
         }
 
@@ -1358,7 +1360,7 @@ final class Parser
         $i = 0;
 
         while (\count($colons) < $maxColons && $this->match(Token::Colon)) {
-            $colons[$i] = $this->parsePunctuation(Token::Colon);
+            $colons[] = $this->parsePunctuation(Token::Colon);
 
             if (!$this->match(Token::Colon, Token::RightBracket)) {
                 $indices[++$i] = $this->parseExpr();
@@ -1387,9 +1389,9 @@ final class Parser
                 $lBrack,
                 $indices[0] ?? null,
                 $colons[0],
-                $indices[1] ?? $this->error('Wrong number of indices'),
+                $indices[1] ?? $this->error('middle index required in 3-index slice'),
                 $colons[1],
-                $indices[2] ?? $this->error('Wrong number of indices'),
+                $indices[2] ?? $this->error('final index required in 3-index slice'),
                 $rBrack
             ),
         };
@@ -1408,7 +1410,7 @@ final class Parser
             Token::LeftParen => $this->parseGroupExpr(),
             Token::Func => $this->parseFuncLit(),
             default => $this->tryParseType() ??
-                $this->error(\sprintf('Unknown token "%s" in operand expression', $this->peek()->token->name)),
+                $this->error(\sprintf('unknown token "%s" in operand expression', $this->peek()->token->name)),
         };
     }
 
@@ -1458,7 +1460,7 @@ final class Parser
 
             if ($type === null) {
                 if (!$identsOrTypes instanceof TypeList) {
-                   $this->error('Type list expected');
+                   $this->error('expecting type list');
                 }
 
                 $params = \array_map(
@@ -1518,7 +1520,7 @@ final class Parser
 
     private function parseType(): Type
     {
-        return $this->tryParseType() ?? $this->error('Type expected');
+        return $this->tryParseType() ?? $this->error('expecting type');
     }
 
     private function parseTypeList(): TypeList
@@ -1541,9 +1543,9 @@ final class Parser
             if ($typeOrIdent instanceof Ident) {
                 $idents = [$typeOrIdent];
                 foreach ($typeOrIdents as $type) {
-                    $idents[] = $type instanceof SingleTypeName ?
-                        $type->name :
-                        $this->error(\sprintf('Ident expected, got "%s"', $type::class));
+                    $idents[] = $type instanceof SingleTypeName
+                        ? $type->name
+                        : $this->error('expecting name');
                 }
 
                 return new IdentList($idents);
@@ -1781,7 +1783,7 @@ final class Parser
             null;
 
         if ($typeArgs !== null && empty($typeArgs)) {
-            $this->error('Type arguments cannot be empty');
+            $this->error('empty type parameter list');
         }
 
         return $typeName === null ?
@@ -1910,7 +1912,7 @@ final class Parser
         return $this->match($token) ?
             $this->advance() :
             $this->error(\sprintf(
-                'Unexpected token "%s", expected "%s"',
+                'unexpected token \'%s\', expecting \'%s\'',
                 $this->peek()->token->name,
                 $token->name,
             ));
