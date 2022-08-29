@@ -348,27 +348,27 @@ final class Parser
     {
         $keyword = $this->parseKeyword(Token::Func);
 
-        $receiver = $this->match(Token::LeftParen) ?
-            $this->parseParams(false) :
-            null;
+        $receiver = $this->match(Token::LeftParen)
+            ? $this->parseParams(false)
+            : null;
 
         $name = $this->parseIdent();
 
-        $typeParams = $receiver === null && $this->match(Token::LeftBracket) ?
-            $this->parseTypeParams() :
-            null;
+        $typeParams = $receiver === null && $this->match(Token::LeftBracket)
+            ? $this->parseTypeParams()
+            : null;
 
         $sign = $this->parseSignature();
 
-        $body = $this->match(Token::LeftBrace) ?
-            $this->parseBlockStmt() :
-            null;
+        $body = $this->match(Token::LeftBrace)
+            ? $this->parseBlockStmt()
+            : null;
 
         $this->parseSemicolon();
 
-        return $receiver === null ?
-            new FuncDecl($keyword, $name, $typeParams, $sign, $body) :
-            new MethodDecl($keyword, $receiver, $name, $sign, $body);
+        return $receiver === null
+            ? new FuncDecl($keyword, $name, $typeParams, $sign, $body)
+            : new MethodDecl($keyword, $receiver, $name, $sign, $body);
     }
 
     private function parseStmt(): Stmt
@@ -487,9 +487,9 @@ final class Parser
         $tilda = $this->tryParseOperator(Token::Tilda);
         $type = $this->parseType();
 
-        return $tilda !== null ?
-            new UnderlyingType($tilda, $type) :
-            $type;
+        return $tilda !== null
+            ? new UnderlyingType($tilda, $type)
+            : $type;
     }
 
     private function parseSelectStmt(): SelectStmt
@@ -651,9 +651,9 @@ final class Parser
             case $this->checkAheadTill(Token::LeftBrace, Token::Semicolon):
                 $init = $this->parseSimpleStmt();
                 $cond = $this->parseSimpleStmt();
-                $post = $this->match(Token::LeftBrace) ?
-                    null :
-                    $this->parseSimpleStmt(true);
+                $post = $this->match(Token::LeftBrace)
+                    ? null
+                    : $this->parseSimpleStmt(true);
 
                 $iteration = new ForClause($init, $cond, $post);
                 break;
@@ -839,9 +839,9 @@ final class Parser
     private function parseEmptyStmt(bool $skipSemi = false): EmptyStmt
     {
         return new EmptyStmt(
-            $skipSemi ?
-                $this->peek()->pos :
-                $this->consume(Token::Semicolon)->pos
+            $skipSemi
+                ? $this->peek()->pos
+                : $this->consume(Token::Semicolon)->pos
         );
     }
 
@@ -850,9 +850,9 @@ final class Parser
         $keyword = $this->parseKeyword(Token::Switch);
         $this->inCfHeader();
 
-        $init = $this->checkAheadTill(Token::LeftBrace, Token::Semicolon) ?
-            $this->parseSimpleStmt() :
-            null;
+        $init = $this->checkAheadTill(Token::LeftBrace, Token::Semicolon)
+            ? $this->parseSimpleStmt()
+            : null;
 
         // ExprSwitchStmt
         // switch {}
@@ -921,9 +921,9 @@ final class Parser
         $if = $this->parseKeyword(Token::If);
         $this->inCfHeader();
 
-        $init = $this->checkAheadTill(Token::LeftBrace, Token::Semicolon) ?
-            $this->parseSimpleStmt() :
-            null;
+        $init = $this->checkAheadTill(Token::LeftBrace, Token::Semicolon)
+            ? $this->parseSimpleStmt()
+            : null;
 
         $cond = $this->parseExpr();
         $this->outCfHeader();
@@ -985,9 +985,9 @@ final class Parser
     private function parseReturnStmt(): ReturnStmt
     {
         $keyword = $this->parseKeyword(Token::Return);
-        $exprs = $this->match(Token::Semicolon) ?
-            null :
-            $this->parseExprList();
+        $exprs = $this->match(Token::Semicolon)
+            ? null
+            : $this->parseExprList();
 
         $this->parseSemicolon();
 
@@ -1239,9 +1239,9 @@ final class Parser
         }
 
         $lBrace = $this->parsePunctuation(Token::LeftBrace);
-        $elemList = $this->match(Token::RightBrace) ?
-            null :
-            $this->parseElementList();
+        $elemList = $this->match(Token::RightBrace)
+            ? null
+            : $this->parseElementList();
         $rBrace = $this->parsePunctuation(Token::RightBrace);
 
         return new CompositeLit($type, $lBrace, $elemList, $rBrace);
@@ -1252,9 +1252,9 @@ final class Parser
         return match (true) {
             $expr instanceof Type => $expr,
             $expr instanceof Ident => new SingleTypeName($expr, null),
-            $expr instanceof SelectorExpr => $expr->expr instanceof Ident ?
-                new QualifiedTypeName($expr->expr, new SingleTypeName($expr->selector, null)) :
-                null,
+            $expr instanceof SelectorExpr => $expr->expr instanceof Ident
+                ? new QualifiedTypeName($expr->expr, new SingleTypeName($expr->selector, null))
+                : null,
             default => null,
         };
     }
@@ -1295,9 +1295,9 @@ final class Parser
 
     private function parseElement(): Expr
     {
-        return $this->match(Token::LeftBrace) ?
-            $this->parseCompositeLit() :
-            $this->parseExpr();
+        return $this->match(Token::LeftBrace)
+            ? $this->parseCompositeLit()
+            : $this->parseExpr();
     }
 
     private function parseCallExpr(Expr $expr): CallExpr
@@ -1531,9 +1531,9 @@ final class Parser
 
     private function parseResult(): Params|Type|null
     {
-        return $this->match(Token::LeftParen) ?
-            $this->parseParams(false) :
-            $this->tryParseType();
+        return $this->match(Token::LeftParen)
+            ? $this->parseParams(false)
+            : $this->tryParseType();
     }
 
     private function tryParseType(): ?Type
@@ -1765,9 +1765,9 @@ final class Parser
         $rParen = $this->parsePunctuation(Token::RightBracket);
         $elemType = $this->parseType();
 
-        return $size === null ?
-            new SliceType($lParen, $rParen, $elemType) :
-            new ArrayType($lParen, $size, $rParen, $elemType);
+        return $size === null
+            ? new SliceType($lParen, $rParen, $elemType)
+            : new ArrayType($lParen, $size, $rParen, $elemType);
     }
 
     private function parseAnyOperator(): Operator
@@ -1782,9 +1782,9 @@ final class Parser
 
     private function tryParseOperator(Token $token): ?Operator
     {
-        return $this->match($token) ?
-            Operator::fromLexeme($this->consume($token)) :
-            null;
+        return $this->match($token)
+            ? Operator::fromLexeme($this->consume($token))
+            : null;
     }
 
     private function parseIdent(): Ident
@@ -1794,30 +1794,30 @@ final class Parser
 
     private function tryParseIdent(): ?Ident
     {
-        return $this->match(Token::Ident) ?
-            Ident::fromLexeme($this->consume(Token::Ident)) :
-            null;
+        return $this->match(Token::Ident)
+            ? Ident::fromLexeme($this->consume(Token::Ident))
+            : null;
     }
 
     private function parseTypeName(): TypeName
     {
         $ident = Ident::fromLexeme($this->consume(Token::Ident));
 
-        $typeName = $this->consumeIf(Token::Dot) !== null ?
-            Ident::fromLexeme($this->consume(Token::Ident)) :
-            null;
+        $typeName = $this->consumeIf(Token::Dot) !== null
+            ? Ident::fromLexeme($this->consume(Token::Ident))
+            : null;
 
-        $typeArgs = $this->match(Token::LeftBracket) ?
-            $this->parseTypeArgs() :
-            null;
+        $typeArgs = $this->match(Token::LeftBracket)
+            ? $this->parseTypeArgs()
+            : null;
 
         if ($typeArgs !== null && empty($typeArgs)) {
             $this->error('empty type parameter list');
         }
 
-        return $typeName === null ?
-            new SingleTypeName($ident, $typeArgs) :
-            new QualifiedTypeName(
+        return $typeName === null
+            ? new SingleTypeName($ident, $typeArgs)
+            : new QualifiedTypeName(
                 $ident,
                 new SingleTypeName($typeName, $typeArgs),
             );
@@ -1827,9 +1827,9 @@ final class Parser
     {
         $ident = Ident::fromLexeme($this->consume(Token::Ident));
 
-        $typeName = $this->consumeIf(Token::Dot) !== null ?
-            Ident::fromLexeme($this->consume(Token::Ident)) :
-            null;
+        $typeName = $this->consumeIf(Token::Dot) !== null
+            ? Ident::fromLexeme($this->consume(Token::Ident))
+            : null;
 
         $typeArgs = null;
 
@@ -1840,9 +1840,9 @@ final class Parser
             $typeArgs = $this->parseTypeArgs();
         }
 
-        return $typeName === null ?
-            new SingleTypeName($ident, $typeArgs) :
-            new QualifiedTypeName(
+        return $typeName === null
+            ? new SingleTypeName($ident, $typeArgs)
+            : new QualifiedTypeName(
                 $ident,
                 new SingleTypeName($typeName, $typeArgs),
             );
@@ -1913,9 +1913,9 @@ final class Parser
 
     private function tryParsePunctuation(Token $token): ?Punctuation
     {
-        return $this->match($token) ?
-            Punctuation::fromLexeme($this->consume($token)) :
-            null;
+        return $this->match($token)
+            ? Punctuation::fromLexeme($this->consume($token))
+            : null;
     }
 
     private function inCfHeader(): void
@@ -1937,9 +1937,9 @@ final class Parser
 
     private function consume(Token $token): Lexeme
     {
-        return $this->match($token) ?
-            $this->advance() :
-            $this->error(\sprintf(
+        return $this->match($token)
+            ? $this->advance()
+            : $this->error(\sprintf(
                 'unexpected token \'%s\', expecting \'%s\'',
                 $this->peek()->token->name,
                 $token->name,

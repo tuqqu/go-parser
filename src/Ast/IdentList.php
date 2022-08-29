@@ -22,9 +22,9 @@ final class IdentList implements AstNode
     public static function fromExprList(ExprList $list): self
     {
         return new self(\array_map(
-            static fn (Expr $expr): Ident => $expr instanceof Ident ?
-                $expr :
-                throw new InvalidArgument('Cannot create IdentList from an arbitrary expression list'),
+            static fn (Expr $expr): Ident => $expr instanceof Ident
+                ? $expr
+                : throw new InvalidArgument('Cannot create IdentList from an arbitrary expression list'),
             $list->exprs,
         ));
     }
@@ -32,9 +32,9 @@ final class IdentList implements AstNode
     public static function fromTypeList(TypeList $list): self
     {
         return new self(\array_map(
-            static fn (Type $type): Ident => $type instanceof SingleTypeName ?
-                $type->name :
-                throw new InvalidArgument('Cannot create IdentList from an arbitrary type list'),
+            static fn (Type $type): Ident => $type instanceof SingleTypeName
+                ? $type->name
+                : throw new InvalidArgument('Cannot create IdentList from an arbitrary type list'),
             $list->types,
         ));
     }

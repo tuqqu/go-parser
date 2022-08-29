@@ -81,9 +81,9 @@ final class NodeDumper
             default => null,
         };
 
-        return $type === null ?
-            self::name($node) :
-            \sprintf("[%s] %s", $type, self::name($node));
+        return $type === null
+            ? self::name($node)
+            : \sprintf("[%s] %s", $type, self::name($node));
     }
 
     private function printProp(AstNode $node, \ReflectionProperty $property, int $indent): void
@@ -149,9 +149,9 @@ final class NodeDumper
                 $pos = new Position(
                     $value->offset,
                     $value->line,
-                    $this->showFilename ?
-                        $value->filename :
-                        null
+                    $this->showFilename
+                        ? $value->filename
+                        : null
                 );
 
                 return (string) $pos;
