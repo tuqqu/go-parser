@@ -1,0 +1,862 @@
+{
+    "package": {
+        "keyword": {
+            "pos": {
+                "offset": 7,
+                "line": 1,
+                "filename": null
+            },
+            "word": "package"
+        },
+        "identifier": {
+            "pos": {
+                "offset": 12,
+                "line": 1,
+                "filename": null
+            },
+            "name": "test"
+        }
+    },
+    "imports": [],
+    "decls": [
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 3,
+                    "line": 3,
+                    "filename": null
+                },
+                "word": "var"
+            },
+            "spec": {
+                "identList": {
+                    "idents": [
+                        {
+                            "pos": {
+                                "offset": 5,
+                                "line": 3,
+                                "filename": null
+                            },
+                            "name": "a"
+                        }
+                    ]
+                },
+                "type": {
+                    "name": {
+                        "pos": {
+                            "offset": 9,
+                            "line": 3,
+                            "filename": null
+                        },
+                        "name": "int"
+                    },
+                    "typeArgs": null
+                },
+                "initList": null
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 5,
+                    "line": 5,
+                    "filename": null
+                },
+                "word": "const"
+            },
+            "spec": {
+                "identList": {
+                    "idents": [
+                        {
+                            "pos": {
+                                "offset": 7,
+                                "line": 5,
+                                "filename": null
+                            },
+                            "name": "B"
+                        }
+                    ]
+                },
+                "type": {
+                    "name": {
+                        "pos": {
+                            "offset": 14,
+                            "line": 5,
+                            "filename": null
+                        },
+                        "name": "string"
+                    },
+                    "typeArgs": null
+                },
+                "initList": {
+                    "exprs": [
+                        {
+                            "pos": {
+                                "offset": 30,
+                                "line": 5,
+                                "filename": null
+                            },
+                            "str": "\"hello world\""
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 3,
+                    "line": 7,
+                    "filename": null
+                },
+                "word": "var"
+            },
+            "spec": {
+                "identList": {
+                    "idents": [
+                        {
+                            "pos": {
+                                "offset": 5,
+                                "line": 7,
+                                "filename": null
+                            },
+                            "name": "c"
+                        }
+                    ]
+                },
+                "type": {
+                    "lBrack": {
+                        "pos": {
+                            "offset": 7,
+                            "line": 7,
+                            "filename": null
+                        },
+                        "value": "["
+                    },
+                    "rBrack": {
+                        "pos": {
+                            "offset": 8,
+                            "line": 7,
+                            "filename": null
+                        },
+                        "value": "]"
+                    },
+                    "elemType": {
+                        "name": {
+                            "pos": {
+                                "offset": 11,
+                                "line": 7,
+                                "filename": null
+                            },
+                            "name": "int"
+                        },
+                        "typeArgs": null
+                    }
+                },
+                "initList": {
+                    "exprs": [
+                        {
+                            "type": {
+                                "lBrack": {
+                                    "pos": {
+                                        "offset": 15,
+                                        "line": 7,
+                                        "filename": null
+                                    },
+                                    "value": "["
+                                },
+                                "rBrack": {
+                                    "pos": {
+                                        "offset": 16,
+                                        "line": 7,
+                                        "filename": null
+                                    },
+                                    "value": "]"
+                                },
+                                "elemType": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 19,
+                                            "line": 7,
+                                            "filename": null
+                                        },
+                                        "name": "int"
+                                    },
+                                    "typeArgs": null
+                                }
+                            },
+                            "lBrace": {
+                                "pos": {
+                                    "offset": 20,
+                                    "line": 7,
+                                    "filename": null
+                                },
+                                "value": "{"
+                            },
+                            "elementList": {
+                                "elements": [
+                                    {
+                                        "key": null,
+                                        "colon": null,
+                                        "element": {
+                                            "pos": {
+                                                "offset": 21,
+                                                "line": 7,
+                                                "filename": null
+                                            },
+                                            "digits": "1"
+                                        }
+                                    },
+                                    {
+                                        "key": null,
+                                        "colon": null,
+                                        "element": {
+                                            "pos": {
+                                                "offset": 24,
+                                                "line": 7,
+                                                "filename": null
+                                            },
+                                            "digits": "2"
+                                        }
+                                    },
+                                    {
+                                        "key": null,
+                                        "colon": null,
+                                        "element": {
+                                            "pos": {
+                                                "offset": 27,
+                                                "line": 7,
+                                                "filename": null
+                                            },
+                                            "digits": "3"
+                                        }
+                                    }
+                                ]
+                            },
+                            "rBrace": {
+                                "pos": {
+                                    "offset": 28,
+                                    "line": 7,
+                                    "filename": null
+                                },
+                                "value": "}"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 3,
+                    "line": 9,
+                    "filename": null
+                },
+                "word": "var"
+            },
+            "spec": {
+                "identList": {
+                    "idents": [
+                        {
+                            "pos": {
+                                "offset": 5,
+                                "line": 9,
+                                "filename": null
+                            },
+                            "name": "d"
+                        }
+                    ]
+                },
+                "type": {
+                    "keyword": {
+                        "pos": {
+                            "offset": 9,
+                            "line": 9,
+                            "filename": null
+                        },
+                        "word": "map"
+                    },
+                    "lBrack": {
+                        "pos": {
+                            "offset": 10,
+                            "line": 9,
+                            "filename": null
+                        },
+                        "value": "["
+                    },
+                    "keyType": {
+                        "name": {
+                            "pos": {
+                                "offset": 16,
+                                "line": 9,
+                                "filename": null
+                            },
+                            "name": "string"
+                        },
+                        "typeArgs": null
+                    },
+                    "rBrack": {
+                        "pos": {
+                            "offset": 17,
+                            "line": 9,
+                            "filename": null
+                        },
+                        "value": "]"
+                    },
+                    "elemType": {
+                        "lBrack": {
+                            "pos": {
+                                "offset": 18,
+                                "line": 9,
+                                "filename": null
+                            },
+                            "value": "["
+                        },
+                        "len": {
+                            "pos": {
+                                "offset": 19,
+                                "line": 9,
+                                "filename": null
+                            },
+                            "digits": "1"
+                        },
+                        "rBrack": {
+                            "pos": {
+                                "offset": 20,
+                                "line": 9,
+                                "filename": null
+                            },
+                            "value": "]"
+                        },
+                        "elemType": {
+                            "name": {
+                                "pos": {
+                                    "offset": 23,
+                                    "line": 9,
+                                    "filename": null
+                                },
+                                "name": "int"
+                            },
+                            "typeArgs": null
+                        }
+                    }
+                },
+                "initList": {
+                    "exprs": [
+                        {
+                            "type": {
+                                "keyword": {
+                                    "pos": {
+                                        "offset": 29,
+                                        "line": 9,
+                                        "filename": null
+                                    },
+                                    "word": "map"
+                                },
+                                "lBrack": {
+                                    "pos": {
+                                        "offset": 30,
+                                        "line": 9,
+                                        "filename": null
+                                    },
+                                    "value": "["
+                                },
+                                "keyType": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 36,
+                                            "line": 9,
+                                            "filename": null
+                                        },
+                                        "name": "string"
+                                    },
+                                    "typeArgs": null
+                                },
+                                "rBrack": {
+                                    "pos": {
+                                        "offset": 37,
+                                        "line": 9,
+                                        "filename": null
+                                    },
+                                    "value": "]"
+                                },
+                                "elemType": {
+                                    "lBrack": {
+                                        "pos": {
+                                            "offset": 38,
+                                            "line": 9,
+                                            "filename": null
+                                        },
+                                        "value": "["
+                                    },
+                                    "len": {
+                                        "pos": {
+                                            "offset": 39,
+                                            "line": 9,
+                                            "filename": null
+                                        },
+                                        "digits": "1"
+                                    },
+                                    "rBrack": {
+                                        "pos": {
+                                            "offset": 40,
+                                            "line": 9,
+                                            "filename": null
+                                        },
+                                        "value": "]"
+                                    },
+                                    "elemType": {
+                                        "name": {
+                                            "pos": {
+                                                "offset": 43,
+                                                "line": 9,
+                                                "filename": null
+                                            },
+                                            "name": "int"
+                                        },
+                                        "typeArgs": null
+                                    }
+                                }
+                            },
+                            "lBrace": {
+                                "pos": {
+                                    "offset": 44,
+                                    "line": 9,
+                                    "filename": null
+                                },
+                                "value": "{"
+                            },
+                            "elementList": {
+                                "elements": [
+                                    {
+                                        "key": {
+                                            "pos": {
+                                                "offset": 49,
+                                                "line": 9,
+                                                "filename": null
+                                            },
+                                            "str": "\"key\""
+                                        },
+                                        "colon": {
+                                            "pos": {
+                                                "offset": 50,
+                                                "line": 9,
+                                                "filename": null
+                                            },
+                                            "value": ":"
+                                        },
+                                        "element": {
+                                            "type": {
+                                                "lBrack": {
+                                                    "pos": {
+                                                        "offset": 52,
+                                                        "line": 9,
+                                                        "filename": null
+                                                    },
+                                                    "value": "["
+                                                },
+                                                "len": {
+                                                    "pos": {
+                                                        "offset": 55,
+                                                        "line": 9,
+                                                        "filename": null
+                                                    },
+                                                    "value": "..."
+                                                },
+                                                "rBrack": {
+                                                    "pos": {
+                                                        "offset": 56,
+                                                        "line": 9,
+                                                        "filename": null
+                                                    },
+                                                    "value": "]"
+                                                },
+                                                "elemType": {
+                                                    "name": {
+                                                        "pos": {
+                                                            "offset": 59,
+                                                            "line": 9,
+                                                            "filename": null
+                                                        },
+                                                        "name": "int"
+                                                    },
+                                                    "typeArgs": null
+                                                }
+                                            },
+                                            "lBrace": {
+                                                "pos": {
+                                                    "offset": 60,
+                                                    "line": 9,
+                                                    "filename": null
+                                                },
+                                                "value": "{"
+                                            },
+                                            "elementList": {
+                                                "elements": [
+                                                    {
+                                                        "key": null,
+                                                        "colon": null,
+                                                        "element": {
+                                                            "pos": {
+                                                                "offset": 61,
+                                                                "line": 9,
+                                                                "filename": null
+                                                            },
+                                                            "digits": "1"
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            "rBrace": {
+                                                "pos": {
+                                                    "offset": 62,
+                                                    "line": 9,
+                                                    "filename": null
+                                                },
+                                                "value": "}"
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "rBrace": {
+                                "pos": {
+                                    "offset": 63,
+                                    "line": 9,
+                                    "filename": null
+                                },
+                                "value": "}"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 11,
+                    "filename": null
+                },
+                "word": "type"
+            },
+            "spec": {
+                "value": {
+                    "ident": {
+                        "pos": {
+                            "offset": 6,
+                            "line": 11,
+                            "filename": null
+                        },
+                        "name": "e"
+                    },
+                    "typeParams": null,
+                    "type": {
+                        "op": {
+                            "pos": {
+                                "offset": 8,
+                                "line": 11,
+                                "filename": null
+                            },
+                            "value": "*"
+                        },
+                        "type": {
+                            "name": {
+                                "pos": {
+                                    "offset": 14,
+                                    "line": 11,
+                                    "filename": null
+                                },
+                                "name": "string"
+                            },
+                            "typeArgs": null
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 13,
+                    "filename": null
+                },
+                "word": "type"
+            },
+            "spec": {
+                "value": {
+                    "ident": {
+                        "pos": {
+                            "offset": 6,
+                            "line": 13,
+                            "filename": null
+                        },
+                        "name": "f"
+                    },
+                    "eq": {
+                        "pos": {
+                            "offset": 8,
+                            "line": 13,
+                            "filename": null
+                        },
+                        "value": "="
+                    },
+                    "type": {
+                        "lBrack": {
+                            "pos": {
+                                "offset": 10,
+                                "line": 13,
+                                "filename": null
+                            },
+                            "value": "["
+                        },
+                        "len": {
+                            "pos": {
+                                "offset": 12,
+                                "line": 13,
+                                "filename": null
+                            },
+                            "digits": "10"
+                        },
+                        "rBrack": {
+                            "pos": {
+                                "offset": 13,
+                                "line": 13,
+                                "filename": null
+                            },
+                            "value": "]"
+                        },
+                        "elemType": {
+                            "lBrack": {
+                                "pos": {
+                                    "offset": 14,
+                                    "line": 13,
+                                    "filename": null
+                                },
+                                "value": "["
+                            },
+                            "rBrack": {
+                                "pos": {
+                                    "offset": 15,
+                                    "line": 13,
+                                    "filename": null
+                                },
+                                "value": "]"
+                            },
+                            "elemType": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 21,
+                                        "line": 13,
+                                        "filename": null
+                                    },
+                                    "name": "string"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 15,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 6,
+                    "line": 15,
+                    "filename": null
+                },
+                "name": "g"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 7,
+                            "line": 15,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [],
+                    "rParen": {
+                        "pos": {
+                            "offset": 8,
+                            "line": 15,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "name": {
+                        "pos": {
+                            "offset": 12,
+                            "line": 15,
+                            "filename": null
+                        },
+                        "name": "int"
+                    },
+                    "typeArgs": null
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 14,
+                        "line": 15,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 16,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 9,
+                                            "line": 16,
+                                            "filename": null
+                                        },
+                                        "digits": "1"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 17,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 19,
+                    "filename": null
+                },
+                "word": "type"
+            },
+            "spec": {
+                "value": {
+                    "ident": {
+                        "pos": {
+                            "offset": 6,
+                            "line": 19,
+                            "filename": null
+                        },
+                        "name": "h"
+                    },
+                    "typeParams": null,
+                    "type": {
+                        "keyword": {
+                            "pos": {
+                                "offset": 13,
+                                "line": 19,
+                                "filename": null
+                            },
+                            "word": "struct"
+                        },
+                        "lBrace": {
+                            "pos": {
+                                "offset": 14,
+                                "line": 19,
+                                "filename": null
+                            },
+                            "value": "{"
+                        },
+                        "fieldDecls": [],
+                        "rBrace": {
+                            "pos": {
+                                "offset": 15,
+                                "line": 19,
+                                "filename": null
+                            },
+                            "value": "}"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 21,
+                    "filename": null
+                },
+                "word": "type"
+            },
+            "spec": {
+                "value": {
+                    "ident": {
+                        "pos": {
+                            "offset": 6,
+                            "line": 21,
+                            "filename": null
+                        },
+                        "name": "i"
+                    },
+                    "typeParams": null,
+                    "type": {
+                        "keyword": {
+                            "pos": {
+                                "offset": 16,
+                                "line": 21,
+                                "filename": null
+                            },
+                            "word": "interface"
+                        },
+                        "lBrace": {
+                            "pos": {
+                                "offset": 17,
+                                "line": 21,
+                                "filename": null
+                            },
+                            "value": "{"
+                        },
+                        "items": [],
+                        "rBrace": {
+                            "pos": {
+                                "offset": 18,
+                                "line": 21,
+                                "filename": null
+                            },
+                            "value": "}"
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "filename": null
+}

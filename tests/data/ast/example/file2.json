@@ -1,0 +1,2016 @@
+{
+    "package": {
+        "keyword": {
+            "pos": {
+                "offset": 7,
+                "line": 3,
+                "filename": null
+            },
+            "word": "package"
+        },
+        "identifier": {
+            "pos": {
+                "offset": 11,
+                "line": 3,
+                "filename": null
+            },
+            "name": "tea"
+        }
+    },
+    "imports": [
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 6,
+                    "line": 5,
+                    "filename": null
+                },
+                "word": "import"
+            },
+            "spec": {
+                "leftParen": {
+                    "pos": {
+                        "offset": 8,
+                        "line": 5,
+                        "filename": null
+                    },
+                    "value": "("
+                },
+                "specs": [
+                    {
+                        "name": null,
+                        "path": {
+                            "pos": {
+                                "offset": 6,
+                                "line": 6,
+                                "filename": null
+                            },
+                            "str": "\"fmt\""
+                        }
+                    },
+                    {
+                        "name": null,
+                        "path": {
+                            "pos": {
+                                "offset": 5,
+                                "line": 7,
+                                "filename": null
+                            },
+                            "str": "\"io\""
+                        }
+                    },
+                    {
+                        "name": null,
+                        "path": {
+                            "pos": {
+                                "offset": 7,
+                                "line": 8,
+                                "filename": null
+                            },
+                            "str": "\"sync\""
+                        }
+                    }
+                ],
+                "rightParen": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 9,
+                        "filename": null
+                    },
+                    "value": ")"
+                },
+                "specType": "Import"
+            }
+        }
+    ],
+    "decls": [
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 3,
+                    "line": 11,
+                    "filename": null
+                },
+                "word": "var"
+            },
+            "spec": {
+                "identList": {
+                    "idents": [
+                        {
+                            "pos": {
+                                "offset": 15,
+                                "line": 11,
+                                "filename": null
+                            },
+                            "name": "errCanceled"
+                        }
+                    ]
+                },
+                "type": null,
+                "initList": {
+                    "exprs": [
+                        {
+                            "expr": {
+                                "expr": {
+                                    "pos": {
+                                        "offset": 21,
+                                        "line": 11,
+                                        "filename": null
+                                    },
+                                    "name": "fmt"
+                                },
+                                "selector": {
+                                    "pos": {
+                                        "offset": 28,
+                                        "line": 11,
+                                        "filename": null
+                                    },
+                                    "name": "Errorf"
+                                }
+                            },
+                            "lParen": {
+                                "pos": {
+                                    "offset": 29,
+                                    "line": 11,
+                                    "filename": null
+                                },
+                                "value": "("
+                            },
+                            "args": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 45,
+                                            "line": 11,
+                                            "filename": null
+                                        },
+                                        "str": "\"read cancelled\""
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "rParen": {
+                                "pos": {
+                                    "offset": 46,
+                                    "line": 11,
+                                    "filename": null
+                                },
+                                "value": ")"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 15,
+                    "filename": null
+                },
+                "word": "type"
+            },
+            "spec": {
+                "value": {
+                    "ident": {
+                        "pos": {
+                            "offset": 17,
+                            "line": 15,
+                            "filename": null
+                        },
+                        "name": "cancelReader"
+                    },
+                    "typeParams": null,
+                    "type": {
+                        "keyword": {
+                            "pos": {
+                                "offset": 27,
+                                "line": 15,
+                                "filename": null
+                            },
+                            "word": "interface"
+                        },
+                        "lBrace": {
+                            "pos": {
+                                "offset": 29,
+                                "line": 15,
+                                "filename": null
+                            },
+                            "value": "{"
+                        },
+                        "items": [
+                            {
+                                "typeTerms": [
+                                    {
+                                        "packageName": {
+                                            "pos": {
+                                                "offset": 3,
+                                                "line": 16,
+                                                "filename": null
+                                            },
+                                            "name": "io"
+                                        },
+                                        "typeName": {
+                                            "name": {
+                                                "pos": {
+                                                    "offset": 14,
+                                                    "line": 16,
+                                                    "filename": null
+                                                },
+                                                "name": "ReadCloser"
+                                            },
+                                            "typeArgs": null
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "methodName": {
+                                    "pos": {
+                                        "offset": 7,
+                                        "line": 19,
+                                        "filename": null
+                                    },
+                                    "name": "Cancel"
+                                },
+                                "signature": {
+                                    "params": {
+                                        "lParen": {
+                                            "pos": {
+                                                "offset": 8,
+                                                "line": 19,
+                                                "filename": null
+                                            },
+                                            "value": "("
+                                        },
+                                        "paramList": [],
+                                        "rParen": {
+                                            "pos": {
+                                                "offset": 9,
+                                                "line": 19,
+                                                "filename": null
+                                            },
+                                            "value": ")"
+                                        }
+                                    },
+                                    "result": {
+                                        "name": {
+                                            "pos": {
+                                                "offset": 14,
+                                                "line": 19,
+                                                "filename": null
+                                            },
+                                            "name": "bool"
+                                        },
+                                        "typeArgs": null
+                                    }
+                                }
+                            }
+                        ],
+                        "rBrace": {
+                            "pos": {
+                                "offset": 1,
+                                "line": 20,
+                                "filename": null
+                            },
+                            "value": "}"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 26,
+                    "filename": null
+                },
+                "word": "type"
+            },
+            "spec": {
+                "value": {
+                    "ident": {
+                        "pos": {
+                            "offset": 25,
+                            "line": 26,
+                            "filename": null
+                        },
+                        "name": "fallbackCancelReader"
+                    },
+                    "typeParams": null,
+                    "type": {
+                        "keyword": {
+                            "pos": {
+                                "offset": 32,
+                                "line": 26,
+                                "filename": null
+                            },
+                            "word": "struct"
+                        },
+                        "lBrace": {
+                            "pos": {
+                                "offset": 34,
+                                "line": 26,
+                                "filename": null
+                            },
+                            "value": "{"
+                        },
+                        "fieldDecls": [
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 2,
+                                                "line": 27,
+                                                "filename": null
+                                            },
+                                            "name": "r"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "packageName": {
+                                        "pos": {
+                                            "offset": 13,
+                                            "line": 27,
+                                            "filename": null
+                                        },
+                                        "name": "io"
+                                    },
+                                    "typeName": {
+                                        "name": {
+                                            "pos": {
+                                                "offset": 20,
+                                                "line": 27,
+                                                "filename": null
+                                            },
+                                            "name": "Reader"
+                                        },
+                                        "typeArgs": null
+                                    }
+                                },
+                                "tag": null
+                            },
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 10,
+                                                "line": 28,
+                                                "filename": null
+                                            },
+                                            "name": "cancelled"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 15,
+                                            "line": 28,
+                                            "filename": null
+                                        },
+                                        "name": "bool"
+                                    },
+                                    "typeArgs": null
+                                },
+                                "tag": null
+                            }
+                        ],
+                        "rBrace": {
+                            "pos": {
+                                "offset": 1,
+                                "line": 29,
+                                "filename": null
+                            },
+                            "value": "}"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 34,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 28,
+                    "line": 34,
+                    "filename": null
+                },
+                "name": "newFallbackCancelReader"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 29,
+                            "line": 34,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 35,
+                                            "line": 34,
+                                            "filename": null
+                                        },
+                                        "name": "reader"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "packageName": {
+                                    "pos": {
+                                        "offset": 38,
+                                        "line": 34,
+                                        "filename": null
+                                    },
+                                    "name": "io"
+                                },
+                                "typeName": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 45,
+                                            "line": 34,
+                                            "filename": null
+                                        },
+                                        "name": "Reader"
+                                    },
+                                    "typeArgs": null
+                                }
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 46,
+                            "line": 34,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 48,
+                            "line": 34,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": null,
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 60,
+                                        "line": 34,
+                                        "filename": null
+                                    },
+                                    "name": "cancelReader"
+                                },
+                                "typeArgs": null
+                            }
+                        },
+                        {
+                            "identList": null,
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 67,
+                                        "line": 34,
+                                        "filename": null
+                                    },
+                                    "name": "error"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 68,
+                            "line": 34,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 70,
+                        "line": 34,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 35,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "op": {
+                                            "pos": {
+                                                "offset": 9,
+                                                "line": 35,
+                                                "filename": null
+                                            },
+                                            "value": "&"
+                                        },
+                                        "expr": {
+                                            "type": {
+                                                "name": {
+                                                    "pos": {
+                                                        "offset": 29,
+                                                        "line": 35,
+                                                        "filename": null
+                                                    },
+                                                    "name": "fallbackCancelReader"
+                                                },
+                                                "typeArgs": null
+                                            },
+                                            "lBrace": {
+                                                "pos": {
+                                                    "offset": 30,
+                                                    "line": 35,
+                                                    "filename": null
+                                                },
+                                                "value": "{"
+                                            },
+                                            "elementList": {
+                                                "elements": [
+                                                    {
+                                                        "key": {
+                                                            "pos": {
+                                                                "offset": 31,
+                                                                "line": 35,
+                                                                "filename": null
+                                                            },
+                                                            "name": "r"
+                                                        },
+                                                        "colon": {
+                                                            "pos": {
+                                                                "offset": 32,
+                                                                "line": 35,
+                                                                "filename": null
+                                                            },
+                                                            "value": ":"
+                                                        },
+                                                        "element": {
+                                                            "pos": {
+                                                                "offset": 39,
+                                                                "line": 35,
+                                                                "filename": null
+                                                            },
+                                                            "name": "reader"
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            "rBrace": {
+                                                "pos": {
+                                                    "offset": 40,
+                                                    "line": 35,
+                                                    "filename": null
+                                                },
+                                                "value": "}"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "pos": {
+                                            "offset": 45,
+                                            "line": 35,
+                                            "filename": null
+                                        },
+                                        "name": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 36,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 38,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "receiver": {
+                "lParen": {
+                    "pos": {
+                        "offset": 6,
+                        "line": 38,
+                        "filename": null
+                    },
+                    "value": "("
+                },
+                "paramList": [
+                    {
+                        "identList": {
+                            "idents": [
+                                {
+                                    "pos": {
+                                        "offset": 7,
+                                        "line": 38,
+                                        "filename": null
+                                    },
+                                    "name": "r"
+                                }
+                            ]
+                        },
+                        "ellipsis": null,
+                        "type": {
+                            "op": {
+                                "pos": {
+                                    "offset": 9,
+                                    "line": 38,
+                                    "filename": null
+                                },
+                                "value": "*"
+                            },
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 29,
+                                        "line": 38,
+                                        "filename": null
+                                    },
+                                    "name": "fallbackCancelReader"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    }
+                ],
+                "rParen": {
+                    "pos": {
+                        "offset": 30,
+                        "line": 38,
+                        "filename": null
+                    },
+                    "value": ")"
+                }
+            },
+            "name": {
+                "pos": {
+                    "offset": 35,
+                    "line": 38,
+                    "filename": null
+                },
+                "name": "Read"
+            },
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 36,
+                            "line": 38,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 40,
+                                            "line": 38,
+                                            "filename": null
+                                        },
+                                        "name": "data"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "lBrack": {
+                                    "pos": {
+                                        "offset": 42,
+                                        "line": 38,
+                                        "filename": null
+                                    },
+                                    "value": "["
+                                },
+                                "rBrack": {
+                                    "pos": {
+                                        "offset": 43,
+                                        "line": 38,
+                                        "filename": null
+                                    },
+                                    "value": "]"
+                                },
+                                "elemType": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 47,
+                                            "line": 38,
+                                            "filename": null
+                                        },
+                                        "name": "byte"
+                                    },
+                                    "typeArgs": null
+                                }
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 48,
+                            "line": 38,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 50,
+                            "line": 38,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": null,
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 53,
+                                        "line": 38,
+                                        "filename": null
+                                    },
+                                    "name": "int"
+                                },
+                                "typeArgs": null
+                            }
+                        },
+                        {
+                            "identList": null,
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 60,
+                                        "line": 38,
+                                        "filename": null
+                                    },
+                                    "name": "error"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 61,
+                            "line": 38,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 63,
+                        "line": 38,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "if": {
+                                "pos": {
+                                    "offset": 3,
+                                    "line": 39,
+                                    "filename": null
+                                },
+                                "word": "if"
+                            },
+                            "init": null,
+                            "condition": {
+                                "expr": {
+                                    "pos": {
+                                        "offset": 5,
+                                        "line": 39,
+                                        "filename": null
+                                    },
+                                    "name": "r"
+                                },
+                                "selector": {
+                                    "pos": {
+                                        "offset": 15,
+                                        "line": 39,
+                                        "filename": null
+                                    },
+                                    "name": "cancelled"
+                                }
+                            },
+                            "ifBody": {
+                                "lBrace": {
+                                    "pos": {
+                                        "offset": 17,
+                                        "line": 39,
+                                        "filename": null
+                                    },
+                                    "value": "{"
+                                },
+                                "stmtList": {
+                                    "stmts": [
+                                        {
+                                            "keyword": {
+                                                "pos": {
+                                                    "offset": 8,
+                                                    "line": 40,
+                                                    "filename": null
+                                                },
+                                                "word": "return"
+                                            },
+                                            "exprList": {
+                                                "exprs": [
+                                                    {
+                                                        "pos": {
+                                                            "offset": 10,
+                                                            "line": 40,
+                                                            "filename": null
+                                                        },
+                                                        "digits": "0"
+                                                    },
+                                                    {
+                                                        "pos": {
+                                                            "offset": 23,
+                                                            "line": 40,
+                                                            "filename": null
+                                                        },
+                                                        "name": "errCanceled"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "rBrace": {
+                                    "pos": {
+                                        "offset": 2,
+                                        "line": 41,
+                                        "filename": null
+                                    },
+                                    "value": "}"
+                                }
+                            },
+                            "else": null,
+                            "elseBody": null
+                        },
+                        {
+                            "pos": {
+                                "offset": 0,
+                                "line": 42,
+                                "filename": null
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 43,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "expr": {
+                                            "expr": {
+                                                "expr": {
+                                                    "pos": {
+                                                        "offset": 9,
+                                                        "line": 43,
+                                                        "filename": null
+                                                    },
+                                                    "name": "r"
+                                                },
+                                                "selector": {
+                                                    "pos": {
+                                                        "offset": 11,
+                                                        "line": 43,
+                                                        "filename": null
+                                                    },
+                                                    "name": "r"
+                                                }
+                                            },
+                                            "selector": {
+                                                "pos": {
+                                                    "offset": 16,
+                                                    "line": 43,
+                                                    "filename": null
+                                                },
+                                                "name": "Read"
+                                            }
+                                        },
+                                        "lParen": {
+                                            "pos": {
+                                                "offset": 17,
+                                                "line": 43,
+                                                "filename": null
+                                            },
+                                            "value": "("
+                                        },
+                                        "args": {
+                                            "exprs": [
+                                                {
+                                                    "pos": {
+                                                        "offset": 21,
+                                                        "line": 43,
+                                                        "filename": null
+                                                    },
+                                                    "name": "data"
+                                                }
+                                            ]
+                                        },
+                                        "ellipsis": null,
+                                        "rParen": {
+                                            "pos": {
+                                                "offset": 22,
+                                                "line": 43,
+                                                "filename": null
+                                            },
+                                            "value": ")"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 44,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 46,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "receiver": {
+                "lParen": {
+                    "pos": {
+                        "offset": 6,
+                        "line": 46,
+                        "filename": null
+                    },
+                    "value": "("
+                },
+                "paramList": [
+                    {
+                        "identList": {
+                            "idents": [
+                                {
+                                    "pos": {
+                                        "offset": 7,
+                                        "line": 46,
+                                        "filename": null
+                                    },
+                                    "name": "r"
+                                }
+                            ]
+                        },
+                        "ellipsis": null,
+                        "type": {
+                            "op": {
+                                "pos": {
+                                    "offset": 9,
+                                    "line": 46,
+                                    "filename": null
+                                },
+                                "value": "*"
+                            },
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 29,
+                                        "line": 46,
+                                        "filename": null
+                                    },
+                                    "name": "fallbackCancelReader"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    }
+                ],
+                "rParen": {
+                    "pos": {
+                        "offset": 30,
+                        "line": 46,
+                        "filename": null
+                    },
+                    "value": ")"
+                }
+            },
+            "name": {
+                "pos": {
+                    "offset": 37,
+                    "line": 46,
+                    "filename": null
+                },
+                "name": "Cancel"
+            },
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 38,
+                            "line": 46,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [],
+                    "rParen": {
+                        "pos": {
+                            "offset": 39,
+                            "line": 46,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "name": {
+                        "pos": {
+                            "offset": 44,
+                            "line": 46,
+                            "filename": null
+                        },
+                        "name": "bool"
+                    },
+                    "typeArgs": null
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 46,
+                        "line": 46,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "lhs": {
+                                "exprs": [
+                                    {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 2,
+                                                "line": 47,
+                                                "filename": null
+                                            },
+                                            "name": "r"
+                                        },
+                                        "selector": {
+                                            "pos": {
+                                                "offset": 12,
+                                                "line": 47,
+                                                "filename": null
+                                            },
+                                            "name": "cancelled"
+                                        }
+                                    }
+                                ]
+                            },
+                            "op": {
+                                "pos": {
+                                    "offset": 14,
+                                    "line": 47,
+                                    "filename": null
+                                },
+                                "value": "="
+                            },
+                            "rhs": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 19,
+                                            "line": 47,
+                                            "filename": null
+                                        },
+                                        "name": "true"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 49,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 13,
+                                            "line": 49,
+                                            "filename": null
+                                        },
+                                        "name": "false"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 50,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 52,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "receiver": {
+                "lParen": {
+                    "pos": {
+                        "offset": 6,
+                        "line": 52,
+                        "filename": null
+                    },
+                    "value": "("
+                },
+                "paramList": [
+                    {
+                        "identList": {
+                            "idents": [
+                                {
+                                    "pos": {
+                                        "offset": 7,
+                                        "line": 52,
+                                        "filename": null
+                                    },
+                                    "name": "r"
+                                }
+                            ]
+                        },
+                        "ellipsis": null,
+                        "type": {
+                            "op": {
+                                "pos": {
+                                    "offset": 9,
+                                    "line": 52,
+                                    "filename": null
+                                },
+                                "value": "*"
+                            },
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 29,
+                                        "line": 52,
+                                        "filename": null
+                                    },
+                                    "name": "fallbackCancelReader"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    }
+                ],
+                "rParen": {
+                    "pos": {
+                        "offset": 30,
+                        "line": 52,
+                        "filename": null
+                    },
+                    "value": ")"
+                }
+            },
+            "name": {
+                "pos": {
+                    "offset": 36,
+                    "line": 52,
+                    "filename": null
+                },
+                "name": "Close"
+            },
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 37,
+                            "line": 52,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [],
+                    "rParen": {
+                        "pos": {
+                            "offset": 38,
+                            "line": 52,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "name": {
+                        "pos": {
+                            "offset": 44,
+                            "line": 52,
+                            "filename": null
+                        },
+                        "name": "error"
+                    },
+                    "typeArgs": null
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 46,
+                        "line": 52,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 53,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 11,
+                                            "line": 53,
+                                            "filename": null
+                                        },
+                                        "name": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 54,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 57,
+                    "filename": null
+                },
+                "word": "type"
+            },
+            "spec": {
+                "value": {
+                    "ident": {
+                        "pos": {
+                            "offset": 16,
+                            "line": 57,
+                            "filename": null
+                        },
+                        "name": "cancelMixin"
+                    },
+                    "typeParams": null,
+                    "type": {
+                        "keyword": {
+                            "pos": {
+                                "offset": 23,
+                                "line": 57,
+                                "filename": null
+                            },
+                            "word": "struct"
+                        },
+                        "lBrace": {
+                            "pos": {
+                                "offset": 25,
+                                "line": 57,
+                                "filename": null
+                            },
+                            "value": "{"
+                        },
+                        "fieldDecls": [
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 16,
+                                                "line": 58,
+                                                "filename": null
+                                            },
+                                            "name": "unsafeCancelled"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 21,
+                                            "line": 58,
+                                            "filename": null
+                                        },
+                                        "name": "bool"
+                                    },
+                                    "typeArgs": null
+                                },
+                                "tag": null
+                            },
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 5,
+                                                "line": 59,
+                                                "filename": null
+                                            },
+                                            "name": "lock"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "packageName": {
+                                        "pos": {
+                                            "offset": 21,
+                                            "line": 59,
+                                            "filename": null
+                                        },
+                                        "name": "sync"
+                                    },
+                                    "typeName": {
+                                        "name": {
+                                            "pos": {
+                                                "offset": 27,
+                                                "line": 59,
+                                                "filename": null
+                                            },
+                                            "name": "Mutex"
+                                        },
+                                        "typeArgs": null
+                                    }
+                                },
+                                "tag": null
+                            }
+                        ],
+                        "rBrace": {
+                            "pos": {
+                                "offset": 1,
+                                "line": 60,
+                                "filename": null
+                            },
+                            "value": "}"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 62,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "receiver": {
+                "lParen": {
+                    "pos": {
+                        "offset": 6,
+                        "line": 62,
+                        "filename": null
+                    },
+                    "value": "("
+                },
+                "paramList": [
+                    {
+                        "identList": {
+                            "idents": [
+                                {
+                                    "pos": {
+                                        "offset": 7,
+                                        "line": 62,
+                                        "filename": null
+                                    },
+                                    "name": "c"
+                                }
+                            ]
+                        },
+                        "ellipsis": null,
+                        "type": {
+                            "op": {
+                                "pos": {
+                                    "offset": 9,
+                                    "line": 62,
+                                    "filename": null
+                                },
+                                "value": "*"
+                            },
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 20,
+                                        "line": 62,
+                                        "filename": null
+                                    },
+                                    "name": "cancelMixin"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    }
+                ],
+                "rParen": {
+                    "pos": {
+                        "offset": 21,
+                        "line": 62,
+                        "filename": null
+                    },
+                    "value": ")"
+                }
+            },
+            "name": {
+                "pos": {
+                    "offset": 33,
+                    "line": 62,
+                    "filename": null
+                },
+                "name": "isCancelled"
+            },
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 34,
+                            "line": 62,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [],
+                    "rParen": {
+                        "pos": {
+                            "offset": 35,
+                            "line": 62,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "name": {
+                        "pos": {
+                            "offset": 40,
+                            "line": 62,
+                            "filename": null
+                        },
+                        "name": "bool"
+                    },
+                    "typeArgs": null
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 42,
+                        "line": 62,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "expr": {
+                                "expr": {
+                                    "expr": {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 2,
+                                                "line": 63,
+                                                "filename": null
+                                            },
+                                            "name": "c"
+                                        },
+                                        "selector": {
+                                            "pos": {
+                                                "offset": 7,
+                                                "line": 63,
+                                                "filename": null
+                                            },
+                                            "name": "lock"
+                                        }
+                                    },
+                                    "selector": {
+                                        "pos": {
+                                            "offset": 12,
+                                            "line": 63,
+                                            "filename": null
+                                        },
+                                        "name": "Lock"
+                                    }
+                                },
+                                "lParen": {
+                                    "pos": {
+                                        "offset": 13,
+                                        "line": 63,
+                                        "filename": null
+                                    },
+                                    "value": "("
+                                },
+                                "args": {
+                                    "exprs": []
+                                },
+                                "ellipsis": null,
+                                "rParen": {
+                                    "pos": {
+                                        "offset": 14,
+                                        "line": 63,
+                                        "filename": null
+                                    },
+                                    "value": ")"
+                                }
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 6,
+                                    "line": 64,
+                                    "filename": null
+                                },
+                                "word": "defer"
+                            },
+                            "expr": {
+                                "expr": {
+                                    "expr": {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 8,
+                                                "line": 64,
+                                                "filename": null
+                                            },
+                                            "name": "c"
+                                        },
+                                        "selector": {
+                                            "pos": {
+                                                "offset": 13,
+                                                "line": 64,
+                                                "filename": null
+                                            },
+                                            "name": "lock"
+                                        }
+                                    },
+                                    "selector": {
+                                        "pos": {
+                                            "offset": 20,
+                                            "line": 64,
+                                            "filename": null
+                                        },
+                                        "name": "Unlock"
+                                    }
+                                },
+                                "lParen": {
+                                    "pos": {
+                                        "offset": 21,
+                                        "line": 64,
+                                        "filename": null
+                                    },
+                                    "value": "("
+                                },
+                                "args": {
+                                    "exprs": []
+                                },
+                                "ellipsis": null,
+                                "rParen": {
+                                    "pos": {
+                                        "offset": 22,
+                                        "line": 64,
+                                        "filename": null
+                                    },
+                                    "value": ")"
+                                }
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 66,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 9,
+                                                "line": 66,
+                                                "filename": null
+                                            },
+                                            "name": "c"
+                                        },
+                                        "selector": {
+                                            "pos": {
+                                                "offset": 25,
+                                                "line": 66,
+                                                "filename": null
+                                            },
+                                            "name": "unsafeCancelled"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 67,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 69,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "receiver": {
+                "lParen": {
+                    "pos": {
+                        "offset": 6,
+                        "line": 69,
+                        "filename": null
+                    },
+                    "value": "("
+                },
+                "paramList": [
+                    {
+                        "identList": {
+                            "idents": [
+                                {
+                                    "pos": {
+                                        "offset": 7,
+                                        "line": 69,
+                                        "filename": null
+                                    },
+                                    "name": "c"
+                                }
+                            ]
+                        },
+                        "ellipsis": null,
+                        "type": {
+                            "op": {
+                                "pos": {
+                                    "offset": 9,
+                                    "line": 69,
+                                    "filename": null
+                                },
+                                "value": "*"
+                            },
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 20,
+                                        "line": 69,
+                                        "filename": null
+                                    },
+                                    "name": "cancelMixin"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    }
+                ],
+                "rParen": {
+                    "pos": {
+                        "offset": 21,
+                        "line": 69,
+                        "filename": null
+                    },
+                    "value": ")"
+                }
+            },
+            "name": {
+                "pos": {
+                    "offset": 34,
+                    "line": 69,
+                    "filename": null
+                },
+                "name": "setCancelled"
+            },
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 35,
+                            "line": 69,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [],
+                    "rParen": {
+                        "pos": {
+                            "offset": 36,
+                            "line": 69,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": null
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 38,
+                        "line": 69,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "expr": {
+                                "expr": {
+                                    "expr": {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 2,
+                                                "line": 70,
+                                                "filename": null
+                                            },
+                                            "name": "c"
+                                        },
+                                        "selector": {
+                                            "pos": {
+                                                "offset": 7,
+                                                "line": 70,
+                                                "filename": null
+                                            },
+                                            "name": "lock"
+                                        }
+                                    },
+                                    "selector": {
+                                        "pos": {
+                                            "offset": 12,
+                                            "line": 70,
+                                            "filename": null
+                                        },
+                                        "name": "Lock"
+                                    }
+                                },
+                                "lParen": {
+                                    "pos": {
+                                        "offset": 13,
+                                        "line": 70,
+                                        "filename": null
+                                    },
+                                    "value": "("
+                                },
+                                "args": {
+                                    "exprs": []
+                                },
+                                "ellipsis": null,
+                                "rParen": {
+                                    "pos": {
+                                        "offset": 14,
+                                        "line": 70,
+                                        "filename": null
+                                    },
+                                    "value": ")"
+                                }
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 6,
+                                    "line": 71,
+                                    "filename": null
+                                },
+                                "word": "defer"
+                            },
+                            "expr": {
+                                "expr": {
+                                    "expr": {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 8,
+                                                "line": 71,
+                                                "filename": null
+                                            },
+                                            "name": "c"
+                                        },
+                                        "selector": {
+                                            "pos": {
+                                                "offset": 13,
+                                                "line": 71,
+                                                "filename": null
+                                            },
+                                            "name": "lock"
+                                        }
+                                    },
+                                    "selector": {
+                                        "pos": {
+                                            "offset": 20,
+                                            "line": 71,
+                                            "filename": null
+                                        },
+                                        "name": "Unlock"
+                                    }
+                                },
+                                "lParen": {
+                                    "pos": {
+                                        "offset": 21,
+                                        "line": 71,
+                                        "filename": null
+                                    },
+                                    "value": "("
+                                },
+                                "args": {
+                                    "exprs": []
+                                },
+                                "ellipsis": null,
+                                "rParen": {
+                                    "pos": {
+                                        "offset": 22,
+                                        "line": 71,
+                                        "filename": null
+                                    },
+                                    "value": ")"
+                                }
+                            }
+                        },
+                        {
+                            "lhs": {
+                                "exprs": [
+                                    {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 2,
+                                                "line": 73,
+                                                "filename": null
+                                            },
+                                            "name": "c"
+                                        },
+                                        "selector": {
+                                            "pos": {
+                                                "offset": 18,
+                                                "line": 73,
+                                                "filename": null
+                                            },
+                                            "name": "unsafeCancelled"
+                                        }
+                                    }
+                                ]
+                            },
+                            "op": {
+                                "pos": {
+                                    "offset": 20,
+                                    "line": 73,
+                                    "filename": null
+                                },
+                                "value": "="
+                            },
+                            "rhs": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 25,
+                                            "line": 73,
+                                            "filename": null
+                                        },
+                                        "name": "true"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 74,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        }
+    ],
+    "filename": null
+}

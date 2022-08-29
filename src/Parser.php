@@ -1452,47 +1452,81 @@ final class Parser
         $lParen = $this->parsePunctuation(Token::LeftParen);
         $params = [];
 
-        // todo weird ellipsis cases
-        if (!$this->match(Token::RightParen)) {
-            $identsOrTypes = $this->parseTypeOrIdentList();
-            $ellipsis = $variadic ? $this->tryParsePunctuation(Token::Ellipsis) : null;
-            $type = $this->tryParseType();
+        while (!$this->match(Token::RightParen)) {
+            $params = [...$params, ...$this->parseParamDecls($variadic)];
 
-            if ($type === null) {
-                if (!$identsOrTypes instanceof TypeList) {
-                   $this->error('expecting type list');
-                }
-
-                $params = \array_map(
-                    static fn (Type $type): ParamDecl => new ParamDecl(null, null, $type),
-                    $identsOrTypes->types,
-                );
-            } else {
-                if ($identsOrTypes instanceof TypeList) {
-                    $identsOrTypes = IdentList::fromTypeList($identsOrTypes);
-                }
-
-                $params[] = new ParamDecl($identsOrTypes, $ellipsis, $type);
-                $this->consumeIf(Token::Comma);
-
-                while (!$this->match(Token::RightParen)) {
-                    $idents = $this->parseIdentList();
-                    $ellipsis = $variadic ? $this->tryParsePunctuation(Token::Ellipsis) : null;
-                    $type = $this->parseType();
-                    $params[] = new ParamDecl($idents, $ellipsis, $type);
-
-                    if (!$this->match(Token::Comma)) {
-                        break;
-                    }
-
-                    $this->consume(Token::Comma);
-                }
+            if (!$this->match(Token::Comma)) {
+                break;
             }
+
+            $this->consume(Token::Comma);
         }
 
         $rParen = $this->parsePunctuation(Token::RightParen);
 
         return new Params($lParen, $params, $rParen);
+    }
+
+    /**
+     * @return ParamDecl[]
+     */
+    private function parseParamDecls(bool $variadic): array
+    {
+        [$typeList, $ellipsis] = $variadic
+            ? $this->parseTypeListWithVariadic()
+            : [$this->parseTypeList(), null];
+
+        // T1, ...T2
+        if ($ellipsis !== null) {
+            $paramDecls = [];
+            $last = \count($typeList->types) - 1;
+
+            foreach ($typeList->types as $i => $type) {
+                $paramDecls[] = new ParamDecl(
+                    null,
+                    $i === $last ? $ellipsis : null,
+                    $type,
+                );
+
+                return $paramDecls;
+            }
+        }
+
+        $ellipsis = $variadic
+            ? $this->tryParsePunctuation(Token::Ellipsis)
+            : null;
+
+        // x, y ...T
+        if ($ellipsis) {
+            $type = $this->parseType();
+
+            $paramDecl = new ParamDecl(
+                IdentList::fromTypeList($typeList),
+                $ellipsis,
+                $type,
+            );
+
+            return [$paramDecl];
+        }
+
+        $type = $this->tryParseType();
+
+        // x, y T
+        if ($type !== null) {
+            $paramDecl = new ParamDecl(
+                IdentList::fromTypeList($typeList),
+                $ellipsis,
+                $type,
+            );
+
+            return [$paramDecl];
+        }
+
+        // T1, T2
+        return \array_map(
+            static fn (Type $type): ParamDecl => new ParamDecl(null, null, $type),
+            $typeList->types,
+        );
     }
 
     private function parseResult(): Params|Type|null
@@ -1533,34 +1567,29 @@ final class Parser
         return new TypeList($types);
     }
 
-    private function parseTypeOrIdentList(): TypeList|IdentList
+    /**
+     * @return array{TypeList, Punctuation|null}
+     */
+    private function parseTypeListWithVariadic(): array
     {
-        /** @var Type[] $typeOrIdents */
-        $typeOrIdents = [];
+        $types = [];
+        $ellipsis = null;
         do {
-            $typeOrIdent = $this->parseTypeOrIdent();
-
-            if ($typeOrIdent instanceof Ident) {
-                $idents = [$typeOrIdent];
-                foreach ($typeOrIdents as $type) {
-                    $idents[] = $type instanceof SingleTypeName
-                        ? $type->name
-                        : $this->error('expecting name');
-                }
-
-                return new IdentList($idents);
+            if ($ellipsis !== null) {
+                $this->error('can only use ... with final parameter in list');
             }
 
-            $typeOrIdents[] = $typeOrIdent;
+            $ellipsis = $this->tryParsePunctuation(Token::Ellipsis);
+            $types[] = $this->parseTypeInParams();
         } while ($this->consumeIf(Token::Comma) !== null);
 
-        return new TypeList($typeOrIdents);
+        return [new TypeList($types), $ellipsis];
     }
 
-    private function parseTypeOrIdent(): Type|Ident
+    private function parseTypeInParams(): Type
     {
         if ($this->match(Token::Ident)) {
-            return $this->parseTypeNameOrIdent();
+            return $this->parseTypeNameInParams();
         }
 
         return $this->parseType();
@@ -1794,7 +1823,7 @@ final class Parser
             );
     }
 
-    private function parseTypeNameOrIdent(): TypeName|Ident
+    private function parseTypeNameInParams(): TypeName
     {
         $ident = Ident::fromLexeme($this->consume(Token::Ident));
 
@@ -1802,14 +1831,13 @@ final class Parser
             Ident::fromLexeme($this->consume(Token::Ident)) :
             null;
 
-        if ($this->match(Token::LeftBracket)) {
-            if (!$this->checkAheadAfter(Token::RightBracket, Token::Comma, Token::RightBrace)) {
-                return $ident;
-            }
+        $typeArgs = null;
 
+        if (
+            $this->match(Token::LeftBracket)
+            && $this->checkAheadAfter(Token::RightBracket, Token::Comma, Token::RightBrace)
+        ) {
             $typeArgs = $this->parseTypeArgs();
-        } else {
-            $typeArgs = null;
         }
 
         return $typeName === null ?

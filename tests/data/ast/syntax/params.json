@@ -1,0 +1,1565 @@
+{
+    "package": {
+        "keyword": {
+            "pos": {
+                "offset": 7,
+                "line": 1,
+                "filename": null
+            },
+            "word": "package"
+        },
+        "identifier": {
+            "pos": {
+                "offset": 12,
+                "line": 1,
+                "filename": null
+            },
+            "name": "test"
+        }
+    },
+    "imports": [],
+    "decls": [
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 3,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 6,
+                    "line": 3,
+                    "filename": null
+                },
+                "name": "a"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 7,
+                            "line": 3,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [],
+                    "rParen": {
+                        "pos": {
+                            "offset": 8,
+                            "line": 3,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": null
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 10,
+                        "line": 3,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": []
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 11,
+                        "line": 3,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 5,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 6,
+                    "line": 5,
+                    "filename": null
+                },
+                "name": "b"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 7,
+                            "line": 5,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 8,
+                                            "line": 5,
+                                            "filename": null
+                                        },
+                                        "name": "x"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "lBrack": {
+                                    "pos": {
+                                        "offset": 10,
+                                        "line": 5,
+                                        "filename": null
+                                    },
+                                    "value": "["
+                                },
+                                "rBrack": {
+                                    "pos": {
+                                        "offset": 11,
+                                        "line": 5,
+                                        "filename": null
+                                    },
+                                    "value": "]"
+                                },
+                                "elemType": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 14,
+                                            "line": 5,
+                                            "filename": null
+                                        },
+                                        "name": "int"
+                                    },
+                                    "typeArgs": null
+                                }
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 15,
+                            "line": 5,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "name": {
+                        "pos": {
+                            "offset": 19,
+                            "line": 5,
+                            "filename": null
+                        },
+                        "name": "int"
+                    },
+                    "typeArgs": null
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 21,
+                        "line": 5,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 10,
+                                    "line": 6,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 12,
+                                            "line": 6,
+                                            "filename": null
+                                        },
+                                        "digits": "1"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 7,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 9,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 6,
+                    "line": 9,
+                    "filename": null
+                },
+                "name": "c"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 7,
+                            "line": 9,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 8,
+                                            "line": 9,
+                                            "filename": null
+                                        },
+                                        "name": "a"
+                                    },
+                                    {
+                                        "pos": {
+                                            "offset": 11,
+                                            "line": 9,
+                                            "filename": null
+                                        },
+                                        "name": "_"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 15,
+                                        "line": 9,
+                                        "filename": null
+                                    },
+                                    "name": "int"
+                                },
+                                "typeArgs": null
+                            }
+                        },
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 18,
+                                            "line": 9,
+                                            "filename": null
+                                        },
+                                        "name": "z"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 26,
+                                        "line": 9,
+                                        "filename": null
+                                    },
+                                    "name": "float32"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 27,
+                            "line": 9,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "name": {
+                        "pos": {
+                            "offset": 32,
+                            "line": 9,
+                            "filename": null
+                        },
+                        "name": "bool"
+                    },
+                    "typeArgs": null
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 34,
+                        "line": 9,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 10,
+                                    "line": 10,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 15,
+                                            "line": 10,
+                                            "filename": null
+                                        },
+                                        "name": "true"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 11,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 13,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 6,
+                    "line": 13,
+                    "filename": null
+                },
+                "name": "d"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 7,
+                            "line": 13,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 8,
+                                            "line": 13,
+                                            "filename": null
+                                        },
+                                        "name": "a"
+                                    },
+                                    {
+                                        "pos": {
+                                            "offset": 11,
+                                            "line": 13,
+                                            "filename": null
+                                        },
+                                        "name": "b"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 15,
+                                        "line": 13,
+                                        "filename": null
+                                    },
+                                    "name": "int"
+                                },
+                                "typeArgs": null
+                            }
+                        },
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 18,
+                                            "line": 13,
+                                            "filename": null
+                                        },
+                                        "name": "z"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 26,
+                                        "line": 13,
+                                        "filename": null
+                                    },
+                                    "name": "float32"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 27,
+                            "line": 13,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 29,
+                            "line": 13,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": null,
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 33,
+                                        "line": 13,
+                                        "filename": null
+                                    },
+                                    "name": "bool"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 34,
+                            "line": 13,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 36,
+                        "line": 13,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 10,
+                                    "line": 14,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 16,
+                                            "line": 14,
+                                            "filename": null
+                                        },
+                                        "name": "false"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 15,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 17,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 6,
+                    "line": 17,
+                    "filename": null
+                },
+                "name": "e"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 7,
+                            "line": 17,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 13,
+                                            "line": 17,
+                                            "filename": null
+                                        },
+                                        "name": "prefix"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 20,
+                                        "line": 17,
+                                        "filename": null
+                                    },
+                                    "name": "string"
+                                },
+                                "typeArgs": null
+                            }
+                        },
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 28,
+                                            "line": 17,
+                                            "filename": null
+                                        },
+                                        "name": "values"
+                                    }
+                                ]
+                            },
+                            "ellipsis": {
+                                "pos": {
+                                    "offset": 32,
+                                    "line": 17,
+                                    "filename": null
+                                },
+                                "value": "..."
+                            },
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 35,
+                                        "line": 17,
+                                        "filename": null
+                                    },
+                                    "name": "int"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 36,
+                            "line": 17,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": null
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 38,
+                        "line": 17,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": []
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 39,
+                        "line": 17,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 19,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 6,
+                    "line": 19,
+                    "filename": null
+                },
+                "name": "f"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 7,
+                            "line": 19,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 8,
+                                            "line": 19,
+                                            "filename": null
+                                        },
+                                        "name": "a"
+                                    },
+                                    {
+                                        "pos": {
+                                            "offset": 11,
+                                            "line": 19,
+                                            "filename": null
+                                        },
+                                        "name": "b"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 15,
+                                        "line": 19,
+                                        "filename": null
+                                    },
+                                    "name": "int"
+                                },
+                                "typeArgs": null
+                            }
+                        },
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 18,
+                                            "line": 19,
+                                            "filename": null
+                                        },
+                                        "name": "z"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 23,
+                                        "line": 19,
+                                        "filename": null
+                                    },
+                                    "name": "List"
+                                },
+                                "typeArgs": [
+                                    {
+                                        "types": [
+                                            {
+                                                "name": {
+                                                    "pos": {
+                                                        "offset": 27,
+                                                        "line": 19,
+                                                        "filename": null
+                                                    },
+                                                    "name": "int"
+                                                },
+                                                "typeArgs": null
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 33,
+                                            "line": 19,
+                                            "filename": null
+                                        },
+                                        "name": "opt"
+                                    }
+                                ]
+                            },
+                            "ellipsis": {
+                                "pos": {
+                                    "offset": 37,
+                                    "line": 19,
+                                    "filename": null
+                                },
+                                "value": "..."
+                            },
+                            "type": {
+                                "keyword": {
+                                    "pos": {
+                                        "offset": 46,
+                                        "line": 19,
+                                        "filename": null
+                                    },
+                                    "word": "interface"
+                                },
+                                "lBrace": {
+                                    "pos": {
+                                        "offset": 47,
+                                        "line": 19,
+                                        "filename": null
+                                    },
+                                    "value": "{"
+                                },
+                                "items": [],
+                                "rBrace": {
+                                    "pos": {
+                                        "offset": 48,
+                                        "line": 19,
+                                        "filename": null
+                                    },
+                                    "value": "}"
+                                }
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 49,
+                            "line": 19,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 51,
+                            "line": 19,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 58,
+                                            "line": 19,
+                                            "filename": null
+                                        },
+                                        "name": "success"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 63,
+                                        "line": 19,
+                                        "filename": null
+                                    },
+                                    "name": "bool"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 64,
+                            "line": 19,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 66,
+                        "line": 19,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "lhs": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 11,
+                                            "line": 20,
+                                            "filename": null
+                                        },
+                                        "name": "success"
+                                    }
+                                ]
+                            },
+                            "op": {
+                                "pos": {
+                                    "offset": 13,
+                                    "line": 20,
+                                    "filename": null
+                                },
+                                "value": "="
+                            },
+                            "rhs": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 18,
+                                            "line": 20,
+                                            "filename": null
+                                        },
+                                        "name": "true"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 10,
+                                    "line": 21,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": null
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 22,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 24,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 6,
+                    "line": 24,
+                    "filename": null
+                },
+                "name": "g"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 7,
+                            "line": 24,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": null,
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 10,
+                                        "line": 24,
+                                        "filename": null
+                                    },
+                                    "name": "int"
+                                },
+                                "typeArgs": null
+                            }
+                        },
+                        {
+                            "identList": null,
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 15,
+                                        "line": 24,
+                                        "filename": null
+                                    },
+                                    "name": "int"
+                                },
+                                "typeArgs": null
+                            }
+                        },
+                        {
+                            "identList": null,
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 24,
+                                        "line": 24,
+                                        "filename": null
+                                    },
+                                    "name": "float64"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 25,
+                            "line": 24,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 27,
+                            "line": 24,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": null,
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 34,
+                                        "line": 24,
+                                        "filename": null
+                                    },
+                                    "name": "float64"
+                                },
+                                "typeArgs": null
+                            }
+                        },
+                        {
+                            "identList": null,
+                            "ellipsis": null,
+                            "type": {
+                                "op": {
+                                    "pos": {
+                                        "offset": 37,
+                                        "line": 24,
+                                        "filename": null
+                                    },
+                                    "value": "*"
+                                },
+                                "type": {
+                                    "lBrack": {
+                                        "pos": {
+                                            "offset": 38,
+                                            "line": 24,
+                                            "filename": null
+                                        },
+                                        "value": "["
+                                    },
+                                    "rBrack": {
+                                        "pos": {
+                                            "offset": 39,
+                                            "line": 24,
+                                            "filename": null
+                                        },
+                                        "value": "]"
+                                    },
+                                    "elemType": {
+                                        "name": {
+                                            "pos": {
+                                                "offset": 42,
+                                                "line": 24,
+                                                "filename": null
+                                            },
+                                            "name": "int"
+                                        },
+                                        "typeArgs": null
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 43,
+                            "line": 24,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 45,
+                        "line": 24,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 25,
+                                    "filename": null
+                                },
+                                "word": "var"
+                            },
+                            "spec": {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 9,
+                                                "line": 25,
+                                                "filename": null
+                                            },
+                                            "name": "s"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "op": {
+                                        "pos": {
+                                            "offset": 11,
+                                            "line": 25,
+                                            "filename": null
+                                        },
+                                        "value": "*"
+                                    },
+                                    "type": {
+                                        "lBrack": {
+                                            "pos": {
+                                                "offset": 12,
+                                                "line": 25,
+                                                "filename": null
+                                            },
+                                            "value": "["
+                                        },
+                                        "rBrack": {
+                                            "pos": {
+                                                "offset": 13,
+                                                "line": 25,
+                                                "filename": null
+                                            },
+                                            "value": "]"
+                                        },
+                                        "elemType": {
+                                            "name": {
+                                                "pos": {
+                                                    "offset": 16,
+                                                    "line": 25,
+                                                    "filename": null
+                                                },
+                                                "name": "int"
+                                            },
+                                            "typeArgs": null
+                                        }
+                                    }
+                                },
+                                "initList": null
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 10,
+                                    "line": 26,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 14,
+                                            "line": 26,
+                                            "filename": null
+                                        },
+                                        "digits": "1.1"
+                                    },
+                                    {
+                                        "pos": {
+                                            "offset": 17,
+                                            "line": 26,
+                                            "filename": null
+                                        },
+                                        "name": "s"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 27,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 29,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 6,
+                    "line": 29,
+                    "filename": null
+                },
+                "name": "h"
+            },
+            "typeParams": {
+                "lBracket": {
+                    "pos": {
+                        "offset": 7,
+                        "line": 29,
+                        "filename": null
+                    },
+                    "value": "["
+                },
+                "typeParamList": [
+                    {
+                        "identList": {
+                            "idents": [
+                                {
+                                    "pos": {
+                                        "offset": 8,
+                                        "line": 29,
+                                        "filename": null
+                                    },
+                                    "name": "T"
+                                }
+                            ]
+                        },
+                        "type": {
+                            "typeTerms": [
+                                {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 12,
+                                            "line": 29,
+                                            "filename": null
+                                        },
+                                        "name": "any"
+                                    },
+                                    "typeArgs": null
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "rBracket": {
+                    "pos": {
+                        "offset": 13,
+                        "line": 29,
+                        "filename": null
+                    },
+                    "value": "]"
+                }
+            },
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 14,
+                            "line": 29,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 15,
+                                            "line": 29,
+                                            "filename": null
+                                        },
+                                        "name": "n"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 19,
+                                        "line": 29,
+                                        "filename": null
+                                    },
+                                    "name": "int"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 20,
+                            "line": 29,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "keyword": {
+                        "pos": {
+                            "offset": 25,
+                            "line": 29,
+                            "filename": null
+                        },
+                        "word": "func"
+                    },
+                    "signature": {
+                        "params": {
+                            "lParen": {
+                                "pos": {
+                                    "offset": 26,
+                                    "line": 29,
+                                    "filename": null
+                                },
+                                "value": "("
+                            },
+                            "paramList": [
+                                {
+                                    "identList": {
+                                        "idents": [
+                                            {
+                                                "pos": {
+                                                    "offset": 27,
+                                                    "line": 29,
+                                                    "filename": null
+                                                },
+                                                "name": "p"
+                                            }
+                                        ]
+                                    },
+                                    "ellipsis": null,
+                                    "type": {
+                                        "op": {
+                                            "pos": {
+                                                "offset": 29,
+                                                "line": 29,
+                                                "filename": null
+                                            },
+                                            "value": "*"
+                                        },
+                                        "type": {
+                                            "name": {
+                                                "pos": {
+                                                    "offset": 30,
+                                                    "line": 29,
+                                                    "filename": null
+                                                },
+                                                "name": "T"
+                                            },
+                                            "typeArgs": null
+                                        }
+                                    }
+                                }
+                            ],
+                            "rParen": {
+                                "pos": {
+                                    "offset": 31,
+                                    "line": 29,
+                                    "filename": null
+                                },
+                                "value": ")"
+                            }
+                        },
+                        "result": null
+                    }
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 33,
+                        "line": 29,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 30,
+                                    "filename": null
+                                },
+                                "word": "var"
+                            },
+                            "spec": {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 9,
+                                                "line": 30,
+                                                "filename": null
+                                            },
+                                            "name": "s"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "keyword": {
+                                        "pos": {
+                                            "offset": 14,
+                                            "line": 30,
+                                            "filename": null
+                                        },
+                                        "word": "func"
+                                    },
+                                    "signature": {
+                                        "params": {
+                                            "lParen": {
+                                                "pos": {
+                                                    "offset": 15,
+                                                    "line": 30,
+                                                    "filename": null
+                                                },
+                                                "value": "("
+                                            },
+                                            "paramList": [
+                                                {
+                                                    "identList": {
+                                                        "idents": [
+                                                            {
+                                                                "pos": {
+                                                                    "offset": 16,
+                                                                    "line": 30,
+                                                                    "filename": null
+                                                                },
+                                                                "name": "p"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "ellipsis": null,
+                                                    "type": {
+                                                        "op": {
+                                                            "pos": {
+                                                                "offset": 18,
+                                                                "line": 30,
+                                                                "filename": null
+                                                            },
+                                                            "value": "*"
+                                                        },
+                                                        "type": {
+                                                            "name": {
+                                                                "pos": {
+                                                                    "offset": 19,
+                                                                    "line": 30,
+                                                                    "filename": null
+                                                                },
+                                                                "name": "T"
+                                                            },
+                                                            "typeArgs": null
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            "rParen": {
+                                                "pos": {
+                                                    "offset": 20,
+                                                    "line": 30,
+                                                    "filename": null
+                                                },
+                                                "value": ")"
+                                            }
+                                        },
+                                        "result": null
+                                    }
+                                },
+                                "initList": null
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 10,
+                                    "line": 31,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 12,
+                                            "line": 31,
+                                            "filename": null
+                                        },
+                                        "name": "s"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 32,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        }
+    ],
+    "filename": null
+}

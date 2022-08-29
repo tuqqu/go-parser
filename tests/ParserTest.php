@@ -50,30 +50,31 @@ final class ParserTest extends TestCase
      * @dataProvider syntaxFiles
      * @dataProvider exampleFiles
      */
-    public function testDataFiles(string $src, string $serialized): void
+    public function testDataFiles(string $src, string $expectedAst): void
     {
         $parser = new Parser($src);
         $file = $parser->parse();
+        $astJson = json_encode($file, \JSON_PRETTY_PRINT | \JSON_THROW_ON_ERROR);
 
         self::assertEmpty($parser->getErrors());
-        self::assertEquals(\unserialize($serialized), $file);
+        self::assertEquals($astJson, $expectedAst);
     }
 
     private static function syntaxFiles(): iterable
     {
         $path  = __DIR__ . '/data/';
         $files = [
-            'src/syntax/generic_function.go' => 'serialized/syntax/generic_function.txt',
-            'src/syntax/generic_typedef.go' => 'serialized/syntax/generic_typedef.txt',
-            'src/syntax/interface.go' => 'serialized/syntax/interface.txt',
-            'src/syntax/params.go' => 'serialized/syntax/params.txt',
-            'src/syntax/declarations.go' => 'serialized/syntax/declarations.txt',
+            'src/syntax/generic_function.go' => 'ast/syntax/generic_function.json',
+            'src/syntax/generic_typedef.go' => 'ast/syntax/generic_typedef.json',
+            'src/syntax/interface.go' => 'ast/syntax/interface.json',
+            'src/syntax/params.go' => 'ast/syntax/params.json',
+            'src/syntax/declarations.go' => 'ast/syntax/declarations.json',
         ];
 
-        foreach ($files as $srcFile => $serialized) {
+        foreach ($files as $srcFile => $ast) {
             yield [
                 \file_get_contents($path . $srcFile),
-                \file_get_contents($path . $serialized),
+                \file_get_contents($path . $ast),
             ];
         }
     }
@@ -82,18 +83,18 @@ final class ParserTest extends TestCase
     {
         $path  = __DIR__ . '/data/';
         $files = [
-            'src/example/file1.go' => 'serialized/example/file1.txt',
-            'src/example/file2.go' => 'serialized/example/file2.txt',
-            'src/example/file3.go' => 'serialized/example/file3.txt',
-            'src/example/file4.go' => 'serialized/example/file4.txt',
-            'src/example/file5.go' => 'serialized/example/file5.txt',
-            'src/example/file6.go' => 'serialized/example/file6.txt',
+            'src/example/file1.go' => 'ast/example/file1.json',
+            'src/example/file2.go' => 'ast/example/file2.json',
+            'src/example/file3.go' => 'ast/example/file3.json',
+            'src/example/file4.go' => 'ast/example/file4.json',
+            'src/example/file5.go' => 'ast/example/file5.json',
+            'src/example/file6.go' => 'ast/example/file6.json',
         ];
 
-        foreach ($files as $srcFile => $serialized) {
+        foreach ($files as $srcFile => $ast) {
             yield [
                 \file_get_contents($path . $srcFile),
-                \file_get_contents($path . $serialized),
+                \file_get_contents($path . $ast),
             ];
         }
     }

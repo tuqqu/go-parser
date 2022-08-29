@@ -1,0 +1,3202 @@
+{
+    "package": {
+        "keyword": {
+            "pos": {
+                "offset": 7,
+                "line": 7,
+                "filename": null
+            },
+            "word": "package"
+        },
+        "identifier": {
+            "pos": {
+                "offset": 13,
+                "line": 7,
+                "filename": null
+            },
+            "name": "utils"
+        }
+    },
+    "imports": [],
+    "decls": [
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 10,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 17,
+                    "line": 10,
+                    "filename": null
+                },
+                "name": "ToLowerBytes"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 18,
+                            "line": 10,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 19,
+                                            "line": 10,
+                                            "filename": null
+                                        },
+                                        "name": "b"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "lBrack": {
+                                    "pos": {
+                                        "offset": 21,
+                                        "line": 10,
+                                        "filename": null
+                                    },
+                                    "value": "["
+                                },
+                                "rBrack": {
+                                    "pos": {
+                                        "offset": 22,
+                                        "line": 10,
+                                        "filename": null
+                                    },
+                                    "value": "]"
+                                },
+                                "elemType": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 26,
+                                            "line": 10,
+                                            "filename": null
+                                        },
+                                        "name": "byte"
+                                    },
+                                    "typeArgs": null
+                                }
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 27,
+                            "line": 10,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "lBrack": {
+                        "pos": {
+                            "offset": 29,
+                            "line": 10,
+                            "filename": null
+                        },
+                        "value": "["
+                    },
+                    "rBrack": {
+                        "pos": {
+                            "offset": 30,
+                            "line": 10,
+                            "filename": null
+                        },
+                        "value": "]"
+                    },
+                    "elemType": {
+                        "name": {
+                            "pos": {
+                                "offset": 34,
+                                "line": 10,
+                                "filename": null
+                            },
+                            "name": "byte"
+                        },
+                        "typeArgs": null
+                    }
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 36,
+                        "line": 10,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 4,
+                                    "line": 11,
+                                    "filename": null
+                                },
+                                "word": "for"
+                            },
+                            "iteration": {
+                                "init": {
+                                    "identList": {
+                                        "idents": [
+                                            {
+                                                "pos": {
+                                                    "offset": 6,
+                                                    "line": 11,
+                                                    "filename": null
+                                                },
+                                                "name": "i"
+                                            }
+                                        ]
+                                    },
+                                    "op": {
+                                        "pos": {
+                                            "offset": 9,
+                                            "line": 11,
+                                            "filename": null
+                                        },
+                                        "value": ":="
+                                    },
+                                    "exprList": {
+                                        "exprs": [
+                                            {
+                                                "pos": {
+                                                    "offset": 11,
+                                                    "line": 11,
+                                                    "filename": null
+                                                },
+                                                "digits": "0"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "condition": {
+                                    "expr": {
+                                        "lExpr": {
+                                            "pos": {
+                                                "offset": 14,
+                                                "line": 11,
+                                                "filename": null
+                                            },
+                                            "name": "i"
+                                        },
+                                        "op": {
+                                            "pos": {
+                                                "offset": 16,
+                                                "line": 11,
+                                                "filename": null
+                                            },
+                                            "value": "<"
+                                        },
+                                        "rExpr": {
+                                            "expr": {
+                                                "pos": {
+                                                    "offset": 20,
+                                                    "line": 11,
+                                                    "filename": null
+                                                },
+                                                "name": "len"
+                                            },
+                                            "lParen": {
+                                                "pos": {
+                                                    "offset": 21,
+                                                    "line": 11,
+                                                    "filename": null
+                                                },
+                                                "value": "("
+                                            },
+                                            "args": {
+                                                "exprs": [
+                                                    {
+                                                        "pos": {
+                                                            "offset": 22,
+                                                            "line": 11,
+                                                            "filename": null
+                                                        },
+                                                        "name": "b"
+                                                    }
+                                                ]
+                                            },
+                                            "ellipsis": null,
+                                            "rParen": {
+                                                "pos": {
+                                                    "offset": 23,
+                                                    "line": 11,
+                                                    "filename": null
+                                                },
+                                                "value": ")"
+                                            }
+                                        }
+                                    }
+                                },
+                                "post": {
+                                    "lhs": {
+                                        "pos": {
+                                            "offset": 26,
+                                            "line": 11,
+                                            "filename": null
+                                        },
+                                        "name": "i"
+                                    },
+                                    "op": {
+                                        "pos": {
+                                            "offset": 28,
+                                            "line": 11,
+                                            "filename": null
+                                        },
+                                        "value": "++"
+                                    }
+                                }
+                            },
+                            "body": {
+                                "lBrace": {
+                                    "pos": {
+                                        "offset": 30,
+                                        "line": 11,
+                                        "filename": null
+                                    },
+                                    "value": "{"
+                                },
+                                "stmtList": {
+                                    "stmts": [
+                                        {
+                                            "lhs": {
+                                                "exprs": [
+                                                    {
+                                                        "expr": {
+                                                            "pos": {
+                                                                "offset": 3,
+                                                                "line": 12,
+                                                                "filename": null
+                                                            },
+                                                            "name": "b"
+                                                        },
+                                                        "lParen": {
+                                                            "pos": {
+                                                                "offset": 4,
+                                                                "line": 12,
+                                                                "filename": null
+                                                            },
+                                                            "value": "["
+                                                        },
+                                                        "index": {
+                                                            "pos": {
+                                                                "offset": 5,
+                                                                "line": 12,
+                                                                "filename": null
+                                                            },
+                                                            "name": "i"
+                                                        },
+                                                        "rParen": {
+                                                            "pos": {
+                                                                "offset": 6,
+                                                                "line": 12,
+                                                                "filename": null
+                                                            },
+                                                            "value": "]"
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            "op": {
+                                                "pos": {
+                                                    "offset": 8,
+                                                    "line": 12,
+                                                    "filename": null
+                                                },
+                                                "value": "="
+                                            },
+                                            "rhs": {
+                                                "exprs": [
+                                                    {
+                                                        "expr": {
+                                                            "pos": {
+                                                                "offset": 21,
+                                                                "line": 12,
+                                                                "filename": null
+                                                            },
+                                                            "name": "toLowerTable"
+                                                        },
+                                                        "lParen": {
+                                                            "pos": {
+                                                                "offset": 22,
+                                                                "line": 12,
+                                                                "filename": null
+                                                            },
+                                                            "value": "["
+                                                        },
+                                                        "index": {
+                                                            "expr": {
+                                                                "pos": {
+                                                                    "offset": 23,
+                                                                    "line": 12,
+                                                                    "filename": null
+                                                                },
+                                                                "name": "b"
+                                                            },
+                                                            "lParen": {
+                                                                "pos": {
+                                                                    "offset": 24,
+                                                                    "line": 12,
+                                                                    "filename": null
+                                                                },
+                                                                "value": "["
+                                                            },
+                                                            "index": {
+                                                                "pos": {
+                                                                    "offset": 25,
+                                                                    "line": 12,
+                                                                    "filename": null
+                                                                },
+                                                                "name": "i"
+                                                            },
+                                                            "rParen": {
+                                                                "pos": {
+                                                                    "offset": 26,
+                                                                    "line": 12,
+                                                                    "filename": null
+                                                                },
+                                                                "value": "]"
+                                                            }
+                                                        },
+                                                        "rParen": {
+                                                            "pos": {
+                                                                "offset": 27,
+                                                                "line": 12,
+                                                                "filename": null
+                                                            },
+                                                            "value": "]"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "rBrace": {
+                                    "pos": {
+                                        "offset": 2,
+                                        "line": 13,
+                                        "filename": null
+                                    },
+                                    "value": "}"
+                                }
+                            }
+                        },
+                        {
+                            "pos": {
+                                "offset": 0,
+                                "line": 14,
+                                "filename": null
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 14,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 9,
+                                            "line": 14,
+                                            "filename": null
+                                        },
+                                        "name": "b"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 15,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 18,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 17,
+                    "line": 18,
+                    "filename": null
+                },
+                "name": "ToUpperBytes"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 18,
+                            "line": 18,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 19,
+                                            "line": 18,
+                                            "filename": null
+                                        },
+                                        "name": "b"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "lBrack": {
+                                    "pos": {
+                                        "offset": 21,
+                                        "line": 18,
+                                        "filename": null
+                                    },
+                                    "value": "["
+                                },
+                                "rBrack": {
+                                    "pos": {
+                                        "offset": 22,
+                                        "line": 18,
+                                        "filename": null
+                                    },
+                                    "value": "]"
+                                },
+                                "elemType": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 26,
+                                            "line": 18,
+                                            "filename": null
+                                        },
+                                        "name": "byte"
+                                    },
+                                    "typeArgs": null
+                                }
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 27,
+                            "line": 18,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "lBrack": {
+                        "pos": {
+                            "offset": 29,
+                            "line": 18,
+                            "filename": null
+                        },
+                        "value": "["
+                    },
+                    "rBrack": {
+                        "pos": {
+                            "offset": 30,
+                            "line": 18,
+                            "filename": null
+                        },
+                        "value": "]"
+                    },
+                    "elemType": {
+                        "name": {
+                            "pos": {
+                                "offset": 34,
+                                "line": 18,
+                                "filename": null
+                            },
+                            "name": "byte"
+                        },
+                        "typeArgs": null
+                    }
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 36,
+                        "line": 18,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 4,
+                                    "line": 19,
+                                    "filename": null
+                                },
+                                "word": "for"
+                            },
+                            "iteration": {
+                                "init": {
+                                    "identList": {
+                                        "idents": [
+                                            {
+                                                "pos": {
+                                                    "offset": 6,
+                                                    "line": 19,
+                                                    "filename": null
+                                                },
+                                                "name": "i"
+                                            }
+                                        ]
+                                    },
+                                    "op": {
+                                        "pos": {
+                                            "offset": 9,
+                                            "line": 19,
+                                            "filename": null
+                                        },
+                                        "value": ":="
+                                    },
+                                    "exprList": {
+                                        "exprs": [
+                                            {
+                                                "pos": {
+                                                    "offset": 11,
+                                                    "line": 19,
+                                                    "filename": null
+                                                },
+                                                "digits": "0"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "condition": {
+                                    "expr": {
+                                        "lExpr": {
+                                            "pos": {
+                                                "offset": 14,
+                                                "line": 19,
+                                                "filename": null
+                                            },
+                                            "name": "i"
+                                        },
+                                        "op": {
+                                            "pos": {
+                                                "offset": 16,
+                                                "line": 19,
+                                                "filename": null
+                                            },
+                                            "value": "<"
+                                        },
+                                        "rExpr": {
+                                            "expr": {
+                                                "pos": {
+                                                    "offset": 20,
+                                                    "line": 19,
+                                                    "filename": null
+                                                },
+                                                "name": "len"
+                                            },
+                                            "lParen": {
+                                                "pos": {
+                                                    "offset": 21,
+                                                    "line": 19,
+                                                    "filename": null
+                                                },
+                                                "value": "("
+                                            },
+                                            "args": {
+                                                "exprs": [
+                                                    {
+                                                        "pos": {
+                                                            "offset": 22,
+                                                            "line": 19,
+                                                            "filename": null
+                                                        },
+                                                        "name": "b"
+                                                    }
+                                                ]
+                                            },
+                                            "ellipsis": null,
+                                            "rParen": {
+                                                "pos": {
+                                                    "offset": 23,
+                                                    "line": 19,
+                                                    "filename": null
+                                                },
+                                                "value": ")"
+                                            }
+                                        }
+                                    }
+                                },
+                                "post": {
+                                    "lhs": {
+                                        "pos": {
+                                            "offset": 26,
+                                            "line": 19,
+                                            "filename": null
+                                        },
+                                        "name": "i"
+                                    },
+                                    "op": {
+                                        "pos": {
+                                            "offset": 28,
+                                            "line": 19,
+                                            "filename": null
+                                        },
+                                        "value": "++"
+                                    }
+                                }
+                            },
+                            "body": {
+                                "lBrace": {
+                                    "pos": {
+                                        "offset": 30,
+                                        "line": 19,
+                                        "filename": null
+                                    },
+                                    "value": "{"
+                                },
+                                "stmtList": {
+                                    "stmts": [
+                                        {
+                                            "lhs": {
+                                                "exprs": [
+                                                    {
+                                                        "expr": {
+                                                            "pos": {
+                                                                "offset": 3,
+                                                                "line": 20,
+                                                                "filename": null
+                                                            },
+                                                            "name": "b"
+                                                        },
+                                                        "lParen": {
+                                                            "pos": {
+                                                                "offset": 4,
+                                                                "line": 20,
+                                                                "filename": null
+                                                            },
+                                                            "value": "["
+                                                        },
+                                                        "index": {
+                                                            "pos": {
+                                                                "offset": 5,
+                                                                "line": 20,
+                                                                "filename": null
+                                                            },
+                                                            "name": "i"
+                                                        },
+                                                        "rParen": {
+                                                            "pos": {
+                                                                "offset": 6,
+                                                                "line": 20,
+                                                                "filename": null
+                                                            },
+                                                            "value": "]"
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            "op": {
+                                                "pos": {
+                                                    "offset": 8,
+                                                    "line": 20,
+                                                    "filename": null
+                                                },
+                                                "value": "="
+                                            },
+                                            "rhs": {
+                                                "exprs": [
+                                                    {
+                                                        "expr": {
+                                                            "pos": {
+                                                                "offset": 21,
+                                                                "line": 20,
+                                                                "filename": null
+                                                            },
+                                                            "name": "toUpperTable"
+                                                        },
+                                                        "lParen": {
+                                                            "pos": {
+                                                                "offset": 22,
+                                                                "line": 20,
+                                                                "filename": null
+                                                            },
+                                                            "value": "["
+                                                        },
+                                                        "index": {
+                                                            "expr": {
+                                                                "pos": {
+                                                                    "offset": 23,
+                                                                    "line": 20,
+                                                                    "filename": null
+                                                                },
+                                                                "name": "b"
+                                                            },
+                                                            "lParen": {
+                                                                "pos": {
+                                                                    "offset": 24,
+                                                                    "line": 20,
+                                                                    "filename": null
+                                                                },
+                                                                "value": "["
+                                                            },
+                                                            "index": {
+                                                                "pos": {
+                                                                    "offset": 25,
+                                                                    "line": 20,
+                                                                    "filename": null
+                                                                },
+                                                                "name": "i"
+                                                            },
+                                                            "rParen": {
+                                                                "pos": {
+                                                                    "offset": 26,
+                                                                    "line": 20,
+                                                                    "filename": null
+                                                                },
+                                                                "value": "]"
+                                                            }
+                                                        },
+                                                        "rParen": {
+                                                            "pos": {
+                                                                "offset": 27,
+                                                                "line": 20,
+                                                                "filename": null
+                                                            },
+                                                            "value": "]"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "rBrace": {
+                                    "pos": {
+                                        "offset": 2,
+                                        "line": 21,
+                                        "filename": null
+                                    },
+                                    "value": "}"
+                                }
+                            }
+                        },
+                        {
+                            "pos": {
+                                "offset": 0,
+                                "line": 22,
+                                "filename": null
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 22,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 9,
+                                            "line": 22,
+                                            "filename": null
+                                        },
+                                        "name": "b"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 23,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 26,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 19,
+                    "line": 26,
+                    "filename": null
+                },
+                "name": "TrimRightBytes"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 20,
+                            "line": 26,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 21,
+                                            "line": 26,
+                                            "filename": null
+                                        },
+                                        "name": "b"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "lBrack": {
+                                    "pos": {
+                                        "offset": 23,
+                                        "line": 26,
+                                        "filename": null
+                                    },
+                                    "value": "["
+                                },
+                                "rBrack": {
+                                    "pos": {
+                                        "offset": 24,
+                                        "line": 26,
+                                        "filename": null
+                                    },
+                                    "value": "]"
+                                },
+                                "elemType": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 28,
+                                            "line": 26,
+                                            "filename": null
+                                        },
+                                        "name": "byte"
+                                    },
+                                    "typeArgs": null
+                                }
+                            }
+                        },
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 36,
+                                            "line": 26,
+                                            "filename": null
+                                        },
+                                        "name": "cutset"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 41,
+                                        "line": 26,
+                                        "filename": null
+                                    },
+                                    "name": "byte"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 42,
+                            "line": 26,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "lBrack": {
+                        "pos": {
+                            "offset": 44,
+                            "line": 26,
+                            "filename": null
+                        },
+                        "value": "["
+                    },
+                    "rBrack": {
+                        "pos": {
+                            "offset": 45,
+                            "line": 26,
+                            "filename": null
+                        },
+                        "value": "]"
+                    },
+                    "elemType": {
+                        "name": {
+                            "pos": {
+                                "offset": 49,
+                                "line": 26,
+                                "filename": null
+                            },
+                            "name": "byte"
+                        },
+                        "typeArgs": null
+                    }
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 51,
+                        "line": 26,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 7,
+                                            "line": 27,
+                                            "filename": null
+                                        },
+                                        "name": "lenStr"
+                                    }
+                                ]
+                            },
+                            "op": {
+                                "pos": {
+                                    "offset": 10,
+                                    "line": 27,
+                                    "filename": null
+                                },
+                                "value": ":="
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 14,
+                                                "line": 27,
+                                                "filename": null
+                                            },
+                                            "name": "len"
+                                        },
+                                        "lParen": {
+                                            "pos": {
+                                                "offset": 15,
+                                                "line": 27,
+                                                "filename": null
+                                            },
+                                            "value": "("
+                                        },
+                                        "args": {
+                                            "exprs": [
+                                                {
+                                                    "pos": {
+                                                        "offset": 16,
+                                                        "line": 27,
+                                                        "filename": null
+                                                    },
+                                                    "name": "b"
+                                                }
+                                            ]
+                                        },
+                                        "ellipsis": null,
+                                        "rParen": {
+                                            "pos": {
+                                                "offset": 17,
+                                                "line": 27,
+                                                "filename": null
+                                            },
+                                            "value": ")"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 4,
+                                    "line": 28,
+                                    "filename": null
+                                },
+                                "word": "for"
+                            },
+                            "iteration": {
+                                "lExpr": {
+                                    "lExpr": {
+                                        "pos": {
+                                            "offset": 11,
+                                            "line": 28,
+                                            "filename": null
+                                        },
+                                        "name": "lenStr"
+                                    },
+                                    "op": {
+                                        "pos": {
+                                            "offset": 13,
+                                            "line": 28,
+                                            "filename": null
+                                        },
+                                        "value": ">"
+                                    },
+                                    "rExpr": {
+                                        "pos": {
+                                            "offset": 15,
+                                            "line": 28,
+                                            "filename": null
+                                        },
+                                        "digits": "0"
+                                    }
+                                },
+                                "op": {
+                                    "pos": {
+                                        "offset": 18,
+                                        "line": 28,
+                                        "filename": null
+                                    },
+                                    "value": "&&"
+                                },
+                                "rExpr": {
+                                    "lExpr": {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 20,
+                                                "line": 28,
+                                                "filename": null
+                                            },
+                                            "name": "b"
+                                        },
+                                        "lParen": {
+                                            "pos": {
+                                                "offset": 21,
+                                                "line": 28,
+                                                "filename": null
+                                            },
+                                            "value": "["
+                                        },
+                                        "index": {
+                                            "lExpr": {
+                                                "pos": {
+                                                    "offset": 27,
+                                                    "line": 28,
+                                                    "filename": null
+                                                },
+                                                "name": "lenStr"
+                                            },
+                                            "op": {
+                                                "pos": {
+                                                    "offset": 28,
+                                                    "line": 28,
+                                                    "filename": null
+                                                },
+                                                "value": "-"
+                                            },
+                                            "rExpr": {
+                                                "pos": {
+                                                    "offset": 29,
+                                                    "line": 28,
+                                                    "filename": null
+                                                },
+                                                "digits": "1"
+                                            }
+                                        },
+                                        "rParen": {
+                                            "pos": {
+                                                "offset": 30,
+                                                "line": 28,
+                                                "filename": null
+                                            },
+                                            "value": "]"
+                                        }
+                                    },
+                                    "op": {
+                                        "pos": {
+                                            "offset": 33,
+                                            "line": 28,
+                                            "filename": null
+                                        },
+                                        "value": "=="
+                                    },
+                                    "rExpr": {
+                                        "pos": {
+                                            "offset": 40,
+                                            "line": 28,
+                                            "filename": null
+                                        },
+                                        "name": "cutset"
+                                    }
+                                }
+                            },
+                            "body": {
+                                "lBrace": {
+                                    "pos": {
+                                        "offset": 42,
+                                        "line": 28,
+                                        "filename": null
+                                    },
+                                    "value": "{"
+                                },
+                                "stmtList": {
+                                    "stmts": [
+                                        {
+                                            "lhs": {
+                                                "pos": {
+                                                    "offset": 8,
+                                                    "line": 29,
+                                                    "filename": null
+                                                },
+                                                "name": "lenStr"
+                                            },
+                                            "op": {
+                                                "pos": {
+                                                    "offset": 10,
+                                                    "line": 29,
+                                                    "filename": null
+                                                },
+                                                "value": "--"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "rBrace": {
+                                    "pos": {
+                                        "offset": 2,
+                                        "line": 30,
+                                        "filename": null
+                                    },
+                                    "value": "}"
+                                }
+                            }
+                        },
+                        {
+                            "pos": {
+                                "offset": 0,
+                                "line": 31,
+                                "filename": null
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 31,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 9,
+                                                "line": 31,
+                                                "filename": null
+                                            },
+                                            "name": "b"
+                                        },
+                                        "lParen": {
+                                            "pos": {
+                                                "offset": 10,
+                                                "line": 31,
+                                                "filename": null
+                                            },
+                                            "value": "["
+                                        },
+                                        "low": null,
+                                        "colon": {
+                                            "pos": {
+                                                "offset": 11,
+                                                "line": 31,
+                                                "filename": null
+                                            },
+                                            "value": ":"
+                                        },
+                                        "high": {
+                                            "pos": {
+                                                "offset": 17,
+                                                "line": 31,
+                                                "filename": null
+                                            },
+                                            "name": "lenStr"
+                                        },
+                                        "rParen": {
+                                            "pos": {
+                                                "offset": 18,
+                                                "line": 31,
+                                                "filename": null
+                                            },
+                                            "value": "]"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 32,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 35,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 18,
+                    "line": 35,
+                    "filename": null
+                },
+                "name": "TrimLeftBytes"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 19,
+                            "line": 35,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 20,
+                                            "line": 35,
+                                            "filename": null
+                                        },
+                                        "name": "b"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "lBrack": {
+                                    "pos": {
+                                        "offset": 22,
+                                        "line": 35,
+                                        "filename": null
+                                    },
+                                    "value": "["
+                                },
+                                "rBrack": {
+                                    "pos": {
+                                        "offset": 23,
+                                        "line": 35,
+                                        "filename": null
+                                    },
+                                    "value": "]"
+                                },
+                                "elemType": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 27,
+                                            "line": 35,
+                                            "filename": null
+                                        },
+                                        "name": "byte"
+                                    },
+                                    "typeArgs": null
+                                }
+                            }
+                        },
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 35,
+                                            "line": 35,
+                                            "filename": null
+                                        },
+                                        "name": "cutset"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 40,
+                                        "line": 35,
+                                        "filename": null
+                                    },
+                                    "name": "byte"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 41,
+                            "line": 35,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "lBrack": {
+                        "pos": {
+                            "offset": 43,
+                            "line": 35,
+                            "filename": null
+                        },
+                        "value": "["
+                    },
+                    "rBrack": {
+                        "pos": {
+                            "offset": 44,
+                            "line": 35,
+                            "filename": null
+                        },
+                        "value": "]"
+                    },
+                    "elemType": {
+                        "name": {
+                            "pos": {
+                                "offset": 48,
+                                "line": 35,
+                                "filename": null
+                            },
+                            "name": "byte"
+                        },
+                        "typeArgs": null
+                    }
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 50,
+                        "line": 35,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 7,
+                                            "line": 36,
+                                            "filename": null
+                                        },
+                                        "name": "lenStr"
+                                    },
+                                    {
+                                        "pos": {
+                                            "offset": 14,
+                                            "line": 36,
+                                            "filename": null
+                                        },
+                                        "name": "start"
+                                    }
+                                ]
+                            },
+                            "op": {
+                                "pos": {
+                                    "offset": 17,
+                                    "line": 36,
+                                    "filename": null
+                                },
+                                "value": ":="
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 21,
+                                                "line": 36,
+                                                "filename": null
+                                            },
+                                            "name": "len"
+                                        },
+                                        "lParen": {
+                                            "pos": {
+                                                "offset": 22,
+                                                "line": 36,
+                                                "filename": null
+                                            },
+                                            "value": "("
+                                        },
+                                        "args": {
+                                            "exprs": [
+                                                {
+                                                    "pos": {
+                                                        "offset": 23,
+                                                        "line": 36,
+                                                        "filename": null
+                                                    },
+                                                    "name": "b"
+                                                }
+                                            ]
+                                        },
+                                        "ellipsis": null,
+                                        "rParen": {
+                                            "pos": {
+                                                "offset": 24,
+                                                "line": 36,
+                                                "filename": null
+                                            },
+                                            "value": ")"
+                                        }
+                                    },
+                                    {
+                                        "pos": {
+                                            "offset": 27,
+                                            "line": 36,
+                                            "filename": null
+                                        },
+                                        "digits": "0"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 4,
+                                    "line": 37,
+                                    "filename": null
+                                },
+                                "word": "for"
+                            },
+                            "iteration": {
+                                "lExpr": {
+                                    "lExpr": {
+                                        "pos": {
+                                            "offset": 10,
+                                            "line": 37,
+                                            "filename": null
+                                        },
+                                        "name": "start"
+                                    },
+                                    "op": {
+                                        "pos": {
+                                            "offset": 12,
+                                            "line": 37,
+                                            "filename": null
+                                        },
+                                        "value": "<"
+                                    },
+                                    "rExpr": {
+                                        "pos": {
+                                            "offset": 19,
+                                            "line": 37,
+                                            "filename": null
+                                        },
+                                        "name": "lenStr"
+                                    }
+                                },
+                                "op": {
+                                    "pos": {
+                                        "offset": 22,
+                                        "line": 37,
+                                        "filename": null
+                                    },
+                                    "value": "&&"
+                                },
+                                "rExpr": {
+                                    "lExpr": {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 24,
+                                                "line": 37,
+                                                "filename": null
+                                            },
+                                            "name": "b"
+                                        },
+                                        "lParen": {
+                                            "pos": {
+                                                "offset": 25,
+                                                "line": 37,
+                                                "filename": null
+                                            },
+                                            "value": "["
+                                        },
+                                        "index": {
+                                            "pos": {
+                                                "offset": 30,
+                                                "line": 37,
+                                                "filename": null
+                                            },
+                                            "name": "start"
+                                        },
+                                        "rParen": {
+                                            "pos": {
+                                                "offset": 31,
+                                                "line": 37,
+                                                "filename": null
+                                            },
+                                            "value": "]"
+                                        }
+                                    },
+                                    "op": {
+                                        "pos": {
+                                            "offset": 34,
+                                            "line": 37,
+                                            "filename": null
+                                        },
+                                        "value": "=="
+                                    },
+                                    "rExpr": {
+                                        "pos": {
+                                            "offset": 41,
+                                            "line": 37,
+                                            "filename": null
+                                        },
+                                        "name": "cutset"
+                                    }
+                                }
+                            },
+                            "body": {
+                                "lBrace": {
+                                    "pos": {
+                                        "offset": 43,
+                                        "line": 37,
+                                        "filename": null
+                                    },
+                                    "value": "{"
+                                },
+                                "stmtList": {
+                                    "stmts": [
+                                        {
+                                            "lhs": {
+                                                "pos": {
+                                                    "offset": 7,
+                                                    "line": 38,
+                                                    "filename": null
+                                                },
+                                                "name": "start"
+                                            },
+                                            "op": {
+                                                "pos": {
+                                                    "offset": 9,
+                                                    "line": 38,
+                                                    "filename": null
+                                                },
+                                                "value": "++"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "rBrace": {
+                                    "pos": {
+                                        "offset": 2,
+                                        "line": 39,
+                                        "filename": null
+                                    },
+                                    "value": "}"
+                                }
+                            }
+                        },
+                        {
+                            "pos": {
+                                "offset": 0,
+                                "line": 40,
+                                "filename": null
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 40,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 9,
+                                                "line": 40,
+                                                "filename": null
+                                            },
+                                            "name": "b"
+                                        },
+                                        "lParen": {
+                                            "pos": {
+                                                "offset": 10,
+                                                "line": 40,
+                                                "filename": null
+                                            },
+                                            "value": "["
+                                        },
+                                        "low": {
+                                            "pos": {
+                                                "offset": 15,
+                                                "line": 40,
+                                                "filename": null
+                                            },
+                                            "name": "start"
+                                        },
+                                        "colon": {
+                                            "pos": {
+                                                "offset": 16,
+                                                "line": 40,
+                                                "filename": null
+                                            },
+                                            "value": ":"
+                                        },
+                                        "high": null,
+                                        "rParen": {
+                                            "pos": {
+                                                "offset": 17,
+                                                "line": 40,
+                                                "filename": null
+                                            },
+                                            "value": "]"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 41,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 44,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 14,
+                    "line": 44,
+                    "filename": null
+                },
+                "name": "TrimBytes"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 15,
+                            "line": 44,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 16,
+                                            "line": 44,
+                                            "filename": null
+                                        },
+                                        "name": "b"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "lBrack": {
+                                    "pos": {
+                                        "offset": 18,
+                                        "line": 44,
+                                        "filename": null
+                                    },
+                                    "value": "["
+                                },
+                                "rBrack": {
+                                    "pos": {
+                                        "offset": 19,
+                                        "line": 44,
+                                        "filename": null
+                                    },
+                                    "value": "]"
+                                },
+                                "elemType": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 23,
+                                            "line": 44,
+                                            "filename": null
+                                        },
+                                        "name": "byte"
+                                    },
+                                    "typeArgs": null
+                                }
+                            }
+                        },
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 31,
+                                            "line": 44,
+                                            "filename": null
+                                        },
+                                        "name": "cutset"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 36,
+                                        "line": 44,
+                                        "filename": null
+                                    },
+                                    "name": "byte"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 37,
+                            "line": 44,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "lBrack": {
+                        "pos": {
+                            "offset": 39,
+                            "line": 44,
+                            "filename": null
+                        },
+                        "value": "["
+                    },
+                    "rBrack": {
+                        "pos": {
+                            "offset": 40,
+                            "line": 44,
+                            "filename": null
+                        },
+                        "value": "]"
+                    },
+                    "elemType": {
+                        "name": {
+                            "pos": {
+                                "offset": 44,
+                                "line": 44,
+                                "filename": null
+                            },
+                            "name": "byte"
+                        },
+                        "typeArgs": null
+                    }
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 46,
+                        "line": 44,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 2,
+                                            "line": 45,
+                                            "filename": null
+                                        },
+                                        "name": "i"
+                                    },
+                                    {
+                                        "pos": {
+                                            "offset": 5,
+                                            "line": 45,
+                                            "filename": null
+                                        },
+                                        "name": "j"
+                                    }
+                                ]
+                            },
+                            "op": {
+                                "pos": {
+                                    "offset": 8,
+                                    "line": 45,
+                                    "filename": null
+                                },
+                                "value": ":="
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 10,
+                                            "line": 45,
+                                            "filename": null
+                                        },
+                                        "digits": "0"
+                                    },
+                                    {
+                                        "lExpr": {
+                                            "expr": {
+                                                "pos": {
+                                                    "offset": 15,
+                                                    "line": 45,
+                                                    "filename": null
+                                                },
+                                                "name": "len"
+                                            },
+                                            "lParen": {
+                                                "pos": {
+                                                    "offset": 16,
+                                                    "line": 45,
+                                                    "filename": null
+                                                },
+                                                "value": "("
+                                            },
+                                            "args": {
+                                                "exprs": [
+                                                    {
+                                                        "pos": {
+                                                            "offset": 17,
+                                                            "line": 45,
+                                                            "filename": null
+                                                        },
+                                                        "name": "b"
+                                                    }
+                                                ]
+                                            },
+                                            "ellipsis": null,
+                                            "rParen": {
+                                                "pos": {
+                                                    "offset": 18,
+                                                    "line": 45,
+                                                    "filename": null
+                                                },
+                                                "value": ")"
+                                            }
+                                        },
+                                        "op": {
+                                            "pos": {
+                                                "offset": 19,
+                                                "line": 45,
+                                                "filename": null
+                                            },
+                                            "value": "-"
+                                        },
+                                        "rExpr": {
+                                            "pos": {
+                                                "offset": 20,
+                                                "line": 45,
+                                                "filename": null
+                                            },
+                                            "digits": "1"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 4,
+                                    "line": 46,
+                                    "filename": null
+                                },
+                                "word": "for"
+                            },
+                            "iteration": {
+                                "init": {
+                                    "pos": {
+                                        "offset": 6,
+                                        "line": 46,
+                                        "filename": null
+                                    }
+                                },
+                                "condition": {
+                                    "expr": {
+                                        "lExpr": {
+                                            "pos": {
+                                                "offset": 8,
+                                                "line": 46,
+                                                "filename": null
+                                            },
+                                            "name": "i"
+                                        },
+                                        "op": {
+                                            "pos": {
+                                                "offset": 10,
+                                                "line": 46,
+                                                "filename": null
+                                            },
+                                            "value": "<"
+                                        },
+                                        "rExpr": {
+                                            "pos": {
+                                                "offset": 12,
+                                                "line": 46,
+                                                "filename": null
+                                            },
+                                            "name": "j"
+                                        }
+                                    }
+                                },
+                                "post": {
+                                    "lhs": {
+                                        "pos": {
+                                            "offset": 15,
+                                            "line": 46,
+                                            "filename": null
+                                        },
+                                        "name": "i"
+                                    },
+                                    "op": {
+                                        "pos": {
+                                            "offset": 17,
+                                            "line": 46,
+                                            "filename": null
+                                        },
+                                        "value": "++"
+                                    }
+                                }
+                            },
+                            "body": {
+                                "lBrace": {
+                                    "pos": {
+                                        "offset": 19,
+                                        "line": 46,
+                                        "filename": null
+                                    },
+                                    "value": "{"
+                                },
+                                "stmtList": {
+                                    "stmts": [
+                                        {
+                                            "if": {
+                                                "pos": {
+                                                    "offset": 4,
+                                                    "line": 47,
+                                                    "filename": null
+                                                },
+                                                "word": "if"
+                                            },
+                                            "init": null,
+                                            "condition": {
+                                                "lExpr": {
+                                                    "expr": {
+                                                        "pos": {
+                                                            "offset": 6,
+                                                            "line": 47,
+                                                            "filename": null
+                                                        },
+                                                        "name": "b"
+                                                    },
+                                                    "lParen": {
+                                                        "pos": {
+                                                            "offset": 7,
+                                                            "line": 47,
+                                                            "filename": null
+                                                        },
+                                                        "value": "["
+                                                    },
+                                                    "index": {
+                                                        "pos": {
+                                                            "offset": 8,
+                                                            "line": 47,
+                                                            "filename": null
+                                                        },
+                                                        "name": "i"
+                                                    },
+                                                    "rParen": {
+                                                        "pos": {
+                                                            "offset": 9,
+                                                            "line": 47,
+                                                            "filename": null
+                                                        },
+                                                        "value": "]"
+                                                    }
+                                                },
+                                                "op": {
+                                                    "pos": {
+                                                        "offset": 12,
+                                                        "line": 47,
+                                                        "filename": null
+                                                    },
+                                                    "value": "!="
+                                                },
+                                                "rExpr": {
+                                                    "pos": {
+                                                        "offset": 19,
+                                                        "line": 47,
+                                                        "filename": null
+                                                    },
+                                                    "name": "cutset"
+                                                }
+                                            },
+                                            "ifBody": {
+                                                "lBrace": {
+                                                    "pos": {
+                                                        "offset": 21,
+                                                        "line": 47,
+                                                        "filename": null
+                                                    },
+                                                    "value": "{"
+                                                },
+                                                "stmtList": {
+                                                    "stmts": [
+                                                        {
+                                                            "keyword": {
+                                                                "pos": {
+                                                                    "offset": 8,
+                                                                    "line": 48,
+                                                                    "filename": null
+                                                                },
+                                                                "word": "break"
+                                                            },
+                                                            "label": null
+                                                        }
+                                                    ]
+                                                },
+                                                "rBrace": {
+                                                    "pos": {
+                                                        "offset": 3,
+                                                        "line": 49,
+                                                        "filename": null
+                                                    },
+                                                    "value": "}"
+                                                }
+                                            },
+                                            "else": null,
+                                            "elseBody": null
+                                        },
+                                        {
+                                            "pos": {
+                                                "offset": 0,
+                                                "line": 50,
+                                                "filename": null
+                                            }
+                                        }
+                                    ]
+                                },
+                                "rBrace": {
+                                    "pos": {
+                                        "offset": 2,
+                                        "line": 50,
+                                        "filename": null
+                                    },
+                                    "value": "}"
+                                }
+                            }
+                        },
+                        {
+                            "pos": {
+                                "offset": 0,
+                                "line": 51,
+                                "filename": null
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 4,
+                                    "line": 51,
+                                    "filename": null
+                                },
+                                "word": "for"
+                            },
+                            "iteration": {
+                                "init": {
+                                    "pos": {
+                                        "offset": 6,
+                                        "line": 51,
+                                        "filename": null
+                                    }
+                                },
+                                "condition": {
+                                    "expr": {
+                                        "lExpr": {
+                                            "pos": {
+                                                "offset": 8,
+                                                "line": 51,
+                                                "filename": null
+                                            },
+                                            "name": "i"
+                                        },
+                                        "op": {
+                                            "pos": {
+                                                "offset": 10,
+                                                "line": 51,
+                                                "filename": null
+                                            },
+                                            "value": "<"
+                                        },
+                                        "rExpr": {
+                                            "pos": {
+                                                "offset": 12,
+                                                "line": 51,
+                                                "filename": null
+                                            },
+                                            "name": "j"
+                                        }
+                                    }
+                                },
+                                "post": {
+                                    "lhs": {
+                                        "pos": {
+                                            "offset": 15,
+                                            "line": 51,
+                                            "filename": null
+                                        },
+                                        "name": "j"
+                                    },
+                                    "op": {
+                                        "pos": {
+                                            "offset": 17,
+                                            "line": 51,
+                                            "filename": null
+                                        },
+                                        "value": "--"
+                                    }
+                                }
+                            },
+                            "body": {
+                                "lBrace": {
+                                    "pos": {
+                                        "offset": 19,
+                                        "line": 51,
+                                        "filename": null
+                                    },
+                                    "value": "{"
+                                },
+                                "stmtList": {
+                                    "stmts": [
+                                        {
+                                            "if": {
+                                                "pos": {
+                                                    "offset": 4,
+                                                    "line": 52,
+                                                    "filename": null
+                                                },
+                                                "word": "if"
+                                            },
+                                            "init": null,
+                                            "condition": {
+                                                "lExpr": {
+                                                    "expr": {
+                                                        "pos": {
+                                                            "offset": 6,
+                                                            "line": 52,
+                                                            "filename": null
+                                                        },
+                                                        "name": "b"
+                                                    },
+                                                    "lParen": {
+                                                        "pos": {
+                                                            "offset": 7,
+                                                            "line": 52,
+                                                            "filename": null
+                                                        },
+                                                        "value": "["
+                                                    },
+                                                    "index": {
+                                                        "pos": {
+                                                            "offset": 8,
+                                                            "line": 52,
+                                                            "filename": null
+                                                        },
+                                                        "name": "j"
+                                                    },
+                                                    "rParen": {
+                                                        "pos": {
+                                                            "offset": 9,
+                                                            "line": 52,
+                                                            "filename": null
+                                                        },
+                                                        "value": "]"
+                                                    }
+                                                },
+                                                "op": {
+                                                    "pos": {
+                                                        "offset": 12,
+                                                        "line": 52,
+                                                        "filename": null
+                                                    },
+                                                    "value": "!="
+                                                },
+                                                "rExpr": {
+                                                    "pos": {
+                                                        "offset": 19,
+                                                        "line": 52,
+                                                        "filename": null
+                                                    },
+                                                    "name": "cutset"
+                                                }
+                                            },
+                                            "ifBody": {
+                                                "lBrace": {
+                                                    "pos": {
+                                                        "offset": 21,
+                                                        "line": 52,
+                                                        "filename": null
+                                                    },
+                                                    "value": "{"
+                                                },
+                                                "stmtList": {
+                                                    "stmts": [
+                                                        {
+                                                            "keyword": {
+                                                                "pos": {
+                                                                    "offset": 8,
+                                                                    "line": 53,
+                                                                    "filename": null
+                                                                },
+                                                                "word": "break"
+                                                            },
+                                                            "label": null
+                                                        }
+                                                    ]
+                                                },
+                                                "rBrace": {
+                                                    "pos": {
+                                                        "offset": 3,
+                                                        "line": 54,
+                                                        "filename": null
+                                                    },
+                                                    "value": "}"
+                                                }
+                                            },
+                                            "else": null,
+                                            "elseBody": null
+                                        },
+                                        {
+                                            "pos": {
+                                                "offset": 0,
+                                                "line": 55,
+                                                "filename": null
+                                            }
+                                        }
+                                    ]
+                                },
+                                "rBrace": {
+                                    "pos": {
+                                        "offset": 2,
+                                        "line": 55,
+                                        "filename": null
+                                    },
+                                    "value": "}"
+                                }
+                            }
+                        },
+                        {
+                            "pos": {
+                                "offset": 0,
+                                "line": 56,
+                                "filename": null
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 57,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 9,
+                                                "line": 57,
+                                                "filename": null
+                                            },
+                                            "name": "b"
+                                        },
+                                        "lParen": {
+                                            "pos": {
+                                                "offset": 10,
+                                                "line": 57,
+                                                "filename": null
+                                            },
+                                            "value": "["
+                                        },
+                                        "low": {
+                                            "pos": {
+                                                "offset": 11,
+                                                "line": 57,
+                                                "filename": null
+                                            },
+                                            "name": "i"
+                                        },
+                                        "colon": {
+                                            "pos": {
+                                                "offset": 13,
+                                                "line": 57,
+                                                "filename": null
+                                            },
+                                            "value": ":"
+                                        },
+                                        "high": {
+                                            "lExpr": {
+                                                "pos": {
+                                                    "offset": 15,
+                                                    "line": 57,
+                                                    "filename": null
+                                                },
+                                                "name": "j"
+                                            },
+                                            "op": {
+                                                "pos": {
+                                                    "offset": 16,
+                                                    "line": 57,
+                                                    "filename": null
+                                                },
+                                                "value": "+"
+                                            },
+                                            "rExpr": {
+                                                "pos": {
+                                                    "offset": 17,
+                                                    "line": 57,
+                                                    "filename": null
+                                                },
+                                                "digits": "1"
+                                            }
+                                        },
+                                        "rParen": {
+                                            "pos": {
+                                                "offset": 18,
+                                                "line": 57,
+                                                "filename": null
+                                            },
+                                            "value": "]"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 58,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 61,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 19,
+                    "line": 61,
+                    "filename": null
+                },
+                "name": "EqualFoldBytes"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 20,
+                            "line": 61,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 21,
+                                            "line": 61,
+                                            "filename": null
+                                        },
+                                        "name": "b"
+                                    },
+                                    {
+                                        "pos": {
+                                            "offset": 24,
+                                            "line": 61,
+                                            "filename": null
+                                        },
+                                        "name": "s"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "lBrack": {
+                                    "pos": {
+                                        "offset": 26,
+                                        "line": 61,
+                                        "filename": null
+                                    },
+                                    "value": "["
+                                },
+                                "rBrack": {
+                                    "pos": {
+                                        "offset": 27,
+                                        "line": 61,
+                                        "filename": null
+                                    },
+                                    "value": "]"
+                                },
+                                "elemType": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 31,
+                                            "line": 61,
+                                            "filename": null
+                                        },
+                                        "name": "byte"
+                                    },
+                                    "typeArgs": null
+                                }
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 32,
+                            "line": 61,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 34,
+                            "line": 61,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 40,
+                                            "line": 61,
+                                            "filename": null
+                                        },
+                                        "name": "equals"
+                                    }
+                                ]
+                            },
+                            "ellipsis": null,
+                            "type": {
+                                "name": {
+                                    "pos": {
+                                        "offset": 45,
+                                        "line": 61,
+                                        "filename": null
+                                    },
+                                    "name": "bool"
+                                },
+                                "typeArgs": null
+                            }
+                        }
+                    ],
+                    "rParen": {
+                        "pos": {
+                            "offset": 46,
+                            "line": 61,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                }
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 48,
+                        "line": 61,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "identList": {
+                                "idents": [
+                                    {
+                                        "pos": {
+                                            "offset": 2,
+                                            "line": 62,
+                                            "filename": null
+                                        },
+                                        "name": "n"
+                                    }
+                                ]
+                            },
+                            "op": {
+                                "pos": {
+                                    "offset": 5,
+                                    "line": 62,
+                                    "filename": null
+                                },
+                                "value": ":="
+                            },
+                            "exprList": {
+                                "exprs": [
+                                    {
+                                        "expr": {
+                                            "pos": {
+                                                "offset": 9,
+                                                "line": 62,
+                                                "filename": null
+                                            },
+                                            "name": "len"
+                                        },
+                                        "lParen": {
+                                            "pos": {
+                                                "offset": 10,
+                                                "line": 62,
+                                                "filename": null
+                                            },
+                                            "value": "("
+                                        },
+                                        "args": {
+                                            "exprs": [
+                                                {
+                                                    "pos": {
+                                                        "offset": 11,
+                                                        "line": 62,
+                                                        "filename": null
+                                                    },
+                                                    "name": "b"
+                                                }
+                                            ]
+                                        },
+                                        "ellipsis": null,
+                                        "rParen": {
+                                            "pos": {
+                                                "offset": 12,
+                                                "line": 62,
+                                                "filename": null
+                                            },
+                                            "value": ")"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "lhs": {
+                                "exprs": [
+                                    {
+                                        "pos": {
+                                            "offset": 7,
+                                            "line": 63,
+                                            "filename": null
+                                        },
+                                        "name": "equals"
+                                    }
+                                ]
+                            },
+                            "op": {
+                                "pos": {
+                                    "offset": 9,
+                                    "line": 63,
+                                    "filename": null
+                                },
+                                "value": "="
+                            },
+                            "rhs": {
+                                "exprs": [
+                                    {
+                                        "lExpr": {
+                                            "pos": {
+                                                "offset": 11,
+                                                "line": 63,
+                                                "filename": null
+                                            },
+                                            "name": "n"
+                                        },
+                                        "op": {
+                                            "pos": {
+                                                "offset": 14,
+                                                "line": 63,
+                                                "filename": null
+                                            },
+                                            "value": "=="
+                                        },
+                                        "rExpr": {
+                                            "expr": {
+                                                "pos": {
+                                                    "offset": 18,
+                                                    "line": 63,
+                                                    "filename": null
+                                                },
+                                                "name": "len"
+                                            },
+                                            "lParen": {
+                                                "pos": {
+                                                    "offset": 19,
+                                                    "line": 63,
+                                                    "filename": null
+                                                },
+                                                "value": "("
+                                            },
+                                            "args": {
+                                                "exprs": [
+                                                    {
+                                                        "pos": {
+                                                            "offset": 20,
+                                                            "line": 63,
+                                                            "filename": null
+                                                        },
+                                                        "name": "s"
+                                                    }
+                                                ]
+                                            },
+                                            "ellipsis": null,
+                                            "rParen": {
+                                                "pos": {
+                                                    "offset": 21,
+                                                    "line": 63,
+                                                    "filename": null
+                                                },
+                                                "value": ")"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "if": {
+                                "pos": {
+                                    "offset": 3,
+                                    "line": 64,
+                                    "filename": null
+                                },
+                                "word": "if"
+                            },
+                            "init": null,
+                            "condition": {
+                                "pos": {
+                                    "offset": 10,
+                                    "line": 64,
+                                    "filename": null
+                                },
+                                "name": "equals"
+                            },
+                            "ifBody": {
+                                "lBrace": {
+                                    "pos": {
+                                        "offset": 12,
+                                        "line": 64,
+                                        "filename": null
+                                    },
+                                    "value": "{"
+                                },
+                                "stmtList": {
+                                    "stmts": [
+                                        {
+                                            "keyword": {
+                                                "pos": {
+                                                    "offset": 5,
+                                                    "line": 65,
+                                                    "filename": null
+                                                },
+                                                "word": "for"
+                                            },
+                                            "iteration": {
+                                                "init": {
+                                                    "identList": {
+                                                        "idents": [
+                                                            {
+                                                                "pos": {
+                                                                    "offset": 7,
+                                                                    "line": 65,
+                                                                    "filename": null
+                                                                },
+                                                                "name": "i"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "op": {
+                                                        "pos": {
+                                                            "offset": 10,
+                                                            "line": 65,
+                                                            "filename": null
+                                                        },
+                                                        "value": ":="
+                                                    },
+                                                    "exprList": {
+                                                        "exprs": [
+                                                            {
+                                                                "pos": {
+                                                                    "offset": 12,
+                                                                    "line": 65,
+                                                                    "filename": null
+                                                                },
+                                                                "digits": "0"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "condition": {
+                                                    "expr": {
+                                                        "lExpr": {
+                                                            "pos": {
+                                                                "offset": 15,
+                                                                "line": 65,
+                                                                "filename": null
+                                                            },
+                                                            "name": "i"
+                                                        },
+                                                        "op": {
+                                                            "pos": {
+                                                                "offset": 17,
+                                                                "line": 65,
+                                                                "filename": null
+                                                            },
+                                                            "value": "<"
+                                                        },
+                                                        "rExpr": {
+                                                            "pos": {
+                                                                "offset": 19,
+                                                                "line": 65,
+                                                                "filename": null
+                                                            },
+                                                            "name": "n"
+                                                        }
+                                                    }
+                                                },
+                                                "post": {
+                                                    "lhs": {
+                                                        "pos": {
+                                                            "offset": 22,
+                                                            "line": 65,
+                                                            "filename": null
+                                                        },
+                                                        "name": "i"
+                                                    },
+                                                    "op": {
+                                                        "pos": {
+                                                            "offset": 24,
+                                                            "line": 65,
+                                                            "filename": null
+                                                        },
+                                                        "value": "++"
+                                                    }
+                                                }
+                                            },
+                                            "body": {
+                                                "lBrace": {
+                                                    "pos": {
+                                                        "offset": 26,
+                                                        "line": 65,
+                                                        "filename": null
+                                                    },
+                                                    "value": "{"
+                                                },
+                                                "stmtList": {
+                                                    "stmts": [
+                                                        {
+                                                            "if": {
+                                                                "pos": {
+                                                                    "offset": 5,
+                                                                    "line": 66,
+                                                                    "filename": null
+                                                                },
+                                                                "word": "if"
+                                                            },
+                                                            "init": {
+                                                                "lhs": {
+                                                                    "exprs": [
+                                                                        {
+                                                                            "pos": {
+                                                                                "offset": 12,
+                                                                                "line": 66,
+                                                                                "filename": null
+                                                                            },
+                                                                            "name": "equals"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "op": {
+                                                                    "pos": {
+                                                                        "offset": 14,
+                                                                        "line": 66,
+                                                                        "filename": null
+                                                                    },
+                                                                    "value": "="
+                                                                },
+                                                                "rhs": {
+                                                                    "exprs": [
+                                                                        {
+                                                                            "lExpr": {
+                                                                                "lExpr": {
+                                                                                    "expr": {
+                                                                                        "pos": {
+                                                                                            "offset": 16,
+                                                                                            "line": 66,
+                                                                                            "filename": null
+                                                                                        },
+                                                                                        "name": "b"
+                                                                                    },
+                                                                                    "lParen": {
+                                                                                        "pos": {
+                                                                                            "offset": 17,
+                                                                                            "line": 66,
+                                                                                            "filename": null
+                                                                                        },
+                                                                                        "value": "["
+                                                                                    },
+                                                                                    "index": {
+                                                                                        "pos": {
+                                                                                            "offset": 18,
+                                                                                            "line": 66,
+                                                                                            "filename": null
+                                                                                        },
+                                                                                        "name": "i"
+                                                                                    },
+                                                                                    "rParen": {
+                                                                                        "pos": {
+                                                                                            "offset": 19,
+                                                                                            "line": 66,
+                                                                                            "filename": null
+                                                                                        },
+                                                                                        "value": "]"
+                                                                                    }
+                                                                                },
+                                                                                "op": {
+                                                                                    "pos": {
+                                                                                        "offset": 20,
+                                                                                        "line": 66,
+                                                                                        "filename": null
+                                                                                    },
+                                                                                    "value": "|"
+                                                                                },
+                                                                                "rExpr": {
+                                                                                    "pos": {
+                                                                                        "offset": 24,
+                                                                                        "line": 66,
+                                                                                        "filename": null
+                                                                                    },
+                                                                                    "digits": "0x20"
+                                                                                }
+                                                                            },
+                                                                            "op": {
+                                                                                "pos": {
+                                                                                    "offset": 27,
+                                                                                    "line": 66,
+                                                                                    "filename": null
+                                                                                },
+                                                                                "value": "=="
+                                                                            },
+                                                                            "rExpr": {
+                                                                                "lExpr": {
+                                                                                    "expr": {
+                                                                                        "pos": {
+                                                                                            "offset": 29,
+                                                                                            "line": 66,
+                                                                                            "filename": null
+                                                                                        },
+                                                                                        "name": "s"
+                                                                                    },
+                                                                                    "lParen": {
+                                                                                        "pos": {
+                                                                                            "offset": 30,
+                                                                                            "line": 66,
+                                                                                            "filename": null
+                                                                                        },
+                                                                                        "value": "["
+                                                                                    },
+                                                                                    "index": {
+                                                                                        "pos": {
+                                                                                            "offset": 31,
+                                                                                            "line": 66,
+                                                                                            "filename": null
+                                                                                        },
+                                                                                        "name": "i"
+                                                                                    },
+                                                                                    "rParen": {
+                                                                                        "pos": {
+                                                                                            "offset": 32,
+                                                                                            "line": 66,
+                                                                                            "filename": null
+                                                                                        },
+                                                                                        "value": "]"
+                                                                                    }
+                                                                                },
+                                                                                "op": {
+                                                                                    "pos": {
+                                                                                        "offset": 33,
+                                                                                        "line": 66,
+                                                                                        "filename": null
+                                                                                    },
+                                                                                    "value": "|"
+                                                                                },
+                                                                                "rExpr": {
+                                                                                    "pos": {
+                                                                                        "offset": 37,
+                                                                                        "line": 66,
+                                                                                        "filename": null
+                                                                                    },
+                                                                                    "digits": "0x20"
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            },
+                                                            "condition": {
+                                                                "op": {
+                                                                    "pos": {
+                                                                        "offset": 40,
+                                                                        "line": 66,
+                                                                        "filename": null
+                                                                    },
+                                                                    "value": "!"
+                                                                },
+                                                                "expr": {
+                                                                    "pos": {
+                                                                        "offset": 46,
+                                                                        "line": 66,
+                                                                        "filename": null
+                                                                    },
+                                                                    "name": "equals"
+                                                                }
+                                                            },
+                                                            "ifBody": {
+                                                                "lBrace": {
+                                                                    "pos": {
+                                                                        "offset": 48,
+                                                                        "line": 66,
+                                                                        "filename": null
+                                                                    },
+                                                                    "value": "{"
+                                                                },
+                                                                "stmtList": {
+                                                                    "stmts": [
+                                                                        {
+                                                                            "keyword": {
+                                                                                "pos": {
+                                                                                    "offset": 9,
+                                                                                    "line": 67,
+                                                                                    "filename": null
+                                                                                },
+                                                                                "word": "break"
+                                                                            },
+                                                                            "label": null
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "rBrace": {
+                                                                    "pos": {
+                                                                        "offset": 4,
+                                                                        "line": 68,
+                                                                        "filename": null
+                                                                    },
+                                                                    "value": "}"
+                                                                }
+                                                            },
+                                                            "else": null,
+                                                            "elseBody": null
+                                                        },
+                                                        {
+                                                            "pos": {
+                                                                "offset": 0,
+                                                                "line": 69,
+                                                                "filename": null
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                "rBrace": {
+                                                    "pos": {
+                                                        "offset": 3,
+                                                        "line": 69,
+                                                        "filename": null
+                                                    },
+                                                    "value": "}"
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "pos": {
+                                                "offset": 0,
+                                                "line": 70,
+                                                "filename": null
+                                            }
+                                        }
+                                    ]
+                                },
+                                "rBrace": {
+                                    "pos": {
+                                        "offset": 2,
+                                        "line": 70,
+                                        "filename": null
+                                    },
+                                    "value": "}"
+                                }
+                            },
+                            "else": null,
+                            "elseBody": null
+                        },
+                        {
+                            "pos": {
+                                "offset": 0,
+                                "line": 71,
+                                "filename": null
+                            }
+                        },
+                        {
+                            "keyword": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 71,
+                                    "filename": null
+                                },
+                                "word": "return"
+                            },
+                            "exprList": null
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 72,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        }
+    ],
+    "filename": null
+}
