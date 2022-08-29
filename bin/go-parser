@@ -40,6 +40,7 @@ function print_help(): void
     FLAGS:   
         -d, --var-dump      Dump AST using var_dump() or dump() if it is available
             --node-dumper   Dump AST using NodeDumper
+            --json          Dump AST as json
             --decl          Parse single declaration (no package clause)
         -h, --help          Print help message
     
@@ -87,6 +88,11 @@ function parse_argv(array $argv): array
             case '-d':
             case '--var-dump':
                 $dumper = function_exists('dump') ? dump(...) : var_dump(...);
+                break;
+            case '--json':
+                $dumper = static function (AstNode $node): void {
+                    fwrite(STDOUT, json_encode($node, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
+                };
                 break;
             default:
                 if (str_starts_with($arg, '-')) {
@@ -141,5 +147,6 @@ function main(array $argv): never
             $errs = true;
         }
     }
+
     exit((int) $errs);
 }
