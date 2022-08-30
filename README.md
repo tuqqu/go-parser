@@ -10,36 +10,44 @@ composer require tuqqu/go-parser
 
 ## Example
 ```php
-$parser = new \GoParser\Parser('
-package main
+use GoParser\Parser;
 
-import "fmt"
+$program = <<<GO
+    package main
+    
+    import "fmt"
+    
+    func main() {
+        res := add(1, 2)
+        fmt.Println("1+2 =", res)
+    }
+GO;
 
-func main() {
-    res := add(1, 2)
-    fmt.Println("1+2 =", res)
-}
-');
-
+$parser = new Parser($program);
 $ast = $parser->parse();
 $errs = $parser->getErrors();
 ```
 Supported language level: Go 1.18 (generics).
 
-### Parsing single declarations
-If you want, you can parse only a single declaration (e.g. a single function), instead of a fully defined Go program:
-```php
-$parser = new \GoParser\Parser(
-    'func add(x, y int) int { return x + y }', 
-    mode: \GoParser\ParseMode::SingleDecl
-);
-$decl = $parser->parseSingleDecl();
-```
-
 Parser is able to recover itself if a parse error occurs, in this case it will continue parsing at the closest node it is able to recognise.
 
 The resulting AST will be as full as possible, and you have to check `getErrors()` to see errors.
 
+## Single declaration parsing
+
+Parser can also handle a single declaration only (e.g. a single function), instead of a fully defined Go program:
+```php
+use GoParser\{Parser, ParseMode};
+
+$func = <<<GO
+    func add(x, y int) int { 
+        return x + y
+    }
+GO;
+
+$parser = new Parser($func, mode: ParseMode::SingleDecl);
+$decl = $parser->parseSingleDecl();
+```
 
 ## Abstract Syntax Tree
 
