@@ -1453,7 +1453,7 @@ final class Parser
         $params = [];
 
         while (!$this->match(Token::RightParen)) {
-            $params = [...$params, ...$this->parseParamDecls($variadic)];
+            $this->parseParamDecls($variadic, $params);
 
             if (!$this->match(Token::Comma)) {
                 break;
@@ -1468,65 +1468,91 @@ final class Parser
     }
 
     /**
-     * @return ParamDecl[]
+     * @param ParamDecl[] $params
      */
-    private function parseParamDecls(bool $variadic): array
+    private function parseParamDecls(bool $variadic, array &$params): void
     {
-        [$typeList, $ellipsis] = $variadic
-            ? $this->parseTypeListWithVariadic()
-            : [$this->parseTypeList(), null];
+        $this->checkNonVariadicLastParam($params);
+
+        [$typeList, $ellipsis] = $this->parseTypeListInParams();
+
+        if ($ellipsis !== null && !$variadic) {
+            $this->error('can only use ... with final parameter in list');
+        }
 
         // T1, ...T2
         if ($ellipsis !== null) {
-            $paramDecls = [];
             $last = \count($typeList->types) - 1;
 
             foreach ($typeList->types as $i => $type) {
-                $paramDecls[] = new ParamDecl(
+                $params[] = new ParamDecl(
                     null,
                     $i === $last ? $ellipsis : null,
                     $type,
                 );
 
-                return $paramDecls;
+                return;
             }
         }
 
-        $ellipsis = $variadic
-            ? $this->tryParsePunctuation(Token::Ellipsis)
-            : null;
+        $ellipsis = $this->tryParsePunctuation(Token::Ellipsis);
+
+        if ($ellipsis !== null && !$variadic) {
+            $this->error('can only use ... with final parameter in list');
+        }
 
         // x, y ...T
-        if ($ellipsis) {
+        if ($ellipsis !== null) {
             $type = $this->parseType();
 
-            $paramDecl = new ParamDecl(
+            $params[] = new ParamDecl(
                 IdentList::fromTypeList($typeList),
                 $ellipsis,
                 $type,
             );
 
-            return [$paramDecl];
+            return;
         }
 
         $type = $this->tryParseType();
 
         // x, y T
         if ($type !== null) {
-            $paramDecl = new ParamDecl(
+            $params[] = new ParamDecl(
                 IdentList::fromTypeList($typeList),
-                $ellipsis,
+                null,
                 $type,
             );
 
-            return [$paramDecl];
+            return;
         }
 
         // T1, T2
-        return \array_map(
-            static fn (Type $type): ParamDecl => new ParamDecl(null, null, $type),
-            $typeList->types,
-        );
+
+        /** @var ParamDecl[] $params */
+        $params = [
+            ...$params,
+            ...\array_map(
+                static fn (Type $type): ParamDecl => new ParamDecl(null, null, $type),
+                $typeList->types,
+            ),
+        ];
+    }
+
+    /**
+     * @param ParamDecl[] $params
+     */
+    private function checkNonVariadicLastParam(array $params): void
+    {
+        if (empty($params)) {
+            return;
+        }
+
+        $last = $params[\array_key_last($params)] ?? null;
+
+        if ($last !== null && $last->ellipsis !== null) {
+            $this->error('can only use ... with final parameter in list');
+        }
     }
 
     private function parseResult(): Params|Type|null
@@ -1570,7 +1596,7 @@ final class Parser
     /**
      * @return array{TypeList, Punctuation|null}
      */
-    private function parseTypeListWithVariadic(): array
+    private function parseTypeListInParams(): array
     {
         $types = [];
         $ellipsis = null;
