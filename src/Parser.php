@@ -1490,9 +1490,9 @@ final class Parser
                     $i === $last ? $ellipsis : null,
                     $type,
                 );
-
-                return;
             }
+
+            return;
         }
 
         $ellipsis = $this->tryParsePunctuation(Token::Ellipsis);
