@@ -481,6 +481,9 @@ final class Lexer
         return $literal;
     }
 
+    /**
+     * @param callable(string): bool $validate
+     */
     private function digits(callable $validate, bool $separatorPrefix = true): string
     {
         $digits = '';
@@ -500,13 +503,9 @@ final class Lexer
                         $this->error('\'_\' must separate successive digits');
                     }
                     break;
-                case self::isAlphanumeric($char):
-                    if ($validate($char)) {
-                        $digits .= $this->read();
-                        $sep = false;
-                    } else {
-                        $this->error(\sprintf('unexpected literal %s at the end of the statement', $char));
-                    }
+                case self::isAlphanumeric($char) && $validate($char):
+                    $digits .= $this->read();
+                    $sep = false;
                     break;
                 default:
                     break 2;
