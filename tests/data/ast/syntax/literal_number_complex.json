@@ -1,0 +1,197 @@
+{
+    "package": {
+        "keyword": {
+            "pos": {
+                "offset": 7,
+                "line": 1,
+                "filename": null
+            },
+            "word": "package"
+        },
+        "identifier": {
+            "pos": {
+                "offset": 12,
+                "line": 1,
+                "filename": null
+            },
+            "name": "test"
+        }
+    },
+    "imports": [],
+    "decls": [
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 3,
+                    "filename": null
+                },
+                "word": "func"
+            },
+            "name": {
+                "pos": {
+                    "offset": 9,
+                    "line": 3,
+                    "filename": null
+                },
+                "name": "main"
+            },
+            "typeParams": null,
+            "signature": {
+                "params": {
+                    "lParen": {
+                        "pos": {
+                            "offset": 10,
+                            "line": 3,
+                            "filename": null
+                        },
+                        "value": "("
+                    },
+                    "paramList": [],
+                    "rParen": {
+                        "pos": {
+                            "offset": 11,
+                            "line": 3,
+                            "filename": null
+                        },
+                        "value": ")"
+                    }
+                },
+                "result": null
+            },
+            "body": {
+                "lBrace": {
+                    "pos": {
+                        "offset": 13,
+                        "line": 3,
+                        "filename": null
+                    },
+                    "value": "{"
+                },
+                "stmtList": {
+                    "stmts": [
+                        {
+                            "expr": {
+                                "pos": {
+                                    "offset": 6,
+                                    "line": 4,
+                                    "filename": null
+                                },
+                                "digits": "0i"
+                            }
+                        },
+                        {
+                            "expr": {
+                                "pos": {
+                                    "offset": 9,
+                                    "line": 5,
+                                    "filename": null
+                                },
+                                "digits": "0123i"
+                            }
+                        },
+                        {
+                            "expr": {
+                                "pos": {
+                                    "offset": 10,
+                                    "line": 6,
+                                    "filename": null
+                                },
+                                "digits": "0o123i"
+                            }
+                        },
+                        {
+                            "expr": {
+                                "pos": {
+                                    "offset": 10,
+                                    "line": 7,
+                                    "filename": null
+                                },
+                                "digits": "0xabci"
+                            }
+                        },
+                        {
+                            "expr": {
+                                "pos": {
+                                    "offset": 7,
+                                    "line": 8,
+                                    "filename": null
+                                },
+                                "digits": "0.i"
+                            }
+                        },
+                        {
+                            "expr": {
+                                "pos": {
+                                    "offset": 12,
+                                    "line": 9,
+                                    "filename": null
+                                },
+                                "digits": "2.71828i"
+                            }
+                        },
+                        {
+                            "expr": {
+                                "pos": {
+                                    "offset": 10,
+                                    "line": 10,
+                                    "filename": null
+                                },
+                                "digits": "1.e+0i"
+                            }
+                        },
+                        {
+                            "expr": {
+                                "pos": {
+                                    "offset": 16,
+                                    "line": 11,
+                                    "filename": null
+                                },
+                                "digits": "6.67428e-11i"
+                            }
+                        },
+                        {
+                            "expr": {
+                                "pos": {
+                                    "offset": 8,
+                                    "line": 12,
+                                    "filename": null
+                                },
+                                "digits": "1E6i"
+                            }
+                        },
+                        {
+                            "expr": {
+                                "pos": {
+                                    "offset": 8,
+                                    "line": 13,
+                                    "filename": null
+                                },
+                                "digits": ".25i"
+                            }
+                        },
+                        {
+                            "expr": {
+                                "pos": {
+                                    "offset": 14,
+                                    "line": 14,
+                                    "filename": null
+                                },
+                                "digits": ".12345E+5i"
+                            }
+                        }
+                    ]
+                },
+                "rBrace": {
+                    "pos": {
+                        "offset": 1,
+                        "line": 15,
+                        "filename": null
+                    },
+                    "value": "}"
+                }
+            }
+        }
+    ],
+    "filename": null
+}

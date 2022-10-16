@@ -47,61 +47,41 @@ final class ParserTest extends TestCase
     }
 
     /**
-     * @dataProvider syntaxFiles
-     * @dataProvider exampleFiles
+     * @dataProvider dataFiles
      */
     public function testDataFiles(string $src, string $expectedAst): void
     {
         $parser = new Parser($src);
         $file = $parser->parse();
-        $astJson = json_encode($file, \JSON_PRETTY_PRINT | \JSON_THROW_ON_ERROR);
+        $astJson = \json_encode($file, \JSON_PRETTY_PRINT | \JSON_THROW_ON_ERROR);
 
         self::assertEmpty($parser->getErrors());
         self::assertEquals($astJson, $expectedAst);
-    }
-
-    private static function syntaxFiles(): iterable
-    {
-        $path  = __DIR__ . '/data/';
-        $files = [
-            'src/syntax/generic_function.go' => 'ast/syntax/generic_function.json',
-            'src/syntax/generic_typedef.go' => 'ast/syntax/generic_typedef.json',
-            'src/syntax/interface.go' => 'ast/syntax/interface.json',
-            'src/syntax/params.go' => 'ast/syntax/params.json',
-            'src/syntax/declarations.go' => 'ast/syntax/declarations.json',
-        ];
-
-        foreach ($files as $srcFile => $ast) {
-            yield [
-                \file_get_contents($path . $srcFile),
-                \file_get_contents($path . $ast),
-            ];
-        }
-    }
-
-    private static function exampleFiles(): iterable
-    {
-        $path  = __DIR__ . '/data/';
-        $files = [
-            'src/example/file1.go' => 'ast/example/file1.json',
-            'src/example/file2.go' => 'ast/example/file2.json',
-            'src/example/file3.go' => 'ast/example/file3.json',
-            'src/example/file4.go' => 'ast/example/file4.json',
-            'src/example/file5.go' => 'ast/example/file5.json',
-            'src/example/file6.go' => 'ast/example/file6.json',
-        ];
-
-        foreach ($files as $srcFile => $ast) {
-            yield [
-                \file_get_contents($path . $srcFile),
-                \file_get_contents($path . $ast),
-            ];
-        }
     }
 
     private static function assertIdent(string $expected, mixed $actual): void
     {
         self::assertInstanceOf(Ident::class, $actual);
         self::assertEquals($expected, $actual->name);
+    }
+
+    private static function dataFiles(): iterable
+    {
+        yield from self::fileContents('example');
+        yield from self::fileContents('syntax');
+    }
+
+    private static function fileContents(string $dir): iterable
+    {
+        $path  = __DIR__ . '/data/';
+        $files = \glob(\sprintf($path . '/src/%s/*.go', $dir));
+
+        foreach ($files as $file) {
+            $goProgram = \file_get_contents($file);
+            $jsonPath = \sprintf($path . '/ast/%s/%s.json', $dir, \basename($file, '.go'));
+            $parsedJson = \file_get_contents($jsonPath);
+
+            yield $file => [$goProgram, $parsedJson];
+        }
     }
 }
