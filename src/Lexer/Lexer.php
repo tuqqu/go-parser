@@ -593,7 +593,9 @@ final class Lexer
 
     private static function isOctal(string $char): bool
     {
-        return \decoct((int) \octdec($char)) === $char;
+        return $char !== '8'
+            && $char !== '9'
+            && self::isNumeric($char);
     }
 
     private static function isHex(string $char): bool
@@ -603,7 +605,8 @@ final class Lexer
 
     private static function isBinary(string $char): bool
     {
-        return \in_array($char, ['0', '1'], true);
+        return $char === '0'
+            || $char === '1';
     }
 
     // src manipulation
