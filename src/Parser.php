@@ -956,7 +956,7 @@ final class Parser
     private function parseStmtList(): StmtList
     {
         $stmts = [];
-        while (!$this->match(Token::Case, Token::Default, Token::RightBrace)) {
+        while (!$this->matchAny(Token::Case, Token::Default, Token::RightBrace)) {
             $stmt = $this->tryParseWithRecover(
                 $this->parseStmt(...),
                 ParseMode::SingleDecl
@@ -1154,7 +1154,7 @@ final class Parser
     private function parseUnaryExpr(): Expr
     {
         // Unary ops: Math, Bitwise, Not, Pointer, Ref, Receive
-        if ($this->match(
+        if ($this->matchAny(
             Token::Plus,
             Token::Minus,
             Token::LogicNot,
@@ -1362,7 +1362,7 @@ final class Parser
         while (\count($colons) < $maxColons && $this->match(Token::Colon)) {
             $colons[] = $this->parsePunctuation(Token::Colon);
 
-            if (!$this->match(Token::Colon, Token::RightBracket)) {
+            if (!$this->matchAny(Token::Colon, Token::RightBracket)) {
                 $indices[++$i] = $this->parseExpr();
             }
         }
@@ -1775,7 +1775,10 @@ final class Parser
             default => null,
         };
 
-        $path = $this->parseStringLit();
+        $path = match ($this->peek()->token) {
+            Token::RawString => $this->parseRawStringLit(),
+            default => $this->parseStringLit(),
+        };
 
         return new ImportSpec($name, $path);
     }
@@ -1956,20 +1959,22 @@ final class Parser
 
     private function parseSemicolon(): void
     {
-        if (!$this->match(Token::RightBrace, Token::RightBracket)) {
+        if (!$this->matchAny(Token::RightBrace, Token::RightBracket)) {
             $this->consume(Token::Semicolon);
         }
     }
 
     private function consume(Token $token): Lexeme
     {
-        return $this->match($token)
-            ? $this->advance()
-            : $this->error(\sprintf(
-                'unexpected token \'%s\', expecting \'%s\'',
-                $this->peek()->token->name,
-                $token->name,
-            ));
+        if ($this->match($token)) {
+            return $this->advance();
+        }
+
+        $this->error(\sprintf(
+            'unexpected token \'%s\', expecting \'%s\'',
+            $this->peek()->token->name,
+            $token->name,
+        ));
     }
 
     private function consumeIf(Token ...$tokens): ?Lexeme
@@ -1997,7 +2002,12 @@ final class Parser
         return $this->peekBy(0);
     }
 
-    private function match(Token ...$tokens): bool
+    private function match(Token $token): bool
+    {
+        return $this->peek()->token === $token;
+    }
+
+    private function matchAny(Token ...$tokens): bool
     {
         return \in_array($this->peek()->token, $tokens, true);
     }
@@ -2062,7 +2072,7 @@ final class Parser
     private function recover(ParseMode $mode): void
     {
         while ($this->peek()->token !== Token::Eof) {
-            if ($mode === ParseMode::SingleDecl && $this->match(
+            if ($mode === ParseMode::SingleDecl && $this->matchAny(
                 Token::Semicolon,
                 Token::If,
                 Token::For,
@@ -2075,7 +2085,7 @@ final class Parser
                 return;
             }
 
-            if ($this->match(
+            if ($this->matchAny(
                 Token::Func,
                 Token::Var,
                 Token::Const,
