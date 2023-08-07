@@ -1,5 +1,5 @@
 # GoParser
-Golang (1.18) parser written in PHP 8.1
+Golang parser written in PHP 8.1
 
 ## Installation
 To install this package, run:
@@ -27,15 +27,14 @@ $parser = new Parser($program);
 $ast = $parser->parse();
 $errs = $parser->getErrors();
 ```
-Supported language level: Go 1.18 (generics).
 
-Parser is able to recover itself if a parse error occurs, in this case it will continue parsing at the closest node it is able to recognise.
+The parser is capable of recovering itself if a parse error occurs. In such cases, it will continue parsing at the closest node it can recognise.
 
-The resulting AST will be as full as possible, and you have to check `getErrors()` to see errors.
+The resulting Abstract Syntax Tree (AST) will be as complete as possible. You need to check `getErrors()` to identify any errors.
 
 ## Single declaration parsing
 
-Parser can also handle a single declaration only (e.g. a single function), instead of a fully defined Go program:
+The parser can also handle a single declaration (e.g., a single function) instead of an entire Go program:
 ```php
 use GoParser\{Parser, ParseMode};
 
@@ -51,11 +50,11 @@ $decl = $parser->parseSingleDecl();
 
 ## Abstract Syntax Tree
 
-Parsing results in an Abstract Syntax Tree result. See `src/Ast`.
+Parsing results in an Abstract Syntax Tree. Refer to `src/Ast` for details.
 
-For the most part the AST nodes structure follows closely the official Golang [specification][1].
+For the most part, the structure of AST nodes closely follows the official Golang [specification][1].
 
-Some Nodes may also have a bit different name (e.g. `ExpressionList` vs `ExprList`), but mostly the names are either the same or easily recognisable.
+Some nodes may have slightly different names (e.g., `ExpressionList` instead of `ExprList`), but in most cases, the names are the same or easily recognisable.
 
 ## CLI
 Package comes with a CLI command:

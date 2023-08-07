@@ -482,7 +482,7 @@
                                                         }
                                                     },
                                                     {
-                                                        "if": {
+                                                        "keyword": {
                                                             "pos": {
                                                                 "offset": 4,
                                                                 "line": 17,
@@ -691,7 +691,7 @@
                                                                 "value": "}"
                                                             }
                                                         },
-                                                        "else": {
+                                                        "elseKeyword": {
                                                             "pos": {
                                                                 "offset": 8,
                                                                 "line": 19,
@@ -1299,7 +1299,7 @@
                                                                                                 }
                                                                                             },
                                                                                             {
-                                                                                                "if": {
+                                                                                                "keyword": {
                                                                                                     "pos": {
                                                                                                         "offset": 6,
                                                                                                         "line": 32,
@@ -1480,7 +1480,7 @@
                                                                                                         "value": "}"
                                                                                                     }
                                                                                                 },
-                                                                                                "else": null,
+                                                                                                "elseKeyword": null,
                                                                                                 "elseBody": null
                                                                                             },
                                                                                             {

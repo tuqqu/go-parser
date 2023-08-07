@@ -14,11 +14,20 @@ use GoParser\Ast\Stmt\VarDecl;
 use GoParser\Parser;
 use PHPUnit\Framework\TestCase;
 
+use function json_encode;
+use function glob;
+use function sprintf;
+use function basename;
+use function file_get_contents;
+
+use const JSON_PRETTY_PRINT;
+use const JSON_THROW_ON_ERROR;
+
 final class ParserTest extends TestCase
 {
     public function testFile(): void
     {
-        $parser = new Parser('
+        $parser = new Parser(<<<GO
         package main
         
         import "fmt"
@@ -27,7 +36,7 @@ final class ParserTest extends TestCase
         const FOO = "bar"
         var i int = 5
         type integer int
-        ');
+        GO);
         $file = $parser->parse();
 
         self::assertFalse($parser->hasErrors());
@@ -53,7 +62,7 @@ final class ParserTest extends TestCase
     {
         $parser = new Parser($src);
         $file = $parser->parse();
-        $astJson = \json_encode($file, \JSON_PRETTY_PRINT | \JSON_THROW_ON_ERROR);
+        $astJson = json_encode($file, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR);
 
         self::assertEmpty($parser->getErrors());
         self::assertEquals($astJson, $expectedAst);
@@ -67,19 +76,19 @@ final class ParserTest extends TestCase
 
     private static function dataFiles(): iterable
     {
-        yield from self::fileContents('example');
-        yield from self::fileContents('syntax');
+        yield from self::fileContents('sample');
+        yield from self::fileContents('core');
     }
 
     private static function fileContents(string $dir): iterable
     {
         $path  = __DIR__ . '/data/';
-        $files = \glob(\sprintf($path . '/src/%s/*.go', $dir));
+        $files = glob(sprintf($path . '/src/%s/*.go', $dir));
 
         foreach ($files as $file) {
-            $goProgram = \file_get_contents($file);
-            $jsonPath = \sprintf($path . '/ast/%s/%s.json', $dir, \basename($file, '.go'));
-            $parsedJson = \file_get_contents($jsonPath);
+            $goProgram = file_get_contents($file);
+            $jsonPath = sprintf($path . '/ast/%s/%s.json', $dir, basename($file, '.go'));
+            $parsedJson = file_get_contents($jsonPath);
 
             yield $file => [$goProgram, $parsedJson];
         }

@@ -7,6 +7,8 @@ namespace Tests\GoParser\Lexer;
 use GoParser\Lexer\Lexer;
 use PHPUnit\Framework\TestCase;
 
+use function explode;
+
 final class LexerTest extends TestCase
 {
     /**
@@ -18,7 +20,7 @@ final class LexerTest extends TestCase
         $lexer->lex();
 
         $lexemes = $lexer->getLexemes();
-        $tokens = \explode("\n", $tokens);
+        $tokens = explode("\n", $tokens);
 
         foreach ($lexemes as $i => $lexeme) {
             self::assertEquals((string) $lexeme, $tokens[$i]);

@@ -14,12 +14,22 @@ use GoParser\Ast\Stmt\SimpleStmt;
 use GoParser\Ast\Stmt\Stmt;
 use GoParser\Lexer\Position;
 use PhpParser\Node\Expr;
+use UnitEnum;
+use ReflectionClass;
+use ReflectionProperty;
+
+use function sprintf;
+use function is_array;
+use function str_repeat;
+use function fwrite;
+
+use const STDOUT;
 
 final class NodeDumper
 {
     public function __construct(
         private readonly int $startingIndent = 0,
-        private readonly mixed $stream = \STDOUT,
+        private readonly mixed $stream = STDOUT,
         private readonly string $indentWith = '__',
         private readonly bool $showFilename = false,
         private readonly bool $showPosition = true,
@@ -29,7 +39,7 @@ final class NodeDumper
     {
         switch (true) {
             case $node instanceof File:
-                $this->printlnIndent(\sprintf('[File] %s', (string) $node->filename), 0);
+                $this->printlnIndent(sprintf('[File] %s', (string) $node->filename), 0);
                 $this->printNode($node->package, 1);
 
                 $this->printlnIndent('[Imports]: ', 1);
@@ -43,7 +53,7 @@ final class NodeDumper
                 }
                 break;
             case $node instanceof Decl:
-                $this->printlnIndent(\sprintf('[Decl] %s', self::name($node)), 0);
+                $this->printlnIndent(sprintf('[Decl] %s', self::name($node)), 0);
                 $this->printNode($node, 0);
                 break;
             default:
@@ -56,7 +66,7 @@ final class NodeDumper
         $type = self::type($node);
         $pos = $this->getPos($node);
 
-        $this->printlnIndent(\sprintf('%s %s', $type, $pos), $indent);
+        $this->printlnIndent(sprintf('%s %s', $type, $pos), $indent);
 
         foreach (self::props($node) as $prop) {
             $this->printProp($node, $prop, $indent);
@@ -65,7 +75,7 @@ final class NodeDumper
 
     private static function name(AstNode $node): string
     {
-        return (new \ReflectionClass($node))->getShortName();
+        return (new ReflectionClass($node))->getShortName();
     }
 
     private static function type(AstNode $node): string
@@ -83,10 +93,10 @@ final class NodeDumper
 
         return $type === null
             ? self::name($node)
-            : \sprintf("[%s] %s", $type, self::name($node));
+            : sprintf("[%s] %s", $type, self::name($node));
     }
 
-    private function printProp(AstNode $node, \ReflectionProperty $property, int $indent): void
+    private function printProp(AstNode $node, ReflectionProperty $property, int $indent): void
     {
         $value = $property->getValue($node);
 
@@ -94,30 +104,30 @@ final class NodeDumper
             return;
         }
 
-        if ($value instanceof \UnitEnum) {
-            $this->printlnIndent(\sprintf("%s: %s", $property->name, $value->name), $indent);
+        if ($value instanceof UnitEnum) {
+            $this->printlnIndent(sprintf("%s: %s", $property->name, $value->name), $indent);
             return;
         }
 
         if ($value instanceof AstNode) {
-            $this->printlnIndent(\sprintf("%s: ", $property->name), $indent);
+            $this->printlnIndent(sprintf("%s: ", $property->name), $indent);
             $this->printNode($value, $indent + 1);
             return;
         }
 
-        if (\is_array($value)) {
+        if (is_array($value)) {
             $this->printArray($value, $property, $indent);
             return;
         }
 
-        $this->printlnIndent(\sprintf("%s: %s", $property->name, $value ?? 'null'), $indent);
+        $this->printlnIndent(sprintf("%s: %s", $property->name, $value ?? 'null'), $indent);
     }
 
-    private function printArray(array $value, \ReflectionProperty $property, int $indent): void
+    private function printArray(array $value, ReflectionProperty $property, int $indent): void
     {
-        $this->printlnIndent(\sprintf("%s: ", $property->name), $indent);
+        $this->printlnIndent(sprintf("%s: ", $property->name), $indent);
         foreach ($value as $item) {
-            if (\is_array($item)) {
+            if (is_array($item)) {
                 $this->printArray($item, $property, $indent);
             } else {
                 $this->printNode($item, $indent);
@@ -126,11 +136,11 @@ final class NodeDumper
     }
 
     /**
-     * @return iterable<\ReflectionProperty>
+     * @return iterable<ReflectionProperty>
      */
     private static function props(AstNode $node): iterable
     {
-        $ref = new \ReflectionClass($node);
+        $ref = new ReflectionClass($node);
         foreach ($ref->getProperties() as $property) {
             yield $property;
         }
@@ -163,7 +173,7 @@ final class NodeDumper
 
     private function indentStr(string $str, int $indent): string
     {
-        return \str_repeat($this->indentWith, $indent) . $str;
+        return str_repeat($this->indentWith, $indent) . $str;
     }
 
     private function printlnIndent(string $txt, int $indent): void
@@ -178,6 +188,6 @@ final class NodeDumper
 
     private function print(string $txt): void
     {
-        \fwrite($this->stream, $txt);
+        fwrite($this->stream, $txt);
     }
 }

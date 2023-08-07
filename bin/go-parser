@@ -83,7 +83,7 @@ function parse_argv(array $argv): array
                 $mode = ParseMode::SingleDecl;
                 break;
             case '--node-dumper':
-                // default for now
+                // default
                 break;
             case '-d':
             case '--var-dump':

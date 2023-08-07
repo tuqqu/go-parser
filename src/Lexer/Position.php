@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GoParser\Lexer;
 
+use function sprintf;
+
 final class Position
 {
     public function __construct(
@@ -14,7 +16,7 @@ final class Position
 
     public function __toString(): string
     {
-        return \sprintf(
+        return sprintf(
             '%s:%d:%d',
             $this->filename === null ? '' : $this->filename . ':',
             $this->line,

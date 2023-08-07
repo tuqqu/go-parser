@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace GoParser\Ast;
 
-enum SpecType implements \JsonSerializable
+use JsonSerializable;
+
+enum SpecType implements JsonSerializable
 {
     case Import;
     case Var;

@@ -4,6 +4,4 @@ declare(strict_types=1);
 
 namespace GoParser\Ast\Expr;
 
-interface TypeLit extends Type
-{
-}
+interface TypeLit extends Type {}

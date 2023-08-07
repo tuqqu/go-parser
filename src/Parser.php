@@ -12,6 +12,7 @@ use GoParser\Ast\CommClause;
 use GoParser\Ast\ConstSpec;
 use GoParser\Ast\DefaultCase;
 use GoParser\Ast\ElementList;
+use GoParser\Ast\EmbeddedFieldDecl;
 use GoParser\Ast\Expr\ArrayType;
 use GoParser\Ast\Expr\BinaryExpr;
 use GoParser\Ast\Expr\CallExpr;
@@ -117,6 +118,14 @@ use GoParser\Exception\ParseModeError;
 use GoParser\Lexer\Lexeme;
 use GoParser\Lexer\Lexer;
 use GoParser\Lexer\Token;
+use OutOfBoundsException;
+
+use function array_pop;
+use function sprintf;
+use function array_map;
+use function array_key_last;
+use function count;
+use function in_array;
 
 final class Parser
 {
@@ -126,7 +135,6 @@ final class Parser
     private array $errors = [];
     private ?File $ast = null;
     private ?Decl $decl = null;
-    private int $fallbackPos = 0;
     private int $pos = 0;
     private bool $cfHeader = false;
     private bool $finished = false;
@@ -269,7 +277,7 @@ final class Parser
 
     private function popLastError(): void
     {
-        \array_pop($this->errors);
+        array_pop($this->errors);
     }
 
     private function parsePackageClause(): PackageClause
@@ -417,7 +425,7 @@ final class Parser
             Token::Continue => $this->parseContinueStmt(),
             Token::Break => $this->parseBreakStmt(),
 
-            default => $this->error(\sprintf('unrecognised statement "%s"', $this->peek()->token->name)),
+            default => $this->error(sprintf('unrecognised statement "%s"', $this->peek()->token->name)),
         };
     }
 
@@ -447,18 +455,15 @@ final class Parser
 
     public function parseTypeParamsOrType(): TypeParams|Type
     {
-        $this->fallbackPos = $this->pos;
+        $fallbackPos = $this->pos;
 
         try {
             return $this->parseTypeParams();
         } catch (SyntaxError) {
             $this->popLastError();
-            $this->pos = $this->fallbackPos;
-            $this->fallbackPos = 0;
+            $this->pos = $fallbackPos;
 
             return $this->parseType();
-        } finally {
-            $this->fallbackPos = 0;
         }
     }
 
@@ -531,7 +536,7 @@ final class Parser
                 Token::Case => $labelParser(),
                 Token::Default => $this->parseDefaultCase(),
                 default => $this->error(
-                    \sprintf(
+                    sprintf(
                         'unexpected literal %s, expecting case or default or }',
                         $this->peek()->literal ?? '',
                     ),
@@ -1200,7 +1205,7 @@ final class Parser
                         Token::LeftParen => $this->parseTypeAssertionExpr($expr),
                         Token::Ident => $this->parseSelectorExpr($expr),
                         // no break
-                        default => $this->error(\sprintf('unexpected token "%s"', $this->peek()->token->name)),
+                        default => $this->error(sprintf('unexpected token "%s"', $this->peek()->token->name)),
                     };
                     break;
                 default:
@@ -1359,7 +1364,7 @@ final class Parser
         $maxColons = 2;
         $i = 0;
 
-        while (\count($colons) < $maxColons && $this->match(Token::Colon)) {
+        while (count($colons) < $maxColons && $this->match(Token::Colon)) {
             $colons[] = $this->parsePunctuation(Token::Colon);
 
             if (!$this->matchAny(Token::Colon, Token::RightBracket)) {
@@ -1369,7 +1374,7 @@ final class Parser
 
         $rBrack = $this->parsePunctuation(Token::RightBracket);
 
-        return match (\count($colons)) {
+        return match (count($colons)) {
             0 => new IndexExpr(
                 $expr,
                 $lBrack,
@@ -1410,7 +1415,7 @@ final class Parser
             Token::LeftParen => $this->parseGroupExpr(),
             Token::Func => $this->parseFuncLit(),
             default => $this->tryParseType() ??
-                $this->error(\sprintf('unknown token "%s" in operand expression', $this->peek()->token->name)),
+                $this->error(sprintf('unknown token "%s" in operand expression', $this->peek()->token->name)),
         };
     }
 
@@ -1482,7 +1487,7 @@ final class Parser
 
         // T1, ...T2
         if ($ellipsis !== null) {
-            $last = \count($typeList->types) - 1;
+            $last = count($typeList->types) - 1;
 
             foreach ($typeList->types as $i => $type) {
                 $params[] = new ParamDecl(
@@ -1532,7 +1537,7 @@ final class Parser
         /** @var ParamDecl[] $params */
         $params = [
             ...$params,
-            ...\array_map(
+            ...array_map(
                 static fn (Type $type): ParamDecl => new ParamDecl(null, null, $type),
                 $typeList->types,
             ),
@@ -1548,7 +1553,7 @@ final class Parser
             return;
         }
 
-        $last = $params[\array_key_last($params)] ?? null;
+        $last = $params[array_key_last($params)] ?? null;
 
         if ($last !== null && $last->ellipsis !== null) {
             $this->error('can only use ... with final parameter in list');
@@ -1721,14 +1726,59 @@ final class Parser
         $fields = [];
 
         while (!$this->match(Token::RightBrace)) {
-            $identList = $this->parseIdentList();
-            $type = $this->tryParseType();
+            if (
+                $this->checkAheadTill(
+                    Token::Semicolon,
+                    Token::RightBracket,
+                )
+                && !$this->checkAheadAfter(
+                    Token::RightBracket,
+                    Token::Semicolon,
+                    Token::String,
+                    Token::RawString,
+                )
+            ) {
+                $identList = $this->parseIdentList();
+                $type = $this->parseType();
+                $tag = $this->tryParseTag();
 
-            $tag = match ($this->peek()->token) {
-                Token::String => $this->parseStringLit(),
-                Token::RawString => $this->parseRawStringLit(),
-                default => null,
-            };
+                $fields[] = new FieldDecl($identList, $type, $tag);
+                $this->parseSemicolon();
+
+                continue;
+            }
+
+            $typeOrIdent = $this->parseType();
+            $tag = $this->tryParseTag();
+
+            if ($this->match(Token::Semicolon)) {
+                if (
+                    !$typeOrIdent instanceof TypeName
+                    && ($typeOrIdent instanceof PointerType && (!$typeOrIdent->type instanceof TypeName))
+                ) {
+                    $this->error('unexpected type, expecting field name or embedded type');
+                }
+
+                /** @var TypeName|PointerType $typeOrIdent */
+                $fields[] =  new EmbeddedFieldDecl($typeOrIdent, $tag);
+                $this->parseSemicolon();
+
+                continue;
+            }
+
+            /** @var SingleTypeName $typeOrIdent */
+            $idents = [$typeOrIdent->name];
+
+            if ($this->match(Token::Comma)) {
+                $this->consume(Token::Comma);
+                $identList = $this->parseIdentList();
+                $idents = [...$idents, ...$identList->idents];
+            }
+
+            $identList = new IdentList($idents);
+            $type = $this->parseType();
+            $tag = $this->tryParseTag();
+
             $fields[] = new FieldDecl($identList, $type, $tag);
             $this->parseSemicolon();
         }
@@ -1824,7 +1874,7 @@ final class Parser
     private function tryParseIdent(): ?Ident
     {
         return $this->match(Token::Ident)
-            ? Ident::fromLexeme($this->consume(Token::Ident))
+            ? $this->parseIdent()
             : null;
     }
 
@@ -1900,6 +1950,15 @@ final class Parser
         return $args;
     }
 
+    private function tryParseTag(): RawStringLit|StringLit|null
+    {
+        return match ($this->peek()->token) {
+            Token::String => $this->parseStringLit(),
+            Token::RawString => $this->parseRawStringLit(),
+            default => null,
+        };
+    }
+
     private function parseStringLit(): StringLit
     {
         return StringLit::fromLexeme($this->consume(Token::String));
@@ -1970,9 +2029,12 @@ final class Parser
             return $this->advance();
         }
 
-        $this->error(\sprintf(
-            'unexpected token \'%s\', expecting \'%s\'',
+        $this->error(sprintf(
+            'unexpected token \'%s\'%s, expecting \'%s\'',
             $this->peek()->token->name,
+            $this->peek()->literal !== null
+                ? sprintf(' (%s)', (string) $this->peek()->literal)
+                : '',
             $token->name,
         ));
     }
@@ -2009,7 +2071,7 @@ final class Parser
 
     private function matchAny(Token ...$tokens): bool
     {
-        return \in_array($this->peek()->token, $tokens, true);
+        return in_array($this->peek()->token, $tokens, true);
     }
 
     private function isAtEnd(): bool
@@ -2026,7 +2088,7 @@ final class Parser
     {
         $i = 0;
         $j = 0;
-        $len = \count($needles);
+        $len = count($needles);
         $needle = $needles[$j];
 
         while (($peeked = $this->peekBy($i++)->token) !== $till) {
@@ -2047,7 +2109,7 @@ final class Parser
         $i = 0;
         while ($this->peekBy($i++)->token !== $after);
 
-        return \in_array($this->peekBy($i)->token, $needles, true);
+        return in_array($this->peekBy($i)->token, $needles, true);
     }
 
     private function peekBy(int $by): Lexeme
@@ -2066,7 +2128,7 @@ final class Parser
             ++$this->pos;
         }
 
-        throw new \OutOfBoundsException('Cannot peek that far');
+        throw new OutOfBoundsException('Cannot peek that far');
     }
 
     private function recover(ParseMode $mode): void

@@ -834,7 +834,7 @@
                 "stmtList": {
                     "stmts": [
                         {
-                            "if": {
+                            "keyword": {
                                 "pos": {
                                     "offset": 3,
                                     "line": 39,
@@ -913,7 +913,7 @@
                                     "value": "}"
                                 }
                             },
-                            "else": null,
+                            "elseKeyword": null,
                             "elseBody": null
                         },
                         {

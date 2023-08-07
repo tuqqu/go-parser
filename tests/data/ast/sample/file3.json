@@ -374,7 +374,7 @@
                                 "stmtList": {
                                     "stmts": [
                                         {
-                                            "if": {
+                                            "keyword": {
                                                 "pos": {
                                                     "offset": 4,
                                                     "line": 16,
@@ -645,7 +645,7 @@
                                                     "value": "}"
                                                 }
                                             },
-                                            "else": null,
+                                            "elseKeyword": null,
                                             "elseBody": null
                                         },
                                         {
@@ -1047,7 +1047,7 @@
                 "stmtList": {
                     "stmts": [
                         {
-                            "if": {
+                            "keyword": {
                                 "pos": {
                                     "offset": 3,
                                     "line": 27,
@@ -1146,7 +1146,7 @@
                                     "value": "}"
                                 }
                             },
-                            "else": null,
+                            "elseKeyword": null,
                             "elseBody": null
                         },
                         {
@@ -1157,7 +1157,7 @@
                             }
                         },
                         {
-                            "if": {
+                            "keyword": {
                                 "pos": {
                                     "offset": 3,
                                     "line": 31,
@@ -1445,7 +1445,7 @@
                                     "value": "}"
                                 }
                             },
-                            "else": null,
+                            "elseKeyword": null,
                             "elseBody": null
                         },
                         {

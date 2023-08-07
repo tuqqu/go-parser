@@ -14,14 +14,14 @@ use GoParser\Ast\Keyword;
 final class IfStmt implements Stmt
 {
     public function __construct(
-        public readonly Keyword $if,
+        public readonly Keyword $keyword,
         public readonly ?SimpleStmt $init,
         public readonly Expr $condition,
         public readonly BlockStmt $ifBody,
-        public readonly ?Keyword $else,
+        public readonly ?Keyword $elseKeyword,
         public readonly BlockStmt|self|null $elseBody,
     ) {
-        if ((bool) $else !== (bool) $elseBody) {
+        if ((bool) $elseKeyword !== (bool) $elseBody) {
             throw new InvalidArgument('Both "else" keyword and the body must be present or neither.');
         }
     }

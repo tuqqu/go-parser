@@ -1,0 +1,1076 @@
+{
+    "package": {
+        "keyword": {
+            "pos": {
+                "offset": 7,
+                "line": 1,
+                "filename": null
+            },
+            "word": "package"
+        },
+        "identifier": {
+            "pos": {
+                "offset": 12,
+                "line": 1,
+                "filename": null
+            },
+            "name": "test"
+        }
+    },
+    "imports": [
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 6,
+                    "line": 3,
+                    "filename": null
+                },
+                "word": "import"
+            },
+            "spec": {
+                "name": null,
+                "path": {
+                    "pos": {
+                        "offset": 13,
+                        "line": 3,
+                        "filename": null
+                    },
+                    "str": "\"time\""
+                }
+            }
+        }
+    ],
+    "decls": [
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 5,
+                    "filename": null
+                },
+                "word": "type"
+            },
+            "spec": {
+                "value": {
+                    "ident": {
+                        "pos": {
+                            "offset": 9,
+                            "line": 5,
+                            "filename": null
+                        },
+                        "name": "Vec1"
+                    },
+                    "typeParams": {
+                        "lBracket": {
+                            "pos": {
+                                "offset": 10,
+                                "line": 5,
+                                "filename": null
+                            },
+                            "value": "["
+                        },
+                        "typeParamList": [
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 11,
+                                                "line": 5,
+                                                "filename": null
+                                            },
+                                            "name": "E"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "typeTerms": [
+                                        {
+                                            "name": {
+                                                "pos": {
+                                                    "offset": 15,
+                                                    "line": 5,
+                                                    "filename": null
+                                                },
+                                                "name": "any"
+                                            },
+                                            "typeArgs": null
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "rBracket": {
+                            "pos": {
+                                "offset": 16,
+                                "line": 5,
+                                "filename": null
+                            },
+                            "value": "]"
+                        }
+                    },
+                    "type": {
+                        "lBrack": {
+                            "pos": {
+                                "offset": 18,
+                                "line": 5,
+                                "filename": null
+                            },
+                            "value": "["
+                        },
+                        "rBrack": {
+                            "pos": {
+                                "offset": 19,
+                                "line": 5,
+                                "filename": null
+                            },
+                            "value": "]"
+                        },
+                        "elemType": {
+                            "name": {
+                                "pos": {
+                                    "offset": 20,
+                                    "line": 5,
+                                    "filename": null
+                                },
+                                "name": "E"
+                            },
+                            "typeArgs": null
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 6,
+                    "filename": null
+                },
+                "word": "type"
+            },
+            "spec": {
+                "value": {
+                    "ident": {
+                        "pos": {
+                            "offset": 9,
+                            "line": 6,
+                            "filename": null
+                        },
+                        "name": "Vec2"
+                    },
+                    "typeParams": {
+                        "lBracket": {
+                            "pos": {
+                                "offset": 10,
+                                "line": 6,
+                                "filename": null
+                            },
+                            "value": "["
+                        },
+                        "typeParamList": [
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 11,
+                                                "line": 6,
+                                                "filename": null
+                                            },
+                                            "name": "E"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "typeTerms": [
+                                        {
+                                            "name": {
+                                                "pos": {
+                                                    "offset": 15,
+                                                    "line": 6,
+                                                    "filename": null
+                                                },
+                                                "name": "any"
+                                            },
+                                            "typeArgs": null
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "rBracket": {
+                            "pos": {
+                                "offset": 16,
+                                "line": 6,
+                                "filename": null
+                            },
+                            "value": "]"
+                        }
+                    },
+                    "type": {
+                        "lBrack": {
+                            "pos": {
+                                "offset": 18,
+                                "line": 6,
+                                "filename": null
+                            },
+                            "value": "["
+                        },
+                        "rBrack": {
+                            "pos": {
+                                "offset": 19,
+                                "line": 6,
+                                "filename": null
+                            },
+                            "value": "]"
+                        },
+                        "elemType": {
+                            "name": {
+                                "pos": {
+                                    "offset": 20,
+                                    "line": 6,
+                                    "filename": null
+                                },
+                                "name": "E"
+                            },
+                            "typeArgs": null
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 7,
+                    "filename": null
+                },
+                "word": "type"
+            },
+            "spec": {
+                "value": {
+                    "ident": {
+                        "pos": {
+                            "offset": 9,
+                            "line": 7,
+                            "filename": null
+                        },
+                        "name": "Vec3"
+                    },
+                    "typeParams": {
+                        "lBracket": {
+                            "pos": {
+                                "offset": 10,
+                                "line": 7,
+                                "filename": null
+                            },
+                            "value": "["
+                        },
+                        "typeParamList": [
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 11,
+                                                "line": 7,
+                                                "filename": null
+                                            },
+                                            "name": "E"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "typeTerms": [
+                                        {
+                                            "name": {
+                                                "pos": {
+                                                    "offset": 22,
+                                                    "line": 7,
+                                                    "filename": null
+                                                },
+                                                "name": "comparable"
+                                            },
+                                            "typeArgs": null
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "rBracket": {
+                            "pos": {
+                                "offset": 23,
+                                "line": 7,
+                                "filename": null
+                            },
+                            "value": "]"
+                        }
+                    },
+                    "type": {
+                        "lBrack": {
+                            "pos": {
+                                "offset": 25,
+                                "line": 7,
+                                "filename": null
+                            },
+                            "value": "["
+                        },
+                        "rBrack": {
+                            "pos": {
+                                "offset": 26,
+                                "line": 7,
+                                "filename": null
+                            },
+                            "value": "]"
+                        },
+                        "elemType": {
+                            "name": {
+                                "pos": {
+                                    "offset": 27,
+                                    "line": 7,
+                                    "filename": null
+                                },
+                                "name": "E"
+                            },
+                            "typeArgs": null
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "keyword": {
+                "pos": {
+                    "offset": 4,
+                    "line": 9,
+                    "filename": null
+                },
+                "word": "type"
+            },
+            "spec": {
+                "value": {
+                    "ident": {
+                        "pos": {
+                            "offset": 6,
+                            "line": 9,
+                            "filename": null
+                        },
+                        "name": "a"
+                    },
+                    "typeParams": null,
+                    "type": {
+                        "keyword": {
+                            "pos": {
+                                "offset": 13,
+                                "line": 9,
+                                "filename": null
+                            },
+                            "word": "struct"
+                        },
+                        "lBrace": {
+                            "pos": {
+                                "offset": 15,
+                                "line": 9,
+                                "filename": null
+                            },
+                            "value": "{"
+                        },
+                        "fieldDecls": [
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 2,
+                                                "line": 10,
+                                                "filename": null
+                                            },
+                                            "name": "a"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 15,
+                                            "line": 10,
+                                            "filename": null
+                                        },
+                                        "name": "string"
+                                    },
+                                    "typeArgs": null
+                                },
+                                "tag": null
+                            },
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 2,
+                                                "line": 11,
+                                                "filename": null
+                                            },
+                                            "name": "b"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 12,
+                                            "line": 11,
+                                            "filename": null
+                                        },
+                                        "name": "int"
+                                    },
+                                    "typeArgs": null
+                                },
+                                "tag": {
+                                    "pos": {
+                                        "offset": 30,
+                                        "line": 11,
+                                        "filename": null
+                                    },
+                                    "str": "`tag`"
+                                }
+                            },
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 2,
+                                                "line": 12,
+                                                "filename": null
+                                            },
+                                            "name": "c"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "keyword": {
+                                        "pos": {
+                                            "offset": 15,
+                                            "line": 12,
+                                            "filename": null
+                                        },
+                                        "word": "struct"
+                                    },
+                                    "lBrace": {
+                                        "pos": {
+                                            "offset": 16,
+                                            "line": 12,
+                                            "filename": null
+                                        },
+                                        "value": "{"
+                                    },
+                                    "fieldDecls": [
+                                        {
+                                            "identList": {
+                                                "idents": [
+                                                    {
+                                                        "pos": {
+                                                            "offset": 18,
+                                                            "line": 12,
+                                                            "filename": null
+                                                        },
+                                                        "name": "x"
+                                                    }
+                                                ]
+                                            },
+                                            "type": {
+                                                "name": {
+                                                    "pos": {
+                                                        "offset": 22,
+                                                        "line": 12,
+                                                        "filename": null
+                                                    },
+                                                    "name": "int"
+                                                },
+                                                "typeArgs": null
+                                            },
+                                            "tag": null
+                                        }
+                                    ],
+                                    "rBrace": {
+                                        "pos": {
+                                            "offset": 24,
+                                            "line": 12,
+                                            "filename": null
+                                        },
+                                        "value": "}"
+                                    }
+                                },
+                                "tag": {
+                                    "pos": {
+                                        "offset": 30,
+                                        "line": 12,
+                                        "filename": null
+                                    },
+                                    "str": "\"tag\""
+                                }
+                            },
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 2,
+                                                "line": 13,
+                                                "filename": null
+                                            },
+                                            "name": "d"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "lBrack": {
+                                        "pos": {
+                                            "offset": 10,
+                                            "line": 13,
+                                            "filename": null
+                                        },
+                                        "value": "["
+                                    },
+                                    "rBrack": {
+                                        "pos": {
+                                            "offset": 11,
+                                            "line": 13,
+                                            "filename": null
+                                        },
+                                        "value": "]"
+                                    },
+                                    "elemType": {
+                                        "name": {
+                                            "pos": {
+                                                "offset": 14,
+                                                "line": 13,
+                                                "filename": null
+                                            },
+                                            "name": "int"
+                                        },
+                                        "typeArgs": null
+                                    }
+                                },
+                                "tag": null
+                            },
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 2,
+                                                "line": 14,
+                                                "filename": null
+                                            },
+                                            "name": "c"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "op": {
+                                        "pos": {
+                                            "offset": 10,
+                                            "line": 14,
+                                            "filename": null
+                                        },
+                                        "value": "*"
+                                    },
+                                    "type": {
+                                        "name": {
+                                            "pos": {
+                                                "offset": 13,
+                                                "line": 14,
+                                                "filename": null
+                                            },
+                                            "name": "int"
+                                        },
+                                        "typeArgs": null
+                                    }
+                                },
+                                "tag": null
+                            },
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 2,
+                                                "line": 15,
+                                                "filename": null
+                                            },
+                                            "name": "d"
+                                        },
+                                        {
+                                            "pos": {
+                                                "offset": 5,
+                                                "line": 15,
+                                                "filename": null
+                                            },
+                                            "name": "e"
+                                        },
+                                        {
+                                            "pos": {
+                                                "offset": 8,
+                                                "line": 15,
+                                                "filename": null
+                                            },
+                                            "name": "f"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "lBrack": {
+                                        "pos": {
+                                            "offset": 10,
+                                            "line": 15,
+                                            "filename": null
+                                        },
+                                        "value": "["
+                                    },
+                                    "rBrack": {
+                                        "pos": {
+                                            "offset": 11,
+                                            "line": 15,
+                                            "filename": null
+                                        },
+                                        "value": "]"
+                                    },
+                                    "elemType": {
+                                        "op": {
+                                            "pos": {
+                                                "offset": 12,
+                                                "line": 15,
+                                                "filename": null
+                                            },
+                                            "value": "*"
+                                        },
+                                        "type": {
+                                            "name": {
+                                                "pos": {
+                                                    "offset": 18,
+                                                    "line": 15,
+                                                    "filename": null
+                                                },
+                                                "name": "string"
+                                            },
+                                            "typeArgs": null
+                                        }
+                                    }
+                                },
+                                "tag": null
+                            },
+                            {
+                                "identList": {
+                                    "idents": [
+                                        {
+                                            "pos": {
+                                                "offset": 2,
+                                                "line": 16,
+                                                "filename": null
+                                            },
+                                            "name": "g"
+                                        },
+                                        {
+                                            "pos": {
+                                                "offset": 5,
+                                                "line": 16,
+                                                "filename": null
+                                            },
+                                            "name": "h"
+                                        },
+                                        {
+                                            "pos": {
+                                                "offset": 8,
+                                                "line": 16,
+                                                "filename": null
+                                            },
+                                            "name": "i"
+                                        }
+                                    ]
+                                },
+                                "type": {
+                                    "op": {
+                                        "pos": {
+                                            "offset": 10,
+                                            "line": 16,
+                                            "filename": null
+                                        },
+                                        "value": "*"
+                                    },
+                                    "type": {
+                                        "keyword": {
+                                            "pos": {
+                                                "offset": 13,
+                                                "line": 16,
+                                                "filename": null
+                                            },
+                                            "word": "map"
+                                        },
+                                        "lBrack": {
+                                            "pos": {
+                                                "offset": 14,
+                                                "line": 16,
+                                                "filename": null
+                                            },
+                                            "value": "["
+                                        },
+                                        "keyType": {
+                                            "name": {
+                                                "pos": {
+                                                    "offset": 17,
+                                                    "line": 16,
+                                                    "filename": null
+                                                },
+                                                "name": "int"
+                                            },
+                                            "typeArgs": null
+                                        },
+                                        "rBrack": {
+                                            "pos": {
+                                                "offset": 18,
+                                                "line": 16,
+                                                "filename": null
+                                            },
+                                            "value": "]"
+                                        },
+                                        "elemType": {
+                                            "lBrack": {
+                                                "pos": {
+                                                    "offset": 19,
+                                                    "line": 16,
+                                                    "filename": null
+                                                },
+                                                "value": "["
+                                            },
+                                            "len": {
+                                                "pos": {
+                                                    "offset": 20,
+                                                    "line": 16,
+                                                    "filename": null
+                                                },
+                                                "digits": "2"
+                                            },
+                                            "rBrack": {
+                                                "pos": {
+                                                    "offset": 21,
+                                                    "line": 16,
+                                                    "filename": null
+                                                },
+                                                "value": "]"
+                                            },
+                                            "elemType": {
+                                                "name": {
+                                                    "pos": {
+                                                        "offset": 27,
+                                                        "line": 16,
+                                                        "filename": null
+                                                    },
+                                                    "name": "string"
+                                                },
+                                                "typeArgs": null
+                                            }
+                                        }
+                                    }
+                                },
+                                "tag": {
+                                    "pos": {
+                                        "offset": 33,
+                                        "line": 16,
+                                        "filename": null
+                                    },
+                                    "str": "`tag`"
+                                }
+                            },
+                            {
+                                "type": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 4,
+                                            "line": 17,
+                                            "filename": null
+                                        },
+                                        "name": "int"
+                                    },
+                                    "typeArgs": null
+                                },
+                                "tag": null
+                            },
+                            {
+                                "type": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 7,
+                                            "line": 18,
+                                            "filename": null
+                                        },
+                                        "name": "string"
+                                    },
+                                    "typeArgs": null
+                                },
+                                "tag": {
+                                    "pos": {
+                                        "offset": 13,
+                                        "line": 18,
+                                        "filename": null
+                                    },
+                                    "str": "`tag`"
+                                }
+                            },
+                            {
+                                "type": {
+                                    "op": {
+                                        "pos": {
+                                            "offset": 2,
+                                            "line": 19,
+                                            "filename": null
+                                        },
+                                        "value": "*"
+                                    },
+                                    "type": {
+                                        "name": {
+                                            "pos": {
+                                                "offset": 6,
+                                                "line": 19,
+                                                "filename": null
+                                            },
+                                            "name": "uint"
+                                        },
+                                        "typeArgs": null
+                                    }
+                                },
+                                "tag": null
+                            },
+                            {
+                                "type": {
+                                    "op": {
+                                        "pos": {
+                                            "offset": 2,
+                                            "line": 20,
+                                            "filename": null
+                                        },
+                                        "value": "*"
+                                    },
+                                    "type": {
+                                        "name": {
+                                            "pos": {
+                                                "offset": 8,
+                                                "line": 20,
+                                                "filename": null
+                                            },
+                                            "name": "uint32"
+                                        },
+                                        "typeArgs": null
+                                    }
+                                },
+                                "tag": {
+                                    "pos": {
+                                        "offset": 14,
+                                        "line": 20,
+                                        "filename": null
+                                    },
+                                    "str": "`tag`"
+                                }
+                            },
+                            {
+                                "type": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 5,
+                                            "line": 21,
+                                            "filename": null
+                                        },
+                                        "name": "Vec1"
+                                    },
+                                    "typeArgs": [
+                                        {
+                                            "types": [
+                                                {
+                                                    "name": {
+                                                        "pos": {
+                                                            "offset": 9,
+                                                            "line": 21,
+                                                            "filename": null
+                                                        },
+                                                        "name": "int"
+                                                    },
+                                                    "typeArgs": null
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                "tag": null
+                            },
+                            {
+                                "type": {
+                                    "name": {
+                                        "pos": {
+                                            "offset": 5,
+                                            "line": 22,
+                                            "filename": null
+                                        },
+                                        "name": "Vec2"
+                                    },
+                                    "typeArgs": [
+                                        {
+                                            "types": [
+                                                {
+                                                    "op": {
+                                                        "pos": {
+                                                            "offset": 7,
+                                                            "line": 22,
+                                                            "filename": null
+                                                        },
+                                                        "value": "*"
+                                                    },
+                                                    "type": {
+                                                        "name": {
+                                                            "pos": {
+                                                                "offset": 13,
+                                                                "line": 22,
+                                                                "filename": null
+                                                            },
+                                                            "name": "uint32"
+                                                        },
+                                                        "typeArgs": null
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                "tag": {
+                                    "pos": {
+                                        "offset": 20,
+                                        "line": 22,
+                                        "filename": null
+                                    },
+                                    "str": "`tag`"
+                                }
+                            },
+                            {
+                                "type": {
+                                    "op": {
+                                        "pos": {
+                                            "offset": 2,
+                                            "line": 23,
+                                            "filename": null
+                                        },
+                                        "value": "*"
+                                    },
+                                    "type": {
+                                        "name": {
+                                            "pos": {
+                                                "offset": 6,
+                                                "line": 23,
+                                                "filename": null
+                                            },
+                                            "name": "Vec3"
+                                        },
+                                        "typeArgs": [
+                                            {
+                                                "types": [
+                                                    {
+                                                        "name": {
+                                                            "pos": {
+                                                                "offset": 13,
+                                                                "line": 23,
+                                                                "filename": null
+                                                            },
+                                                            "name": "string"
+                                                        },
+                                                        "typeArgs": null
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "tag": null
+                            },
+                            {
+                                "type": {
+                                    "packageName": {
+                                        "pos": {
+                                            "offset": 5,
+                                            "line": 24,
+                                            "filename": null
+                                        },
+                                        "name": "time"
+                                    },
+                                    "typeName": {
+                                        "name": {
+                                            "pos": {
+                                                "offset": 10,
+                                                "line": 24,
+                                                "filename": null
+                                            },
+                                            "name": "Time"
+                                        },
+                                        "typeArgs": null
+                                    }
+                                },
+                                "tag": {
+                                    "pos": {
+                                        "offset": 16,
+                                        "line": 24,
+                                        "filename": null
+                                    },
+                                    "str": "\"tag\""
+                                }
+                            },
+                            {
+                                "type": {
+                                    "op": {
+                                        "pos": {
+                                            "offset": 2,
+                                            "line": 25,
+                                            "filename": null
+                                        },
+                                        "value": "*"
+                                    },
+                                    "type": {
+                                        "packageName": {
+                                            "pos": {
+                                                "offset": 6,
+                                                "line": 25,
+                                                "filename": null
+                                            },
+                                            "name": "time"
+                                        },
+                                        "typeName": {
+                                            "name": {
+                                                "pos": {
+                                                    "offset": 15,
+                                                    "line": 25,
+                                                    "filename": null
+                                                },
+                                                "name": "Duration"
+                                            },
+                                            "typeArgs": null
+                                        }
+                                    }
+                                },
+                                "tag": null
+                            }
+                        ],
+                        "rBrace": {
+                            "pos": {
+                                "offset": 1,
+                                "line": 26,
+                                "filename": null
+                            },
+                            "value": "}"
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "filename": null
+}

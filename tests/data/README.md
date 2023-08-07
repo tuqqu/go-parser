@@ -1,4 +1,5 @@
-## Files for testing
+## Directory structure
 
-* `./syntax` Go files grouped by syntax
-* `./example` Go files from various open source projects
+* `./src/core` Go test files
+* `./src/sample` Go files from various open source projects
+* `./ast` Parsed AST in JSON

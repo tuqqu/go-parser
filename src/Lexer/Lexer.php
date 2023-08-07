@@ -4,6 +4,19 @@ declare(strict_types=1);
 
 namespace GoParser\Lexer;
 
+use OutOfBoundsException;
+
+use function mb_str_split;
+use function strlen;
+use function mb_ord;
+use function count;
+use function ctype_alpha;
+use function ctype_alnum;
+use function ctype_digit;
+use function ctype_xdigit;
+use function sprintf;
+use function in_array;
+
 final class Lexer
 {
     /** @var string[] */
@@ -22,8 +35,8 @@ final class Lexer
 
     public function __construct(string $src, ?string $filename = null)
     {
-        $this->src = \mb_str_split($src);
-        $this->len = \strlen($src);
+        $this->src = mb_str_split($src);
+        $this->len = strlen($src);
         $this->filename = $filename;
     }
 
@@ -253,9 +266,9 @@ final class Lexer
                             self::isAlphabetic($char) => $this->identifier(),
                             self::isNumeric($char) => $this->number(),
                             default => $this->error(
-                                \sprintf(
+                                sprintf(
                                     'invalid character U+%X \'%s\' in identifier',
-                                    \mb_ord($char = $this->read()),
+                                    mb_ord($char = $this->read()),
                                     $char,
                                 ),
                             ),
@@ -356,7 +369,6 @@ final class Lexer
                 case "\n":
                 case null:
                     $this->error('string not terminated');
-                // no break because addError returns never
                 default:
                     $literal .= $this->read();
             }
@@ -543,7 +555,7 @@ final class Lexer
 
     private function isAutoSemicolon(int $step = 1): bool
     {
-        $len = \count($this->lexemes);
+        $len = count($this->lexemes);
 
         if ($len < $step) {
             return false;
@@ -556,6 +568,7 @@ final class Lexer
             Token::Imag,
             Token::Rune,
             Token::String,
+            Token::RawString,
             Token::Break,
             Token::Continue,
             Token::Fallthrough,
@@ -578,17 +591,17 @@ final class Lexer
 
     private static function isAlphabetic(string $char): bool
     {
-        return \ctype_alpha($char) || $char === '_';
+        return ctype_alpha($char) || $char === '_';
     }
 
     private static function isAlphanumeric(string $char): bool
     {
-        return \ctype_alnum($char) || $char === '_';
+        return ctype_alnum($char) || $char === '_';
     }
 
     private static function isNumeric(string $char): bool
     {
-        return \ctype_digit($char);
+        return ctype_digit($char);
     }
 
     private static function isOctal(string $char): bool
@@ -600,7 +613,7 @@ final class Lexer
 
     private static function isHex(string $char): bool
     {
-        return \ctype_xdigit($char);
+        return ctype_xdigit($char);
     }
 
     private static function isBinary(string $char): bool
@@ -616,7 +629,7 @@ final class Lexer
         $char = $this->advance();
 
         if ($char === null) {
-            throw new \OutOfBoundsException(\sprintf('No char at index %d for src of length %d', $this->cur, $this->len));
+            throw new OutOfBoundsException(sprintf('No char at index %d for src of length %d', $this->cur, $this->len));
         }
 
         if ($char === "\n") {
@@ -631,7 +644,7 @@ final class Lexer
 
     private function match(string ...$char): bool
     {
-        return \in_array($this->peek(), $char, true);
+        return in_array($this->peek(), $char, true);
     }
 
     private function peek(): ?string

@@ -6,6 +6,4 @@ namespace GoParser\Ast\Stmt;
 
 use GoParser\Ast\AstNode;
 
-interface Stmt extends AstNode
-{
-}
+interface Stmt extends AstNode {}

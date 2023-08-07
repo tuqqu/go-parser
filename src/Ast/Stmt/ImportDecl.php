@@ -10,6 +10,8 @@ use GoParser\Ast\ImportSpec;
 use GoParser\Ast\Keyword;
 use GoParser\Ast\SpecType;
 
+use function sprintf;
+
 final class ImportDecl implements Decl
 {
     public function __construct(
@@ -17,7 +19,7 @@ final class ImportDecl implements Decl
         public readonly GroupSpec|ImportSpec $spec,
     ) {
         if ($spec->type() !== SpecType::Import) {
-            throw new InvalidArgument(\sprintf('Cannot create a ImportDecl with Spec of type %s', $spec->type()->name));
+            throw new InvalidArgument(sprintf('Cannot create a ImportDecl with Spec of type %s', $spec->type()->name));
         }
     }
 }

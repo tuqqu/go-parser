@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace GoParser;
 
 use GoParser\Lexer\Position;
+use Exception;
 
-class SyntaxError extends \Exception implements Error
+use function sprintf;
+
+class SyntaxError extends Exception implements Error
 {
     public readonly Position $pos;
 
@@ -19,6 +22,6 @@ class SyntaxError extends \Exception implements Error
 
     public function __toString(): string
     {
-        return \sprintf('%s syntax error: %s', $this->pos, $this->message);
+        return sprintf('%s syntax error: %s', $this->pos, $this->message);
     }
 }
