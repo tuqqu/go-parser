@@ -14,7 +14,7 @@ final class ParseModeError extends BadMethodCallException
     public function __construct(ParseMode $expected, ParseMode $actual)
     {
         parent::__construct(sprintf(
-            'Expected Parser to be initialised with Parse Mode "%s" , but got "%s"',
+            'Expected Parser to be initialised with Parse Mode "%s", but got "%s"',
             $expected->name,
             $actual->name
         ));

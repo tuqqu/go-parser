@@ -1751,7 +1751,7 @@ final class Parser
             $typeOrIdent = $this->parseType();
             $tag = $this->tryParseTag();
 
-            if ($this->match(Token::Semicolon)) {
+            if ($this->matchAny(Token::Semicolon, Token::RightBrace)) {
                 if (
                     !$typeOrIdent instanceof TypeName
                     && ($typeOrIdent instanceof PointerType && (!$typeOrIdent->type instanceof TypeName))

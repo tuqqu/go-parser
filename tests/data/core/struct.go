@@ -24,3 +24,28 @@ type a struct {
 	time.Time "tag"
 	*time.Duration
 }
+
+type b struct {
+	string
+	int
+}
+
+type name = string
+type age int
+
+type person struct {
+	name
+	age
+}
+
+func test() {
+	var a struct {
+		uint
+		string
+	} = struct {
+		uint
+		string
+	}{uint: 100}
+
+	var b struct{ string } = struct{ string }{}
+}

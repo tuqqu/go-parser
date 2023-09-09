@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GoParser\Ast;
 
 use GoParser\Lexer\Lexeme;
+use GoParser\Lexer\Position;
 
 trait FromLexeme
 {
@@ -12,4 +13,6 @@ trait FromLexeme
     {
         return new static($lexeme->pos, $lexeme->literal ?? $lexeme->token->value);
     }
+
+    abstract public function __construct(Position $pos, string $literal);
 }

@@ -13,12 +13,13 @@ use GoParser\Ast\Stmt\TypeDecl;
 use GoParser\Ast\Stmt\VarDecl;
 use GoParser\Parser;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
-use function json_encode;
-use function glob;
-use function sprintf;
 use function basename;
 use function file_get_contents;
+use function glob;
+use function json_encode;
+use function sprintf;
 
 use const JSON_PRETTY_PRINT;
 use const JSON_THROW_ON_ERROR;
@@ -82,15 +83,26 @@ final class ParserTest extends TestCase
 
     private static function fileContents(string $dir): iterable
     {
-        $path  = __DIR__ . '/data/';
-        $files = glob(sprintf($path . '/src/%s/*.go', $dir));
+        $path  = __DIR__ . '/data';
+        $goFiles = glob(sprintf($path . '/%s/*.go', $dir));
+        $astFiles = glob(sprintf($path . '/%s/*.json', $dir));
 
-        foreach ($files as $file) {
-            $goProgram = file_get_contents($file);
-            $jsonPath = sprintf($path . '/ast/%s/%s.json', $dir, basename($file, '.go'));
-            $parsedJson = file_get_contents($jsonPath);
+        foreach ($goFiles as $i => $goFile) {
+            $goFilename = basename($goFile, '.go');
+            $astFilename = basename($astFiles[$i], '.json');
 
-            yield $file => [$goProgram, $parsedJson];
+            if ($goFilename !== $astFilename) {
+                throw new RuntimeException(sprintf(
+                    'Filename mismatch: %s vs %s',
+                    $goFilename,
+                    $astFilename
+                ));
+            }
+
+            $goProgram = file_get_contents($goFile);
+            $ast = file_get_contents($astFiles[$i]);
+
+            yield $goFilename => [$goProgram, $ast];
         }
     }
 }
